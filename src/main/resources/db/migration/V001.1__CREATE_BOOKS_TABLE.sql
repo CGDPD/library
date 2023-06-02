@@ -1,7 +1,15 @@
+create table author
+(
+    id   bigserial not null,
+    name varchar(255),
+    primary key (id)
+);
 create table books
 (
-    id             bigserial    not null,
-    primary_author varchar(255) not null,
-    title          varchar(255) not null,
+    publication_year date,
+    id               bigserial    not null,
+    author           varchar(100) not null,
+    title            varchar(100) not null,
+    isbn             varchar(255),
     primary key (id)
 );
