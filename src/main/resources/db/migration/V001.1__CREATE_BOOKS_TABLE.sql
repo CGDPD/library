@@ -7,10 +7,11 @@ create table author
 create table books
 (
     publication_year date,
+    author_id        bigint       not null,
     id               bigserial    not null,
-    author           varchar(100) not null,
     genre            varchar(100) not null,
     title            varchar(100) not null,
     isbn             varchar(255),
     primary key (id)
 );
+alter table if exists books add constraint fk_author_id foreign key (author_id) references author;

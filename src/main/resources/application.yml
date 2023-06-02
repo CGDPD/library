@@ -2,7 +2,7 @@
 #spring:
 #    jpa:
 #        properties:
-#           javax:
+#            javax:
 #                persistence:
 #                    schema-generation:
 #                        scripts:
