@@ -1,0 +1,15 @@
+### Configs to generate sql schema based on entities
+#spring:
+#    jpa:
+#        properties:
+#            javax:
+#                persistence:
+#                    schema-generation:
+#                        scripts:
+#                            create-target: create.sql
+#                            drop-target: drop.sql
+#                            action: create-drop
+#                        create-source: metadata
+#                        drop-source: metadata
+#        hibernate:
+#            ddl-auto: create
