@@ -9,6 +9,7 @@ create table books
     publication_year date,
     id               bigserial    not null,
     author           varchar(100) not null,
+    genre            varchar(100) not null,
     title            varchar(100) not null,
     isbn             varchar(255),
     primary key (id)
