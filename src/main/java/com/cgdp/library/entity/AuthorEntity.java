@@ -1,5 +1,6 @@
 package com.cgdp.library.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,5 +26,6 @@ public class AuthorEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 }
