@@ -24,6 +24,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.modelmapper:modelmapper:2.4.4'
 
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.projectlombok:lombok:1.18.26'
 

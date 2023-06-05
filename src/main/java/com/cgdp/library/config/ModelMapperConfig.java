@@ -1,4 +1,4 @@
-package com.cgdp.library.common;
+package com.cgdp.library.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
