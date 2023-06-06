@@ -13,8 +13,12 @@ public class AuthorService {
     private AuthorRepository authorRepository;
 
     @Transactional
-    public AuthorEntity save(AuthorEntity author) {
+    public AuthorEntity save(String authorName) {
 
-        return authorRepository.save(author);
+        AuthorEntity authorEntity = new AuthorEntity();
+
+        authorEntity.setName(authorName);
+
+        return authorRepository.save(authorEntity);
     }
 }

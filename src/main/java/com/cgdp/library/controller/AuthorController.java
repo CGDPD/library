@@ -1,7 +1,7 @@
 package com.cgdp.library.controller;
 
-import com.cgdp.library.converters.AuthorDtoConverter;
-import com.cgdp.library.dto.CreateAuthorRequestDTO;
+import com.cgdp.library.dto.author.CreateAuthorResponseDTO;
+import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.service.AuthorService;
 import lombok.AllArgsConstructor;
@@ -18,15 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorController {
 
     private final AuthorService authorService;
-    private final AuthorDtoConverter authorDtoConverter;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorEntity createAuthor(@RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
+    public CreateAuthorResponseDTO createAuthor(@RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
 
-        AuthorEntity authorEntity = authorDtoConverter.toEntity(createAuthorRequestDTO);
-        AuthorEntity createdAuthor = authorService.save(authorEntity);
-        return createdAuthor;
+        String authorName = createAuthorRequestDTO.name();
+        AuthorEntity createdAuthor = authorService.save(authorName);
+        CreateAuthorResponseDTO responseDTO = new CreateAuthorResponseDTO();
+        responseDTO.setId(createdAuthor.getId());
+        responseDTO.setName(createdAuthor.getName());
+        return responseDTO;
     }
+
 
 }
