@@ -1,5 +1,6 @@
 package com.cgdp.library.controller;
 
+import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdp.library.service.AuthorService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RequestMapping("/authors")
@@ -20,10 +22,9 @@ public class AuthorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateAuthorResponseDTO createAuthor(@RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
+    public CreateAuthorResponseDTO createAuthor(@Valid @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
         String authorName = createAuthorRequestDTO.name();
-        return authorService.createAuthor(authorName);
+        AuthorDTO authorDTO = authorService.createAuthor(authorName);
+        return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
     }
-
-
 }
