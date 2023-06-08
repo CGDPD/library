@@ -1,6 +1,5 @@
 package com.cgdp.library.dto.author;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
-public record CreateAuthorRequestDTO(@Valid @NotNull String name) {}
+public record CreateAuthorRequestDTO(@NotBlank String name) {}
