@@ -21,4 +21,9 @@ public class AuthorService {
         AuthorEntity savedAuthor = authorRepository.save(authorEntity);
         return new AuthorDTO(savedAuthor.getId(), savedAuthor.getName());
     }
+
+    public AuthorEntity findById(Long authorId) {
+        return authorRepository.findById(authorId)
+              .orElseThrow(() -> new IllegalArgumentException("Author not found"));
+    }
 }
