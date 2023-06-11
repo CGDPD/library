@@ -3,6 +3,7 @@ package com.cgdp.library.service;
 import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.repository.AuthorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,8 @@ public class AuthorService {
         return new AuthorDTO(savedAuthor.getId(), savedAuthor.getName());
     }
 
-    public AuthorEntity findById(Long authorId) {
+    public AuthorEntity getById(Long authorId) {
         return authorRepository.findById(authorId)
-              .orElseThrow(() -> new IllegalArgumentException("Author not found"));
+              .orElseThrow(() -> new EntityNotFoundException("Author not found"));
     }
 }

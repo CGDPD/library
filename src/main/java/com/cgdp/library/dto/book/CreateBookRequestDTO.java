@@ -1,22 +1,10 @@
 package com.cgdp.library.dto.book;
 
-import com.cgdp.library.entity.AuthorEntity;
+import com.cgdp.library.customValidator.ISBNConstraint;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import java.time.LocalDate;
 
-@Data
-public class CreateBookRequestDTO {
 
-    @NotBlank
-    private String title;
-    @NotNull
-    private Long authorId;
-    @NotNull
-    private LocalDate publicationYear;
-    @NotBlank
-    private String isbn;
-    @NotBlank
-    private String genre;
-}
+public record CreateBookRequestDTO(@NotBlank String title, @NotNull Long authorId, @Nullable LocalDate publicationYear, @Nullable @ISBNConstraint String isbn, @NotBlank String genre) {}
