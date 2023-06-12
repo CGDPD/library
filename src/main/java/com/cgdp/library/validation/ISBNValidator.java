@@ -1,12 +1,12 @@
-package com.cgdp.library.customValidator;
+package com.cgdp.library.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-public class ISBNValidator implements ConstraintValidator<ISBNConstraint, String> {
+public class ISBNValidator implements ConstraintValidator<ValidISBN, String> {
 
     @Override
-    public void initialize(ISBNConstraint constraintAnnotation) {
+    public void initialize(ValidISBN constraintAnnotation) {
     }
 
     @Override

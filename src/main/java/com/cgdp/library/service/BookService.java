@@ -6,7 +6,6 @@ import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.entity.BookEntity;
 import com.cgdp.library.exceptions.NotFoundException;
 import com.cgdp.library.repository.BookRepository;
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,10 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final ModelMapper modelMapper;
-    private final EntityManager entityManager;
+    private final AuthorService authorService;
 
     public BookDTO createBook(CreateBookRequestDTO requestDTO) {
-        AuthorEntity authorEntity = entityManager.getReference(AuthorEntity.class, requestDTO.authorId());
+        AuthorEntity authorEntity = authorService.getAuthorById(requestDTO.authorId());
         if (authorEntity == null) {
             throw new NotFoundException("Author not found");
         }
