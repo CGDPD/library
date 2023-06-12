@@ -24,8 +24,7 @@ public class AuthorService {
     }
 
     @Transactional
-    public AuthorEntity getAuthorById(Long authorId) {
-        return authorRepository.findById(authorId)
-              .orElseThrow(() -> new NotFoundException("Author not found"));
+    public boolean doesAuthorExist(Long authorId) {
+        return authorRepository.existsById(authorId);
     }
 }
