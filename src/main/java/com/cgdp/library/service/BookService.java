@@ -1,6 +1,6 @@
 package com.cgdp.library.service;
 
-import com.cgdp.library.config.BookMapper;
+import com.cgdp.library.mapper.BookMapper;
 import com.cgdp.library.dto.book.BookDTO;
 import com.cgdp.library.dto.book.CreateBookRequestDTO;
 import com.cgdp.library.entity.BookEntity;
@@ -18,7 +18,7 @@ public class BookService {
     private final AuthorService authorService;
 
     public BookDTO createBook(CreateBookRequestDTO requestDTO) {
-        boolean authorExist = authorService.doesAuthorExist(requestDTO.authorId());
+        boolean authorExist = authorService.authorExist(requestDTO.authorId());
         if (!authorExist) {
             throw new NotFoundException("Author not found");
         }

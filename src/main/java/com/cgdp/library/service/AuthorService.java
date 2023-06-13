@@ -2,7 +2,6 @@ package com.cgdp.library.service;
 
 import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.entity.AuthorEntity;
-import com.cgdp.library.exceptions.NotFoundException;
 import com.cgdp.library.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class AuthorService {
     }
 
     @Transactional
-    public boolean doesAuthorExist(Long authorId) {
+    public boolean authorExist(Long authorId) {
         return authorRepository.existsById(authorId);
     }
 }
