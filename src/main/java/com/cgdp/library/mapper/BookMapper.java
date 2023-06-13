@@ -12,5 +12,6 @@ public interface BookMapper {
     @Mapping(source = "authorId", target = "authorEntity.id")
     BookEntity mapToBookEntity(CreateBookRequestDTO requestDTO);
 
+    @Mapping(source = "authorEntity.id", target = "authorId")
     BookDTO mapToBookDTO(BookEntity bookEntity);
 }

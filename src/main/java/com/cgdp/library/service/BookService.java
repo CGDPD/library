@@ -1,10 +1,10 @@
 package com.cgdp.library.service;
 
-import com.cgdp.library.mapper.BookMapper;
 import com.cgdp.library.dto.book.BookDTO;
 import com.cgdp.library.dto.book.CreateBookRequestDTO;
 import com.cgdp.library.entity.BookEntity;
 import com.cgdp.library.exceptions.NotFoundException;
+import com.cgdp.library.mapper.BookMapper;
 import com.cgdp.library.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,9 @@ public class BookService {
     private final AuthorService authorService;
 
     public BookDTO createBook(CreateBookRequestDTO requestDTO) {
-        boolean authorExist = authorService.authorExist(requestDTO.authorId());
-        if (!authorExist) {
-            throw new NotFoundException("Author not found");
+
+        if (!authorService.authorExist(requestDTO.authorId())) {
+            throw new NotFoundException("Author with id " + requestDTO.authorId() + " not found");
         }
         BookEntity bookEntity = bookMapper.mapToBookEntity(requestDTO);
         BookEntity createdBook = bookRepository.save(bookEntity);
