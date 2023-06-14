@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class AuthorService {
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     @Transactional
     public AuthorDTO createAuthor(String authorName) {
