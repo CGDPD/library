@@ -4,6 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'org.unbroken-dome.test-sets' version '4.0.0'
+    id 'java-test-fixtures'
 }
 
 sourceCompatibility = 17
