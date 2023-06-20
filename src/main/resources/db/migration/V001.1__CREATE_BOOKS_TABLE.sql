@@ -14,4 +14,4 @@ create table books
     isbn             varchar(255),
     primary key (id)
 );
-alter table if exists books add constraint fk_author_id foreign key (author_id) references author;
+alter table books add constraint fk_author_id foreign key (author_id) references author (id);

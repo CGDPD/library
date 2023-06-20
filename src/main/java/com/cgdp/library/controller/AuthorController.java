@@ -22,7 +22,8 @@ public class AuthorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateAuthorResponseDTO createAuthor(@Valid @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
+    public CreateAuthorResponseDTO createAuthor(
+          @Valid @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
         String authorName = createAuthorRequestDTO.name();
         AuthorDTO authorDTO = authorService.createAuthor(authorName);
         return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class AuthorService {
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     @Transactional
     public AuthorDTO createAuthor(String authorName) {
@@ -20,5 +20,10 @@ public class AuthorService {
         authorEntity.setName(authorName);
         AuthorEntity savedAuthor = authorRepository.save(authorEntity);
         return new AuthorDTO(savedAuthor.getId(), savedAuthor.getName());
+    }
+
+    @Transactional
+    public boolean authorExist(Long authorId) {
+        return authorRepository.existsById(authorId);
     }
 }

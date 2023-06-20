@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.ISBN;
 import java.time.LocalDate;
 
 @Entity
@@ -40,11 +41,10 @@ public class BookEntity {
     @Column(name = "publication_year")
     private LocalDate publicationYear;
 
+    @ISBN
     @Column(name = "isbn")
     private String isbn;
 
     @Column(name = "genre", nullable = false, length = 100)
     private String genre;
-
-
 }

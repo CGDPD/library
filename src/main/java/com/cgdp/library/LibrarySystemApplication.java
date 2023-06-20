@@ -1,6 +1,5 @@
 package com.cgdp.library;
 
-import org.flywaydb.core.api.migration.JavaMigration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
