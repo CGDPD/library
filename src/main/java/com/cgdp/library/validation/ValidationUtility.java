@@ -18,7 +18,7 @@ public class ValidationUtility {
 
     public static LocalDate validatePublicationYear(String paramName, LocalDate value) {
 
-        validate(() -> value != null && !value.isAfter(LocalDate.now()), "Invalid %s", paramName);
+        validate(() -> value.isAfter(LocalDate.now()), "Invalid %s", paramName);
         return value;
     }
 
