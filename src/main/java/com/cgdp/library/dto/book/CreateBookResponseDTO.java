@@ -1,13 +1,10 @@
 package com.cgdp.library.dto.book;
 
-import static com.cgdp.library.validation.ValidationUtility.required;
+import static com.cgdp.library.validation.Validator.required;
 
-import jakarta.validation.constraints.NotNull;
+public record CreateBookResponseDTO(Long bookId) {
 
-public record CreateBookResponseDTO(@NotNull Long bookId) {
-
-    public CreateBookResponseDTO(@NotNull Long bookId) {
-
+    public CreateBookResponseDTO(Long bookId) {
         this.bookId = required("bookId", bookId);
     }
 }

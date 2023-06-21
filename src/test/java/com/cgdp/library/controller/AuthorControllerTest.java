@@ -15,10 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.server.ResponseStatusException;
 
 public class AuthorControllerTest {
 
@@ -58,7 +60,7 @@ public class AuthorControllerTest {
         resultActions
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.id", is(id.intValue())))
-              .andExpect(jsonPath("$.name", is(authorName)));
+              .andExpect(jsonPath("$.authorName", is(authorName)));
     }
 
     @Test
@@ -67,7 +69,8 @@ public class AuthorControllerTest {
         String authorName = "";
         CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
-        given(authorService.createAuthor(authorName)).willThrow(new RuntimeException());
+        given(authorService.createAuthor(authorName)).willThrow(new ResponseStatusException(
+              HttpStatus.BAD_REQUEST));
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")

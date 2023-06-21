@@ -1,7 +1,7 @@
 create table author
 (
     id   bigserial    not null,
-    name varchar(100) not null,
+    authorName varchar(100) not null,
     primary key (id)
 );
 create table books

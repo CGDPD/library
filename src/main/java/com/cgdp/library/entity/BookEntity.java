@@ -9,13 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.ISBN;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "books")
@@ -41,7 +40,6 @@ public class BookEntity {
     @Column(name = "publication_year")
     private LocalDate publicationYear;
 
-    @ISBN
     @Column(name = "isbn")
     private String isbn;
 

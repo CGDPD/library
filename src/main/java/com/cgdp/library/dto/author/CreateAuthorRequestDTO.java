@@ -1,13 +1,10 @@
 package com.cgdp.library.dto.author;
 
-import jakarta.validation.constraints.NotBlank;
+import static com.cgdp.library.validation.Validator.requiredNotBlank;
 
-import static com.cgdp.library.validation.ValidationUtility.requiredNotBlank;
+public record CreateAuthorRequestDTO(String authorName) {
 
-public record CreateAuthorRequestDTO(@NotBlank String name) {
-
-    public CreateAuthorRequestDTO(String name) {
-
-        this.name = requiredNotBlank("name", name);
+    public CreateAuthorRequestDTO(String authorName) {
+        this.authorName = requiredNotBlank("authorName", authorName);
     }
 }

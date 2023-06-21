@@ -4,7 +4,6 @@ import com.cgdp.library.dto.book.BookDTO;
 import com.cgdp.library.dto.book.CreateBookRequestDTO;
 import com.cgdp.library.dto.book.CreateBookResponseDTO;
 import com.cgdp.library.service.BookService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +21,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateBookResponseDTO createBook(@Valid @RequestBody CreateBookRequestDTO requestDTO) {
-
+    public CreateBookResponseDTO createBook(@RequestBody CreateBookRequestDTO requestDTO) {
         BookDTO bookDTO = bookService.createBook(requestDTO);
         return new CreateBookResponseDTO(bookDTO.id());
     }
