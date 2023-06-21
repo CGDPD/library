@@ -20,9 +20,9 @@ public record BookDTO(@NotNull Long id,
         this.id = ValidationUtility.required("id", id);
         this.title = ValidationUtility.requiredNotBlank("title", title);
         this.authorId = ValidationUtility.required("authorId", authorId);
-        this.publicationYear = ValidationUtility.validatePublicationYear("publicationYear",
+        this.publicationYear = ValidationUtility.requiredValidDate("publicationYear",
               publicationYear);
-        this.isbn = ValidationUtility.validateISBN("isbn", isbn);
+        this.isbn = ValidationUtility.requiredValidIsbn("isbn", isbn);
         this.genre = ValidationUtility.requiredNotBlank("genre", genre);
     }
 }

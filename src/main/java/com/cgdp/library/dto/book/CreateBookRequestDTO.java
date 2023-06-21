@@ -18,9 +18,9 @@ public record CreateBookRequestDTO(@NotBlank String title,
                                 LocalDate publicationYear, String isbn, String genre) {
         this.title = ValidationUtility.requiredNotBlank("title", title);
         this.authorId = ValidationUtility.required("authorId", authorId);
-        this.publicationYear = ValidationUtility.validatePublicationYear("publicationYear",
+        this.publicationYear = ValidationUtility.requiredValidDate("publicationYear",
               publicationYear);
-        this.isbn = ValidationUtility.validateISBN("isbn", isbn);
+        this.isbn = ValidationUtility.requiredValidIsbn("isbn", isbn);
         this.genre = ValidationUtility.requiredNotBlank("genre", genre);
     }
 }
