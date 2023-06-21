@@ -2,7 +2,7 @@ package com.cgdp.library.dto.book;
 
 import static com.cgdp.library.validation.Validator.required;
 import static com.cgdp.library.validation.Validator.requiredNotBlank;
-import static com.cgdp.library.validation.Validator.requiredValidDate;
+import static com.cgdp.library.validation.Validator.requiredPastDate;
 import static com.cgdp.library.validation.Validator.requiredValidIsbn;
 
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public record BookDTO(Long id,
         this.id = required("id", id);
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);
-        this.publicationYear = requiredValidDate("publicationYear", publicationYear);
+        this.publicationYear = requiredPastDate("publicationYear", publicationYear);
         this.isbn = requiredValidIsbn("isbn", isbn);
         this.genre = requiredNotBlank("genre", genre);
     }

@@ -25,6 +25,6 @@ public class AuthorController {
           @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
         String authorName = createAuthorRequestDTO.authorName();
         AuthorDTO authorDTO = authorService.createAuthor(authorName);
-        return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.authorName());
+        return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
     }
 }

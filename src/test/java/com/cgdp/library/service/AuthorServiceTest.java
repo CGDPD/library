@@ -44,7 +44,7 @@ public class AuthorServiceTest {
 
         // then
         assertThat(authorDTO.id()).isEqualTo(id);
-        assertThat(authorDTO.authorName()).isEqualTo(authorName);
+        assertThat(authorDTO.name()).isEqualTo(authorName);
         verify(authorRepository).save(captor.getValue());
         assertThat(authorName).isEqualTo(captor.getValue().getName());
     }

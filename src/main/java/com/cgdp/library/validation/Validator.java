@@ -18,7 +18,7 @@ public class Validator {
         return value;
     }
 
-    public static LocalDate requiredValidDate(String paramName, LocalDate value) {
+    public static LocalDate requiredPastDate(String paramName, LocalDate value) {
         validate(() -> value.isAfter(LocalDate.now()), "Invalid %s", paramName);
         return value;
     }
