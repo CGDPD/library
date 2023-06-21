@@ -1,6 +1,10 @@
 package com.cgdp.library.dto.book;
 
-import com.cgdp.library.validation.ValidationUtility;
+import static com.cgdp.library.validation.ValidationUtility.required;
+import static com.cgdp.library.validation.ValidationUtility.requiredNotBlank;
+import static com.cgdp.library.validation.ValidationUtility.requiredValidDate;
+import static com.cgdp.library.validation.ValidationUtility.requiredValidIsbn;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -17,12 +21,12 @@ public record BookDTO(@NotNull Long id,
 
     public BookDTO(@NotNull Long id, String title, @NotNull Long authorId,
                    LocalDate publicationYear, String isbn, String genre) {
-        this.id = ValidationUtility.required("id", id);
-        this.title = ValidationUtility.requiredNotBlank("title", title);
-        this.authorId = ValidationUtility.required("authorId", authorId);
-        this.publicationYear = ValidationUtility.requiredValidDate("publicationYear",
-              publicationYear);
-        this.isbn = ValidationUtility.requiredValidIsbn("isbn", isbn);
-        this.genre = ValidationUtility.requiredNotBlank("genre", genre);
+
+        this.id = required("id", id);
+        this.title = requiredNotBlank("title", title);
+        this.authorId = required("authorId", authorId);
+        this.publicationYear = requiredValidDate("publicationYear", publicationYear);
+        this.isbn = requiredValidIsbn("isbn", isbn);
+        this.genre = requiredNotBlank("genre", genre);
     }
 }

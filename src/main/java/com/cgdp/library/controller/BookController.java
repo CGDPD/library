@@ -23,6 +23,7 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateBookResponseDTO createBook(@Valid @RequestBody CreateBookRequestDTO requestDTO) {
+
         BookDTO bookDTO = bookService.createBook(requestDTO);
         return new CreateBookResponseDTO(bookDTO.id());
     }
