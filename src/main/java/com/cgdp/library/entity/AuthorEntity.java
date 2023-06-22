@@ -27,7 +27,6 @@ public class AuthorEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 }

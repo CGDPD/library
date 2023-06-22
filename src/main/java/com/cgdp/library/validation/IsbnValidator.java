@@ -2,7 +2,7 @@ package com.cgdp.library.validation;
 
 class IsbnValidator {
 
-    static boolean isValidISBN(String isbn) {
+    static boolean isValidIsbn(String isbn) {
 
         String cleanISBN = isbn.replaceAll("[^0-9]", "");
         int length = cleanISBN.length();

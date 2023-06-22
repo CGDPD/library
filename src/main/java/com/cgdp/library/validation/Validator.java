@@ -1,6 +1,6 @@
 package com.cgdp.library.validation;
 
-import static com.cgdp.library.validation.IsbnValidator.isValidISBN;
+import static com.cgdp.library.validation.IsbnValidator.isValidIsbn;
 
 import com.cgdp.library.exceptions.ValidationException;
 import java.time.LocalDate;
@@ -14,19 +14,21 @@ public class Validator {
     }
 
     public static String requiredNotBlank(String paramName, String value) {
-        validate(() -> value == null, "%s must not be blank", paramName);
+        validate(() -> value.isBlank(), "%s must not be blank", paramName);
         return value;
     }
 
     public static LocalDate requiredPastDate(String paramName, LocalDate value) {
-        validate(() -> value.isAfter(LocalDate.now()), "Invalid %s", paramName);
+        if (value != null) {
+            validate(() -> value.isAfter(LocalDate.now()),
+                  "Invalid %s. %s is greater than the current date", paramName, value);
+        }
         return value;
     }
 
     public static String requiredValidIsbn(String paramName, String value) {
-        validate(
-              () -> value == null || value.isBlank() || !isValidISBN(value),
-              "%s is not a valid ISBN", paramName);
+        validate(() -> value.isBlank() || !isValidIsbn(value),
+              "%s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",  value);
         return value;
     }
 

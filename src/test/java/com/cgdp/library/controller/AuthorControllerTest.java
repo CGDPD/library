@@ -66,7 +66,7 @@ public class AuthorControllerTest {
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
-        String authorName = "";
+        String authorName = "John Doe";
         CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
         given(authorService.createAuthor(authorName)).willThrow(new ResponseStatusException(
