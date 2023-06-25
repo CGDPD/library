@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class Validator {
 
-    public static Long required(String paramName, Long value) {
+    public static <T> T required(String paramName, T value) {
         validate(() -> value == null, "%s must not be null", paramName);
         return value;
     }
