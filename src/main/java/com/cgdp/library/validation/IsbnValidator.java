@@ -1,9 +1,10 @@
 package com.cgdp.library.validation;
 
+import java.util.Objects;
+
 class IsbnValidator {
 
     static boolean isValidIsbn(String isbn) {
-
         String cleanISBN = isbn.replaceAll("[^0-9]", "");
         int length = cleanISBN.length();
 
@@ -19,5 +20,9 @@ class IsbnValidator {
 
         int checkDigit = cleanISBN.charAt(12) - '0';
         return (10 - (sum % 10)) % 10 == checkDigit;
+    }
+
+    static boolean isNullOrBlank(String value) {
+        return Objects.isNull(value) || value.isBlank();
     }
 }

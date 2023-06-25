@@ -15,12 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.server.ResponseStatusException;
 
 public class AuthorControllerTest {
 
@@ -66,16 +64,12 @@ public class AuthorControllerTest {
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
-        String authorName = "John Doe";
-        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
-
-        given(authorService.createAuthor(authorName)).willThrow(new ResponseStatusException(
-              HttpStatus.BAD_REQUEST));
+        String requestBody = "{\"authorName\": \"\"}";
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(createAuthorRequestDTO)));
+              .content(requestBody));
 
         // then
         resultActions.andExpect(status().isBadRequest());

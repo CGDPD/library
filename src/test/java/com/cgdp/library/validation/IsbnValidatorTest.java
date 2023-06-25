@@ -1,40 +1,81 @@
 package com.cgdp.library.validation;
 
 import static com.cgdp.library.validation.IsbnValidator.isValidIsbn;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
 public class IsbnValidatorTest {
 
     @Test
-    void should_return_valid_isbn() {
+    void should_return_true_when_isbn_is_valid() {
+        // given
         String validIsbn = "9780134685991";
-        assertTrue(isValidIsbn(validIsbn));
+
+        // when
+        boolean isValid = isValidIsbn(validIsbn);
+
+        //then
+        assertThat(isValid).isTrue();
     }
 
     @Test
-    void should_return_invalid_isbn() {
+    void should_return_false_when_isbn_is_invalid() {
+        // given
         String invalidIsbn = "9780134685992";
-        assertFalse(isValidIsbn(invalidIsbn));
+
+        //when
+        boolean isValid = isValidIsbn(invalidIsbn);
+
+        // then
+        assertThat(isValid).isFalse();
     }
 
     @Test
-    void should_return_invalid_isbn_with_non_numeric_characters() {
+    void should_return_false_when_isbn_has_non_numeric_characters() {
+        // given
         String invalidIsbn = "9780a3468b5991";
-        assertFalse(isValidIsbn(invalidIsbn));
+
+        //when
+        boolean isValid = isValidIsbn(invalidIsbn);
+
+        // then
+        assertThat(isValid).isFalse();
     }
 
     @Test
-    void should_return_invalid_isbn_with_incorrect_length() {
+    void should_return_false_when_isbn_has_incorrect_length() {
+        // given
         String invalidIsbn = "97801346859";
-        assertFalse(isValidIsbn(invalidIsbn));
+
+        //when
+        boolean isValid = isValidIsbn(invalidIsbn);
+
+        // then
+        assertThat(isValid).isFalse();
     }
 
     @Test
-    void should_return_invalid_isbn_with_invalid_check_digit() {
+    void should_return_false_when_isbn_has_invalid_check_digit() {
+        // given
         String invalidIsbn = "9780134685999";
-        assertFalse(isValidIsbn(invalidIsbn));
+
+        //when
+        boolean isValid = isValidIsbn(invalidIsbn);
+
+        // then
+        assertThat(isValid).isFalse();
+    }
+
+    @Test
+    void should_return_false_when_isbn_has_invalid_prefix() {
+        // given
+        String invalidIsbn = "1234567890123";
+
+        //when
+        boolean isValid = isValidIsbn(invalidIsbn);
+
+        // then
+        assertThat(isValid).isFalse();
     }
 }
