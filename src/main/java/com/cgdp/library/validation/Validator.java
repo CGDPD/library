@@ -1,6 +1,5 @@
 package com.cgdp.library.validation;
 
-import static com.cgdp.library.validation.IsbnValidator.isNullOrBlank;
 import static com.cgdp.library.validation.IsbnValidator.isValidIsbn;
 
 import com.cgdp.library.exceptions.ValidationException;
@@ -14,8 +13,8 @@ public class Validator {
         return value;
     }
 
-    public static String requiredNotNullOrBlank(String paramName, String value) {
-        validate(() -> isNullOrBlank(value), "%s must not be null or blank", paramName);
+    public static String requiredNotBlank(String paramName, String value) {
+        validate(() -> value == null || value.isBlank(), "%s must not be null or blank", paramName);
         return value;
     }
 
