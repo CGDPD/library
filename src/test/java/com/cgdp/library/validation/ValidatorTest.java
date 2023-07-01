@@ -11,7 +11,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 public class ValidatorTest {
 
     @Test
-    void should_return_null_if_value_is_null() {
+    void should_throw_exception_when_value_is_null() {
         // given
         String paramName = "value";
         String value = null;
@@ -26,7 +26,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_blank_if_value_is_empty() {
+    void should_throw_exception_when_value_is_empty() {
         //given
         String paramName = "value";
         String value = "";
@@ -41,7 +41,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_value_null_if_value_is_null() {
+    void should_throw_exception_when_the_value_is_null() {
         //given
         String paramName = "value";
         String value = null;
@@ -56,7 +56,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_after_now_date_if_date_value_is_after_now() {
+    void should_throw_exception_when_date_value_is_after_now() {
         //given
         String paramName = "value";
         LocalDate value = LocalDate.now().plusDays(1);
@@ -71,7 +71,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_invalid_isbn_if_isbn_value_is_invalid() {
+    void should_throw_exception_when_isbn_value_is_invalid() {
         //given
         String paramName = "value";
         String value = "9780134685992";
@@ -87,7 +87,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_invalid_isbn_if_isbn_value_is_empty() {
+    void should_throw_exception_when_isbn_value_is_empty() {
         //given
         String paramName = "value";
         String value = "";
