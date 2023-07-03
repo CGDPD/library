@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class BookEntity {
     @Column(name = "publication_year")
     private LocalDate publicationYear;
 
-    @Column(name = "isbn")
+    @Column(name = "isbn", nullable = false)
     private String isbn;
 
     @Column(name = "genre", nullable = false, length = 100)

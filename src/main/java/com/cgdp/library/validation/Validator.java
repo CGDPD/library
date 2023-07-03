@@ -27,9 +27,9 @@ public class Validator {
     }
 
     public static String requiredValidIsbn(String paramName, String value) {
-        validate(() -> value.isBlank() || !isValidIsbn(value),
-              "%s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
-              value);
+        validate(() -> value == null || value.isBlank() || !isValidIsbn(value),
+              "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
+              paramName, value);
         return value;
     }
 

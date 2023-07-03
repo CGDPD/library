@@ -125,8 +125,8 @@ public class ValidatorTest {
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
-                    "%s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
-                    value));
+                    "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
+                    paramName, value));
     }
 
     @Test
@@ -143,8 +143,8 @@ public class ValidatorTest {
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
-                    "%s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
-                    value));
+                    "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
+                    paramName, value));
     }
 
     @Test
