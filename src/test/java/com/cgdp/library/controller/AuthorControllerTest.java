@@ -58,21 +58,18 @@ public class AuthorControllerTest {
         resultActions
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.id", is(id.intValue())))
-              .andExpect(jsonPath("$.name", is(authorName)));
+              .andExpect(jsonPath("$.authorName", is(authorName)));
     }
 
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
-        String authorName = "";
-        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
-
-        given(authorService.createAuthor(authorName)).willThrow(new RuntimeException());
+        String requestBody = "{\"authorName\": \"\"}";
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(createAuthorRequestDTO)));
+              .content(requestBody));
 
         // then
         resultActions.andExpect(status().isBadRequest());

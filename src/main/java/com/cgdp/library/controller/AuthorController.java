@@ -1,10 +1,9 @@
 package com.cgdp.library.controller;
 
 import com.cgdp.library.dto.author.AuthorDTO;
-import com.cgdp.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
+import com.cgdp.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdp.library.service.AuthorService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +22,8 @@ public class AuthorController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateAuthorResponseDTO createAuthor(
-          @Valid @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
-        String authorName = createAuthorRequestDTO.name();
+          @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
+        String authorName = createAuthorRequestDTO.authorName();
         AuthorDTO authorDTO = authorService.createAuthor(authorName);
         return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
     }

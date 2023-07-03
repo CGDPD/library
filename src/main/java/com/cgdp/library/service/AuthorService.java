@@ -15,7 +15,6 @@ public class AuthorService {
 
     @Transactional
     public AuthorDTO createAuthor(String authorName) {
-
         AuthorEntity authorEntity = new AuthorEntity();
         authorEntity.setName(authorName);
         AuthorEntity savedAuthor = authorRepository.save(authorEntity);

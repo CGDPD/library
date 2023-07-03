@@ -1,5 +1,10 @@
 package com.cgdp.library.dto.book;
 
-import jakarta.validation.constraints.NotNull;
+import static com.cgdp.library.validation.Validator.required;
 
-public record CreateBookResponseDTO(@NotNull Long bookId) {}
+public record CreateBookResponseDTO(Long bookId) {
+
+    public CreateBookResponseDTO(Long bookId) {
+        this.bookId = required("bookId", bookId);
+    }
+}

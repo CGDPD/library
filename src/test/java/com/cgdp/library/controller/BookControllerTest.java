@@ -67,7 +67,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void should_return_bad_request_when_isbn_is_not_valid() throws Exception {
+    public void should_return_bad_request_when_required_field_is_missing() throws Exception {
         // given
         String badRequestMissingTitle = """
               {
@@ -88,16 +88,22 @@ class BookControllerTest {
     }
 
     @Test
-    public void should_return_bad_request_when_required_field_is_missing() throws Exception {
+    public void should_return_bad_request_when_isbn_is_not_valid() throws Exception {
         // given
-        CreateBookRequestDTO badRequestInvalidIsbn = aCreateBookRequestDTO()
-              .isbn("978-0-7475-9105")
-              .build();
+        String badRequestInvalidIsbn = """
+              {
+                  "title": "Lord Of The Rings"
+                  "authorId": 1,
+                  "publicationYear": "2023-01-01",
+                  "isbn": "978-0-7475-9105’",
+                  "genre": "Action"
+              }
+              """;
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/books")
               .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(badRequestInvalidIsbn)));
+              .content(badRequestInvalidIsbn));
 
         // then
         resultActions.andExpect(status().isBadRequest());
