@@ -38,7 +38,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_value_is_empty() {
+    void should_throw_exception_when_value_is_blank() {
         //given
         String paramName = "value";
         String value = "";
@@ -54,7 +54,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_value_if_value_is_not_empty() {
+    void should_return_value_if_value_is_not_blank() {
         // given
         String paramName = "value";
         String value = "valid";
@@ -130,7 +130,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_isbn_value_is_empty() {
+    void should_throw_exception_when_isbn_value_is_blank() {
         //given
         String paramName = "value";
         String value = "";
@@ -148,7 +148,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_valid_isbn() {
+    void should_return_value_when_isbn_is_valid() {
         // given
         String paramName = "value";
         String value = "9780134685991";
@@ -157,19 +157,6 @@ public class ValidatorTest {
         String result = Validator.requiredValidIsbn(paramName, value);
 
         // then
-        assertThat(result).isEqualTo(value);
-    }
-
-    @Test
-    void should_return_value_when_isbn_value_is_not_empty() {
-        //given
-        String paramName = "value";
-        String value = "9780134685991";
-
-        //when
-        String result = Validator.requiredValidIsbn(paramName, value);
-
-        //then
         assertThat(result).isEqualTo(value);
     }
 }
