@@ -39,7 +39,7 @@ public class BookEntity {
     private AuthorEntity authorEntity;
 
     @Column(name = "publication_year")
-    private LocalDate publicationYear;
+    private Optional<LocalDate> publicationYear;
 
     @Column(name = "isbn", nullable = false)
     private String isbn;
