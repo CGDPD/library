@@ -31,27 +31,22 @@ public class BookTestData {
     }
 
     public static BookEntity.BookEntityBuilder bookEntityFromRequest(CreateBookRequestDTO request) {
-        Optional<LocalDate> publicationYear = request.publicationYear();
-        LocalDate publicationYearValue = publicationYear.orElse(null);
 
         return BookEntity.builder()
               .id(1L)
               .title(request.title())
               .authorEntity(AuthorEntity.builder().id(request.authorId()).build())
-              .publicationYear(publicationYearValue)
+              .publicationYear(request.publicationYear().orElse(null))
               .isbn(request.isbn())
               .genre(request.genre());
     }
 
     public static BookDTO.BookDTOBuilder bookFromRequest(CreateBookRequestDTO request) {
-        Optional<LocalDate> publicationYear = request.publicationYear();
-        LocalDate publicationYearValue = publicationYear.orElse(null);
-
         return BookDTO.builder()
               .id(1L)
               .title(request.title())
               .authorId(request.authorId())
-              .publicationYear(Optional.ofNullable(publicationYearValue))
+              .publicationYear(request.publicationYear())
               .isbn(request.isbn())
               .genre(request.genre());
     }

@@ -40,27 +40,23 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_create_author_and_return_name() throws Exception {
         // given
-        String requestBody = """
-        {
-            "authorName": "John Doe"
-        }
-        """;
+        String authorName = "John Doe";
+        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
-              .content(requestBody));
-
+              .content(objectMapper.writeValueAsString(createAuthorRequestDTO)));
         // then
         resultActions
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.id", is(Long.class)).exists())
-              .andExpect(jsonPath("$.authorName", is("John Doe")).exists());
+              .andExpect(jsonPath("$.authorName", is(authorName)).exists());
 
         Long id = getIdFromResult(resultActions);
         Optional<AuthorEntity> authorEntity = authorRepository.findById(id);
         assertThat(authorEntity).isPresent();
-        assertThat(authorEntity.get().getName()).isEqualTo("John Doe");
+        assertThat(authorEntity.get().getName()).isEqualTo(authorName);
     }
 
 
