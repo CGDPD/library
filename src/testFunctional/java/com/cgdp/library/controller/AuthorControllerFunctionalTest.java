@@ -63,13 +63,16 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
-        String empty = "";
-        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(empty);
+        String requestBody = """
+        {
+            "authorName": ""
+        }
+        """;
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(createAuthorRequestDTO)));
+              .content(requestBody));
 
         // then
         resultActions

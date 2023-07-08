@@ -56,13 +56,15 @@ class BookServiceTest {
         assertThat(bookDTO.id()).isEqualTo(bookEntity.getId());
         assertThat(bookDTO.title()).isEqualTo(request.title());
         assertThat(bookDTO.authorId()).isEqualTo(request.authorId());
-        assertThat(bookDTO.publicationYear()).isEqualTo(request.publicationYear());
+        assertThat(bookDTO.publicationYear().orElse(null)).isEqualTo(
+              request.publicationYear().orElse(null));
         assertThat(bookDTO.isbn()).isEqualTo(request.isbn());
         assertThat(bookDTO.genre()).isEqualTo(request.genre());
         verify(bookRepository).save(captor.getValue());
         assertThat(request.title()).isEqualTo(captor.getValue().getTitle());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(captor.getValue().getAuthorEntity());
-        assertThat(request.publicationYear()).isEqualTo(captor.getValue().getPublicationYear());
+        assertThat(request.publicationYear().orElse(null)).isEqualTo(
+              captor.getValue().getPublicationYear());
         assertThat(request.isbn()).isEqualTo(captor.getValue().getIsbn());
         assertThat(request.genre()).isEqualTo(captor.getValue().getGenre());
     }
@@ -86,7 +88,7 @@ class BookServiceTest {
               .id(1L)
               .title(request.title())
               .authorEntity(AuthorEntity.builder().id(request.authorId()).build())
-              .publicationYear(request.publicationYear())
+              .publicationYear(request.publicationYear().orElse(null))
               .isbn(request.isbn())
               .genre(request.genre())
               .build();

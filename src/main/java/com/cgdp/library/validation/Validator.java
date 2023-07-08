@@ -4,6 +4,7 @@ import static com.cgdp.library.validation.IsbnValidator.isValidIsbn;
 
 import com.cgdp.library.exceptions.ValidationException;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Validator {
@@ -18,10 +19,11 @@ public class Validator {
         return value;
     }
 
-    public static LocalDate requiredBeforeNow(String paramName, LocalDate value) {
-        if (value != null) {
-            validate(() -> value.isAfter(LocalDate.now()),
-                  "Invalid %s. %s is after current date", paramName, value);
+    public static Optional<LocalDate> checkBeforeNow(String paramName, Optional<LocalDate> value) {
+        if (value.isPresent()) {
+            LocalDate date = value.get();
+            validate(() -> date.isAfter(LocalDate.now()),
+                  "Invalid %s. %s is after the current date", paramName, date);
         }
         return value;
     }

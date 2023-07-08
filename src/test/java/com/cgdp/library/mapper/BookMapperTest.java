@@ -24,7 +24,8 @@ class BookMapperTest {
         // then
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
         assertThat(bookEntity.getAuthorEntity().getId()).isEqualTo(request.authorId());
-        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear());
+        assertThat(bookEntity.getPublicationYear())
+              .isEqualTo(request.publicationYear().orElse(null));
         assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
@@ -41,7 +42,7 @@ class BookMapperTest {
         assertThat(bookDTO.id()).isEqualTo(bookEntity.getId());
         assertThat(bookDTO.title()).isEqualTo(bookEntity.getTitle());
         assertThat(bookDTO.authorId()).isEqualTo(bookEntity.getAuthorEntity().getId());
-        assertThat(bookDTO.publicationYear()).isEqualTo(bookEntity.getPublicationYear());
+        assertThat(bookDTO.publicationYear().orElse(null)).isEqualTo(bookEntity.getPublicationYear());
         assertThat(bookDTO.isbn()).isEqualTo(bookEntity.getIsbn());
         assertThat(bookDTO.genre()).isEqualTo(bookEntity.getGenre());
     }

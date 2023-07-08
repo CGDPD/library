@@ -18,7 +18,6 @@ public class BookService {
     private final AuthorService authorService;
 
     public BookDTO createBook(CreateBookRequestDTO requestDTO) {
-
         if (!authorService.authorExist(requestDTO.authorId())) {
             throw new NotFoundException("Author with id " + requestDTO.authorId() + " not found");
         }

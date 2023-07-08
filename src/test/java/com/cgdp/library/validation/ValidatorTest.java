@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import com.cgdp.library.exceptions.ValidationException;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class ValidatorTest {
@@ -86,26 +87,27 @@ public class ValidatorTest {
     void should_throw_exception_when_date_value_is_after_now() {
         //given
         String paramName = "value";
-        LocalDate value = LocalDate.now().plusDays(1);
+        Optional<LocalDate> value = Optional.of(LocalDate.now().plusDays(1));
 
         //when
         Throwable thrownException = catchThrowable(
-              () -> Validator.requiredBeforeNow(paramName, value));
+              () -> Validator.checkBeforeNow(paramName, value));
 
         //then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("Invalid %s. %s is after current date", paramName, value));
+              .hasMessage(String.format("Invalid %s. %s is after the current date", paramName,
+                    value.orElse(null)));
     }
 
     @Test
     void should_return_date_value_before_now() {
         // given
         String paramName = "value";
-        LocalDate value = LocalDate.now().minusDays(1);
+        Optional<LocalDate> value = Optional.of(LocalDate.now().minusDays(1));
 
         // when
-        LocalDate result = Validator.requiredBeforeNow(paramName, value);
+        Optional<LocalDate> result = Validator.checkBeforeNow(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
