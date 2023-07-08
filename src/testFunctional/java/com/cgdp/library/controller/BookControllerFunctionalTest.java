@@ -64,7 +64,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         BookEntity bookEntity = bookRepository.findById(id).orElseThrow();
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(authorEntity);
-        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear());
+        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear().orElse(null));
         assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
