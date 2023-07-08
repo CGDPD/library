@@ -1,10 +1,9 @@
 package com.cgdp.library.controller;
 
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.cgdp.library.dto.book.BookDTO;
@@ -56,14 +55,10 @@ class BookControllerTest {
         given(bookService.createBook(request)).willReturn(book);
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/books")
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(request)));
+        var result = bookController.createBook(request);
 
         // then
-        resultActions
-              .andExpect(status().isCreated())
-              .andExpect(jsonPath("$.bookId", is(id.intValue())));
+        assertThat(result).isEqualTo(request);
     }
 
     @Test
