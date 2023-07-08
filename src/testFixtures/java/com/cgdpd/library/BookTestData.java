@@ -31,7 +31,6 @@ public class BookTestData {
     }
 
     public static BookEntity.BookEntityBuilder bookEntityFromRequest(CreateBookRequestDTO request) {
-
         return BookEntity.builder()
               .id(1L)
               .title(request.title())

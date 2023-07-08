@@ -97,7 +97,7 @@ public class ValidatorTest {
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("Invalid %s. %s is after the current date", paramName,
-                    value.orElse(null)));
+                    value.orElseThrow()));
     }
 
     @Test

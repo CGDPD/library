@@ -1,6 +1,7 @@
 package com.cgdp.library.service;
 
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
@@ -9,7 +10,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 
 import com.cgdp.library.dto.book.BookDTO;
 import com.cgdp.library.dto.book.CreateBookRequestDTO;
-import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.entity.BookEntity;
 import com.cgdp.library.exceptions.NotFoundException;
 import com.cgdp.library.mapper.BookMapper;
@@ -46,7 +46,7 @@ class BookServiceTest {
         // given
         CreateBookRequestDTO request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(true);
-        BookEntity bookEntity = bookEntityFromRequest(request);
+        BookEntity bookEntity = bookEntityFromRequest(request).build();
         given(bookRepository.save(captor.capture())).willReturn(bookEntity);
 
         // when
@@ -56,15 +56,13 @@ class BookServiceTest {
         assertThat(bookDTO.id()).isEqualTo(bookEntity.getId());
         assertThat(bookDTO.title()).isEqualTo(request.title());
         assertThat(bookDTO.authorId()).isEqualTo(request.authorId());
-        assertThat(bookDTO.publicationYear().orElse(null)).isEqualTo(
-              request.publicationYear().orElse(null));
+        assertThat(bookDTO.publicationYear()).isEqualTo(request.publicationYear());
         assertThat(bookDTO.isbn()).isEqualTo(request.isbn());
         assertThat(bookDTO.genre()).isEqualTo(request.genre());
         verify(bookRepository).save(captor.getValue());
         assertThat(request.title()).isEqualTo(captor.getValue().getTitle());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(captor.getValue().getAuthorEntity());
-        assertThat(request.publicationYear().orElse(null)).isEqualTo(
-              captor.getValue().getPublicationYear());
+        assertThat(request.publicationYear()).hasValue(captor.getValue().getPublicationYear());
         assertThat(request.isbn()).isEqualTo(captor.getValue().getIsbn());
         assertThat(request.genre()).isEqualTo(captor.getValue().getGenre());
     }
@@ -81,16 +79,5 @@ class BookServiceTest {
               .hasMessage(String.format("Author with id %s not found", request.authorId()));
 
         verifyNoInteractions(bookRepository);
-    }
-
-    private BookEntity bookEntityFromRequest(CreateBookRequestDTO request) {
-        return BookEntity.builder()
-              .id(1L)
-              .title(request.title())
-              .authorEntity(AuthorEntity.builder().id(request.authorId()).build())
-              .publicationYear(request.publicationYear().orElse(null))
-              .isbn(request.isbn())
-              .genre(request.genre())
-              .build();
     }
 }
