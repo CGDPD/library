@@ -12,12 +12,15 @@ import lombok.Builder;
 @Builder
 public record CreateBookRequestDTO(String title,
                                    Long authorId,
-                                   Optional<LocalDate> publicationYear,
                                    String isbn,
-                                   String genre) {
+                                   String genre,
+                                   Optional<LocalDate> publicationYear) {
 
-    public CreateBookRequestDTO(String title, Long authorId,
-                                Optional<LocalDate> publicationYear, String isbn, String genre) {
+    public CreateBookRequestDTO(String title,
+                                Long authorId,
+                                String isbn,
+                                String genre,
+                                Optional<LocalDate> publicationYear) {
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);
         this.publicationYear = checkBeforeNow("publicationYear", publicationYear);

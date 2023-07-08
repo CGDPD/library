@@ -13,17 +13,21 @@ import lombok.Builder;
 public record BookDTO(Long id,
                       String title,
                       Long authorId,
-                      Optional<LocalDate> publicationYear,
                       String isbn,
-                      String genre) {
+                      String genre,
+                      Optional<LocalDate> publicationYear) {
 
-    public BookDTO(Long id, String title, Long authorId,
-                   Optional<LocalDate> publicationYear, String isbn, String genre) {
+    public BookDTO(Long id,
+                   String title,
+                   Long authorId,
+                   String isbn,
+                   String genre,
+                   Optional<LocalDate> publicationYear) {
         this.id = required("id", id);
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);
-        this.publicationYear = checkBeforeNow("publicationYear", publicationYear);
         this.isbn = requiredValidIsbn("isbn", isbn);
         this.genre = requiredNotBlank("genre", genre);
+        this.publicationYear = checkBeforeNow("publicationYear", publicationYear);
     }
 }
