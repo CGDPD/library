@@ -28,7 +28,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void should_create_book() throws Exception {
+    public void should_create_book() {
         // given
         CreateBookRequestDTO request = aCreateBookRequestDTO().build();
         Long id = 1L;

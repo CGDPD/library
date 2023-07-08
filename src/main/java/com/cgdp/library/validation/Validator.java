@@ -20,11 +20,8 @@ public class Validator {
     }
 
     public static Optional<LocalDate> checkBeforeNow(String paramName, Optional<LocalDate> value) {
-        if (value.isPresent()) {
-            LocalDate date = value.get();
-            validate(() -> date.isAfter(LocalDate.now()),
-                  "Invalid %s. %s is after the current date", paramName, date);
-        }
+        value.ifPresent(date -> validate(() -> date.isAfter(LocalDate.now()),
+              "Invalid %s. %s is after the current date", paramName, date));
         return value;
     }
 

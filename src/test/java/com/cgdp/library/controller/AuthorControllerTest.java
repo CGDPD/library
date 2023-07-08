@@ -30,9 +30,10 @@ public class AuthorControllerTest {
     void should_create_author() {
         // given
         String authorName = "John Doe";
+        Long id = 1L;
         CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
-        AuthorDTO authorDTO = new AuthorDTO(1L, authorName);
+        AuthorDTO authorDTO = new AuthorDTO(id, authorName);
         when(authorService.createAuthor(authorName)).thenReturn(authorDTO);
 
         // when
@@ -40,7 +41,7 @@ public class AuthorControllerTest {
 
         // then
         assertThat(responseDTO).isNotNull();
-        assertThat(responseDTO.id()).isEqualTo(1L);
+        assertThat(responseDTO.id()).isEqualTo(id);
         assertThat(responseDTO.authorName()).isEqualTo(authorName);
     }
 }
