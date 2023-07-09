@@ -2,10 +2,10 @@ package com.cgdpd.library;
 
 import static com.cgdpd.library.AuthorTestData.anAuthor;
 
-import com.cgdp.library.dto.book.BookDTO;
-import com.cgdp.library.dto.book.CreateBookRequestDTO;
-import com.cgdp.library.entity.AuthorEntity;
-import com.cgdp.library.entity.BookEntity;
+import com.cgdpd.library.dto.book.BookDTO;
+import com.cgdpd.library.dto.book.CreateBookRequestDTO;
+import com.cgdpd.library.entity.AuthorEntity;
+import com.cgdpd.library.entity.BookEntity;
 import java.time.LocalDate;
 import java.util.Optional;
 
