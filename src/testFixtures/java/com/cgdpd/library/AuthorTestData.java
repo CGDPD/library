@@ -1,6 +1,6 @@
 package com.cgdpd.library;
 
-import com.cgdp.library.entity.AuthorEntity;
+import com.cgdpd.library.entity.AuthorEntity;
 
 public class AuthorTestData {
 
