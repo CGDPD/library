@@ -15,6 +15,7 @@ import com.cgdp.library.exceptions.NotFoundException;
 import com.cgdp.library.mapper.BookMapper;
 import com.cgdp.library.mapper.BookMapperImpl;
 import com.cgdp.library.repository.BookRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -35,10 +36,17 @@ class BookServiceTest {
     private ArgumentCaptor<BookEntity> captor;
 
 
+    private AutoCloseable closeable;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void openMocks() {
+        closeable = MockitoAnnotations.openMocks(this);
         this.bookService = new BookService(bookRepository, bookMapper, authorService);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeable.close();
     }
 
     @Test

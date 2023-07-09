@@ -8,6 +8,7 @@ import com.cgdp.library.dto.book.BookDTO;
 import com.cgdp.library.dto.book.CreateBookRequestDTO;
 import com.cgdp.library.service.BookService;
 import com.cgdpd.library.BookTestData;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,9 +23,16 @@ class BookControllerTest {
     @InjectMocks
     private BookController bookController;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void openMocks() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeable.close();
     }
 
     @Test

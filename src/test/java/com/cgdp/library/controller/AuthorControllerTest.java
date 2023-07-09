@@ -7,6 +7,7 @@ import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdp.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdp.library.service.AuthorService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,9 +22,16 @@ public class AuthorControllerTest {
     @InjectMocks
     private AuthorController authorController;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void openMocks() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeable.close();
     }
 
     @Test

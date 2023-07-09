@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.repository.AuthorRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -26,9 +27,16 @@ public class AuthorServiceTest {
     @Captor
     private ArgumentCaptor<AuthorEntity> captor;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void openMocks() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeable.close();
     }
 
     @Test
