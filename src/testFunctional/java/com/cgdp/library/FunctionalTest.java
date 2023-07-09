@@ -15,7 +15,7 @@ import org.testcontainers.utility.DockerImageName;
 @SpringBootTest
 public class FunctionalTest {
 
-    static PostgreSQLContainer<?> postgres = SingletonPostgreSQLContainer.getInstance();
+    private static final PostgreSQLContainer<?> postgres = SingletonPostgreSQLContainer.getInstance();
 
     @Autowired
     private Flyway flyway;

@@ -12,6 +12,8 @@ import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdp.library.entity.AuthorEntity;
 import com.cgdp.library.repository.AuthorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -21,9 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Optional;
 
 @AutoConfigureMockMvc
 public class AuthorControllerFunctionalTest extends FunctionalTest {
@@ -59,16 +58,14 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
         assertThat(authorEntity.get().getName()).isEqualTo(authorName);
     }
 
-
-
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
         String requestBody = """
-        {
-            "authorName": ""
-        }
-        """;
+              {
+                  "authorName": ""
+              }
+              """;
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/authors")

@@ -1,7 +1,7 @@
 package com.cgdp.library.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import com.cgdp.library.dto.author.AuthorDTO;
 import com.cgdp.library.dto.author.CreateAuthorRequestDTO;
@@ -34,7 +34,7 @@ public class AuthorControllerTest {
         CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
         AuthorDTO authorDTO = new AuthorDTO(id, authorName);
-        when(authorService.createAuthor(authorName)).thenReturn(authorDTO);
+        given(authorService.createAuthor(authorName)).willReturn(authorDTO);
 
         // when
         CreateAuthorResponseDTO responseDTO = authorController.createAuthor(createAuthorRequestDTO);
