@@ -6,14 +6,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.cgdpd.library.AuthorTestData;
+import com.cgdpd.library.BookTestData;
 import com.cgdpd.library.FunctionalTest;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.repository.BookRepository;
-import com.cgdpd.library.AuthorTestData;
-import com.cgdpd.library.BookTestData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.UnsupportedEncodingException;
 import org.json.JSONException;

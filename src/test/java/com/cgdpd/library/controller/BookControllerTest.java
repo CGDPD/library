@@ -4,10 +4,10 @@ import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import com.cgdpd.library.BookTestData;
 import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.service.BookService;
-import com.cgdpd.library.BookTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
