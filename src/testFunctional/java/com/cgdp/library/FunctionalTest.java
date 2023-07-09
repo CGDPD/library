@@ -20,6 +20,13 @@ public class FunctionalTest {
     @Autowired
     private Flyway flyway;
 
+    @DynamicPropertySource
+    static void setDatasourceProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
     @BeforeEach
     public void setUp() {
         flyway.migrate();
@@ -28,13 +35,6 @@ public class FunctionalTest {
     @AfterEach
     public void tearDown() {
         flyway.clean();
-    }
-
-    @DynamicPropertySource
-    static void setDatasourceProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
     }
 
     private static class SingletonPostgreSQLContainer {

@@ -15,6 +15,7 @@ import com.cgdp.library.repository.BookRepository;
 import com.cgdpd.library.AuthorTestData;
 import com.cgdpd.library.BookTestData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.UnsupportedEncodingException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -24,8 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.io.UnsupportedEncodingException;
 
 @AutoConfigureMockMvc
 public class BookControllerFunctionalTest extends FunctionalTest {
@@ -64,7 +63,8 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         BookEntity bookEntity = bookRepository.findById(id).orElseThrow();
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(authorEntity);
-        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear().orElse(null));
+        assertThat(bookEntity.getPublicationYear())
+              .isEqualTo(request.publicationYear().orElseThrow());
         assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
