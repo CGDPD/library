@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -27,15 +26,15 @@ public class UserEntity {
     @EqualsAndHashCode.Include
     private long id;
 
-    @Column(name = "first_name", nullable = false, length = 50)
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "year_of_birth", nullable = false, length = 10)
+    @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
 
-    @Column(name = "gender")
+    @Column(name = "gender", length = 100)
     private String gender;
 }
