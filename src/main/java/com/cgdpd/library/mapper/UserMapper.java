@@ -19,10 +19,12 @@ public interface UserMapper {
     @Mapping(source = "gender", target = "gender", qualifiedByName = "optionalToString")
     UserDTO mapToUserDto(UserEntity userEntity);
 
+    @Named("stringToOptional")
     default Optional<String> stringToOptional(String value) {
         return Optional.ofNullable(value);
     }
 
+    @Named("optionalToString")
     default String optionalToString(Optional<String> optional) {
         return optional.orElse(null);
     }
