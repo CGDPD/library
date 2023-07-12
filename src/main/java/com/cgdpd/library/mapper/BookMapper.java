@@ -12,20 +12,20 @@ import org.mapstruct.Named;
 public interface BookMapper {
 
     @Mapping(source = "authorId", target = "authorEntity.id")
-    @Mapping(source = "publicationYear", target = "publicationYear", qualifiedByName = "mapOptionalToLocalDate")
+    @Mapping(source = "publicationYear", target = "publicationYear", qualifiedByName = "mapOptionalToShort")
     BookEntity mapToBookEntity(CreateBookRequestDTO requestDTO);
 
     @Mapping(source = "authorEntity.id", target = "authorId")
-    @Mapping(source = "publicationYear", target = "publicationYear", qualifiedByName = "mapLocalDateToOptional")
+    @Mapping(source = "publicationYear", target = "publicationYear", qualifiedByName = "mapShortToOptional")
     BookDTO mapToBookDTO(BookEntity bookEntity);
 
-    @Named("mapOptionalToLocalDate")
-    default Short mapOptionalToLocalDate(Optional<Short> value) {
+    @Named("mapOptionalToShort")
+    default Short mapOptionalToShort(Optional<Short> value) {
         return value.orElse(null);
     }
 
-    @Named("mapLocalDateToOptional")
-    default Optional<Short> mapLocalDateToOptional(Short value) {
+    @Named("mapShortToOptional")
+    default Optional<Short> mapShortToOptional(Short value) {
         return Optional.ofNullable(value);
     }
 }

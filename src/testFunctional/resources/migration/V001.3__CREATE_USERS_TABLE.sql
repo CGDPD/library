@@ -7,3 +7,4 @@ create table users
     gender        varchar(6) check (gender in ('male', 'female')),
     primary key (id)
 );
+

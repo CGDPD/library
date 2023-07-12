@@ -6,7 +6,7 @@ create table author
 );
 create table books
 (
-    publication_year smallint,
+    publication_year date,
     author_id        bigint       not null,
     id               bigserial    not null,
     genre            varchar(100) not null,

@@ -15,7 +15,7 @@ public class IsbnValidatorTest {
         // when
         boolean isValid = isValidIsbn(validIsbn);
 
-        //then
+        // then
         assertThat(isValid).isTrue();
     }
 
@@ -24,7 +24,7 @@ public class IsbnValidatorTest {
         // given
         String invalidIsbn = "9780134685992";
 
-        //when
+        // when
         boolean isValid = isValidIsbn(invalidIsbn);
 
         // then
@@ -36,7 +36,7 @@ public class IsbnValidatorTest {
         // given
         String invalidIsbn = "9780a3468b5991";
 
-        //when
+        // when
         boolean isValid = isValidIsbn(invalidIsbn);
 
         // then
@@ -48,7 +48,7 @@ public class IsbnValidatorTest {
         // given
         String invalidIsbn = "97801346859";
 
-        //when
+        // when
         boolean isValid = isValidIsbn(invalidIsbn);
 
         // then
@@ -60,7 +60,7 @@ public class IsbnValidatorTest {
         // given
         String invalidIsbn = "9780134685999";
 
-        //when
+        // when
         boolean isValid = isValidIsbn(invalidIsbn);
 
         // then
@@ -72,7 +72,7 @@ public class IsbnValidatorTest {
         // given
         String invalidIsbn = "1234567890123";
 
-        //when
+        // when
         boolean isValid = isValidIsbn(invalidIsbn);
 
         // then

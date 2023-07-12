@@ -1,6 +1,5 @@
 package com.cgdpd.library.entity;
 
-import com.cgdpd.library.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,5 +36,5 @@ public class UserEntity {
     private short yearOfBirth;
 
     @Column(name = "gender", length = 6)
-    private Gender gender;
+    private String gender;
 }
