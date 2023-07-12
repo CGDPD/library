@@ -17,7 +17,7 @@ public class Validator {
         return value;
     }
 
-    public static Optional<Short> checkBeforeNow(String paramName, Optional<Short> value) {
+    public static Optional<Short> checkYearNotFuture(String paramName, Optional<Short> value) {
         value.ifPresent(year -> {
             int currentYear = LocalDate.now().getYear();
             validate(() -> year > currentYear,

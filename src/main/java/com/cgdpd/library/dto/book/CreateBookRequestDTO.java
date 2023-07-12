@@ -1,6 +1,6 @@
 package com.cgdpd.library.dto.book;
 
-import static com.cgdpd.library.validation.Validator.checkBeforeNow;
+import static com.cgdpd.library.validation.Validator.checkYearNotFuture;
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 import static com.cgdpd.library.validation.Validator.requiredValidIsbn;
@@ -22,7 +22,7 @@ public record CreateBookRequestDTO(String title,
                                 Optional<Short> publicationYear) {
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);
-        this.publicationYear = checkBeforeNow("publicationYear", publicationYear);
+        this.publicationYear = checkYearNotFuture("publicationYear", publicationYear);
         this.isbn = requiredValidIsbn("isbn", isbn);
         this.genre = requiredNotBlank("genre", genre);
     }

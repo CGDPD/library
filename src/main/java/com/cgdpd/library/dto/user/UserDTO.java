@@ -4,7 +4,6 @@ import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 
 import java.util.Optional;
-import com.cgdpd.library.Gender;
 import lombok.Builder;
 
 @Builder

@@ -91,7 +91,7 @@ public class ValidatorTest {
 
         // when
         Throwable thrownException = catchThrowable(
-              () -> Validator.checkBeforeNow(paramName, value));
+              () -> Validator.checkYearNotFuture(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -101,13 +101,13 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_return_year_value_before_now() {
+    void should_return_year_value_when_it_is_not_future_year() {
         // given
         String paramName = "value";
         Optional<Short> value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        Optional<Short> result = Validator.checkBeforeNow(paramName, value);
+        Optional<Short> result = Validator.checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
