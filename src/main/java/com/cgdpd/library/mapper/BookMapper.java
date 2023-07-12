@@ -3,7 +3,6 @@ package com.cgdpd.library.mapper;
 import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.BookEntity;
-import java.time.LocalDate;
 import java.util.Optional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,12 +20,12 @@ public interface BookMapper {
     BookDTO mapToBookDTO(BookEntity bookEntity);
 
     @Named("mapOptionalToLocalDate")
-    default LocalDate mapOptionalToLocalDate(Optional<LocalDate> value) {
+    default Short mapOptionalToLocalDate(Optional<Short> value) {
         return value.orElse(null);
     }
 
     @Named("mapLocalDateToOptional")
-    default Optional<LocalDate> mapLocalDateToOptional(LocalDate value) {
+    default Optional<Short> mapLocalDateToOptional(Short value) {
         return Optional.ofNullable(value);
     }
 }

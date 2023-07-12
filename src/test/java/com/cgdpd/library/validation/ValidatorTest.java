@@ -84,34 +84,35 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_date_value_is_after_now() {
-        //given
+    void should_throw_exception_when_year_value_is_after_now() {
+        // Given
         String paramName = "value";
-        Optional<LocalDate> value = Optional.of(LocalDate.now().plusDays(1));
+        Optional<Short> value = Optional.of((short) (LocalDate.now().getYear() + 1));
 
-        //when
+        // When
         Throwable thrownException = catchThrowable(
               () -> Validator.checkBeforeNow(paramName, value));
 
-        //then
+        // Then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("Invalid %s. %s is after the current date", paramName,
+              .hasMessage(String.format("Invalid %s. %s is after the current year", paramName,
                     value.orElseThrow()));
     }
 
     @Test
-    void should_return_date_value_before_now() {
-        // given
+    void should_return_year_value_before_now() {
+        // Given
         String paramName = "value";
-        Optional<LocalDate> value = Optional.of(LocalDate.now().minusDays(1));
+        Optional<Short> value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
-        // when
-        Optional<LocalDate> result = Validator.checkBeforeNow(paramName, value);
+        // When
+        Optional<Short> result = Validator.checkBeforeNow(paramName, value);
 
-        // then
+        // Then
         assertThat(result).isEqualTo(value);
     }
+
 
     @Test
     void should_throw_exception_when_isbn_value_is_invalid() {

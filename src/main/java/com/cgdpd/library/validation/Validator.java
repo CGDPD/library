@@ -17,9 +17,12 @@ public class Validator {
         return value;
     }
 
-    public static Optional<LocalDate> checkBeforeNow(String paramName, Optional<LocalDate> value) {
-        value.ifPresent(date -> validate(() -> date.isAfter(LocalDate.now()),
-              "Invalid %s. %s is after the current date", paramName, date));
+    public static Optional<Short> checkBeforeNow(String paramName, Optional<Short> value) {
+        value.ifPresent(year -> {
+            int currentYear = LocalDate.now().getYear();
+            validate(() -> year > currentYear,
+                  "Invalid %s. %s is after the current year", paramName, year);
+        });
         return value;
     }
 
