@@ -40,15 +40,15 @@ public class ValidatorTest {
 
     @Test
     void should_throw_exception_when_value_is_blank() {
-        //given
+        // given
         String paramName = "value";
         String value = "";
 
-        //when
+        // when
         Throwable thrownException = catchThrowable(
               () -> Validator.requiredNotBlank(paramName, value));
 
-        //then
+        // then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("%s must not be null or blank", paramName));
@@ -69,45 +69,45 @@ public class ValidatorTest {
 
     @Test
     void should_throw_exception_when_the_value_is_null() {
-        //given
+        // given
         String paramName = "value";
         String value = null;
 
-        //when
+        // when
         Throwable thrownException = catchThrowable(
               () -> Validator.requiredNotBlank(paramName, value));
 
-        //then
+        // then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("%s must not be null or blank", paramName));
     }
 
     @Test
-    void should_throw_exception_when_date_value_is_after_now() {
-        //given
+    void should_throw_exception_when_year_value_is_after_now() {
+        // given
         String paramName = "value";
-        Optional<LocalDate> value = Optional.of(LocalDate.now().plusDays(1));
+        Optional<Short> value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
 
-        //when
+        // when
         Throwable thrownException = catchThrowable(
-              () -> Validator.checkBeforeNow(paramName, value));
+              () -> Validator.checkYearNotFuture(paramName, value));
 
-        //then
+        // then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("Invalid %s. %s is after the current date", paramName,
+              .hasMessage(String.format("Invalid %s. %s is after the current year", paramName,
                     value.orElseThrow()));
     }
 
     @Test
-    void should_return_date_value_before_now() {
+    void should_return_year_value_when_it_is_not_future_year() {
         // given
         String paramName = "value";
-        Optional<LocalDate> value = Optional.of(LocalDate.now().minusDays(1));
+        Optional<Short> value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        Optional<LocalDate> result = Validator.checkBeforeNow(paramName, value);
+        Optional<Short> result = Validator.checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -115,15 +115,15 @@ public class ValidatorTest {
 
     @Test
     void should_throw_exception_when_isbn_value_is_invalid() {
-        //given
+        // given
         String paramName = "value";
         String value = "9780134685992";
 
-        //when
+        // when
         Throwable thrownException = catchThrowable(
               () -> Validator.requiredValidIsbn(paramName, value));
 
-        //then
+        // then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
@@ -133,15 +133,15 @@ public class ValidatorTest {
 
     @Test
     void should_throw_exception_when_isbn_value_is_blank() {
-        //given
+        // given
         String paramName = "value";
         String value = "";
 
-        //when
+        // when
         Throwable thrownException = catchThrowable(
               () -> Validator.requiredValidIsbn(paramName, value));
 
-        //then
+        // then
         assertThat(thrownException)
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(

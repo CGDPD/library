@@ -6,7 +6,6 @@ import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
-import java.time.LocalDate;
 import java.util.Optional;
 
 public class BookTestData {
@@ -15,7 +14,7 @@ public class BookTestData {
         return CreateBookRequestDTO.builder()
               .title("The Lord Of The Rings")
               .authorId(1L)
-              .publicationYear(Optional.of(LocalDate.of(1997, 1, 1)))
+              .publicationYear(Optional.of((short) 1997))
               .isbn("978-0007632190")
               .genre("Fiction");
     }
@@ -25,7 +24,7 @@ public class BookTestData {
               .id(1L)
               .title("The Lord Of The Rings")
               .authorEntity(anAuthor().build())
-              .publicationYear(LocalDate.of(1997, 1, 1))
+              .publicationYear((short) 1997)
               .isbn("978-0007632190")
               .genre("Fiction");
     }
