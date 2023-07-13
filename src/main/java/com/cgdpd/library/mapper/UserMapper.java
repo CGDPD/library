@@ -11,10 +11,9 @@ public interface UserMapper {
 
     UserDTO mapToUserDto(UserEntity userEntity);
 
-    default Optional<Gender> map(String value) {
-        if (value == null) {
-            return Optional.empty();
-        }
-        return Optional.of(Gender.valueOf(value.toUpperCase()));
+    default Optional<Gender> stringToGender(String value) {
+        return Optional.ofNullable(value)
+              .map(String::toUpperCase)
+              .map(Gender::valueOf);
     }
 }
