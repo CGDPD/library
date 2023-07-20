@@ -2,8 +2,6 @@ package com.cgdpd.library.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,25 +15,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "book_copy")
+@Table(name = "book_copies")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookCopy {
+public class BookCopyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @JoinColumn(name = "book_id", nullable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_book_id"))
     @ManyToOne
     private BookEntity bookEntity;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "tracking_status", nullable = false)
-    private TrackingStatus trackingStatus;
+    private String trackingStatus;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_user_id"))
     @ManyToOne

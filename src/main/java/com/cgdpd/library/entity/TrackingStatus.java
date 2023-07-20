@@ -59,4 +59,3 @@ public enum TrackingStatus {
         REFERENCE.addNextStatus(RETIRED, true);
     }
 }
-
