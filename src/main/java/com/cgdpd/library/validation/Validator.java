@@ -44,7 +44,6 @@ public class Validator {
                 validate(() -> value.isEmpty(), "%s must be empty for trackingStatus %s", paramName,
                       trackingStatus);
                 break;
-            case BEING_PROCESSED:
             case AVAILABLE:
             case RETIRED:
             case REFERENCE:

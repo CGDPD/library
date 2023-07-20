@@ -1,10 +1,11 @@
 package com.cgdpd.library.entity;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public enum TrackingStatus {
-    BEING_PROCESSED("Being Processed"),
     AVAILABLE("Available"),
     ON_HOLD("On Hold"),
     CHECKED_OUT("Checked Out"),
@@ -13,49 +14,54 @@ public enum TrackingStatus {
     REFERENCE("Reference");
 
     private final String status;
-    private final Map<TrackingStatus, Boolean> nextStatuses;
+    private static final Map<TrackingStatus, Set<TrackingStatus>> nextStatuses = new HashMap<>();
 
     TrackingStatus(String status) {
         this.status = status;
-        this.nextStatuses = new HashMap<>();
     }
 
     public String getStatus() {
         return status;
     }
 
-    public Map<TrackingStatus, Boolean> getNextStatuses() {
+    public Map<TrackingStatus, Set<TrackingStatus>> getNextStatuses() {
         return nextStatuses;
     }
 
-    public void addNextStatus(TrackingStatus nextStatus, boolean available) {
-        nextStatuses.put(nextStatus, available);
+    public void addNextStatus(TrackingStatus nextStatus) {
+        nextStatuses.computeIfAbsent(this, k -> EnumSet.noneOf(TrackingStatus.class))
+              .add(nextStatus);
     }
 
     public boolean isNextStatusAvailable(TrackingStatus nextStatus) {
-        return nextStatuses.getOrDefault(nextStatus, false);
+        return nextStatuses.getOrDefault(this, EnumSet.noneOf(TrackingStatus.class))
+              .contains(nextStatus);
+    }
+
+    public TrackingStatus getNextStatus() {
+        Set<TrackingStatus> nextStatusSet = nextStatuses.getOrDefault(this, EnumSet.noneOf(TrackingStatus.class));
+        if (nextStatusSet.isEmpty()) {
+            return null;
+        }
+        return nextStatusSet.iterator().next();
     }
 
     static {
-        BEING_PROCESSED.addNextStatus(AVAILABLE, true);
-        BEING_PROCESSED.addNextStatus(REFERENCE, true);
-        BEING_PROCESSED.addNextStatus(RETIRED, true);
+        AVAILABLE.addNextStatus(CHECKED_OUT);
+        AVAILABLE.addNextStatus(ON_HOLD);
+        AVAILABLE.addNextStatus(LOST);
+        AVAILABLE.addNextStatus(RETIRED);
 
-        AVAILABLE.addNextStatus(CHECKED_OUT, true);
-        AVAILABLE.addNextStatus(ON_HOLD, true);
-        AVAILABLE.addNextStatus(LOST, true);
-        AVAILABLE.addNextStatus(RETIRED, true);
+        ON_HOLD.addNextStatus(CHECKED_OUT);
+        ON_HOLD.addNextStatus(AVAILABLE);
 
-        ON_HOLD.addNextStatus(CHECKED_OUT, true);
-        ON_HOLD.addNextStatus(AVAILABLE, true);
+        CHECKED_OUT.addNextStatus(LOST);
+        CHECKED_OUT.addNextStatus(AVAILABLE);
 
-        CHECKED_OUT.addNextStatus(LOST, true);
-        CHECKED_OUT.addNextStatus(AVAILABLE, true);
+        LOST.addNextStatus(AVAILABLE);
+        LOST.addNextStatus(RETIRED);
 
-        LOST.addNextStatus(AVAILABLE, true);
-        LOST.addNextStatus(RETIRED, true);
-
-        REFERENCE.addNextStatus(AVAILABLE, true);
-        REFERENCE.addNextStatus(RETIRED, true);
+        REFERENCE.addNextStatus(AVAILABLE);
+        REFERENCE.addNextStatus(RETIRED);
     }
 }

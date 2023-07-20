@@ -22,4 +22,17 @@ public record BookCopyDTO(Long id,
         this.trackingStatus = required("trackingStatus", trackingStatus);
         this.userId = checkTrackingStatus("userId", trackingStatus, userId);
     }
+
+    public static BookCopyDTO create(Long id, Long bookId) {
+        return new BookCopyDTO(id, bookId, TrackingStatus.AVAILABLE, Optional.empty());
+    }
+
+    public BookCopyDTO withStatus(TrackingStatus newStatus) {
+        return new BookCopyDTO(this.id, this.bookId, newStatus, this.userId);
+    }
+
+    public BookCopyDTO withUserId(Long userId) {
+        return new BookCopyDTO(this.id, this.bookId, this.trackingStatus,
+              Optional.ofNullable(userId));
+    }
 }
