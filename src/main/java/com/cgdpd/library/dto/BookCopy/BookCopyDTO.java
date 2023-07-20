@@ -1,5 +1,6 @@
 package com.cgdpd.library.dto.BookCopy;
 
+import static com.cgdpd.library.validation.Validator.checkTrackingStatus;
 import static com.cgdpd.library.validation.Validator.required;
 
 import com.cgdpd.library.entity.TrackingStatus;
@@ -19,6 +20,6 @@ public record BookCopyDTO(Long id,
         this.id = required("id", id);
         this.bookId = required("bookId", bookId);
         this.trackingStatus = required("trackingStatus", trackingStatus);
-        this.userId = userId;
+        this.userId = checkTrackingStatus("userId", trackingStatus, userId);
     }
 }
