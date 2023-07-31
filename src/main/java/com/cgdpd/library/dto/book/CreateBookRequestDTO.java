@@ -6,17 +6,18 @@ import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 import static com.cgdpd.library.validation.Validator.requiredValidIsbn;
 
 import java.util.Optional;
+import com.cgdpd.library.type.AuthorId;
 import lombok.Builder;
 
 @Builder
 public record CreateBookRequestDTO(String title,
-                                   Long authorId,
+                                   AuthorId authorId,
                                    String isbn,
                                    String genre,
                                    Optional<Short> publicationYear) {
 
     public CreateBookRequestDTO(String title,
-                                Long authorId,
+                                AuthorId authorId,
                                 String isbn,
                                 String genre,
                                 Optional<Short> publicationYear) {

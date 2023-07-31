@@ -4,6 +4,7 @@ import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.dto.book.copy.TrackingStatus;
+import com.cgdpd.library.type.UserId;
 import org.junit.jupiter.api.Test;
 
 class BookCopyMapperTest {
@@ -19,10 +20,10 @@ class BookCopyMapperTest {
         var result = bookCopyMapper.mapToBookCopyDto(bookCopyEntity);
 
         // then
-        assertThat(result.id()).isEqualTo(bookCopyEntity.getId());
-        assertThat(result.bookId()).isEqualTo(bookCopyEntity.getBookEntity().getId());
+        assertThat(result.id().value()).isEqualTo(bookCopyEntity.getId());
+        assertThat(result.bookId().value()).isEqualTo(bookCopyEntity.getBookEntity().getId());
         assertThat(result.trackingStatus()).isEqualTo(
               TrackingStatus.valueOf(bookCopyEntity.getTrackingStatus()));
-        assertThat(result.userId()).hasValue(bookCopyEntity.getUserEntity().getId());
+        assertThat(result.userId()).hasValue(UserId.of(bookCopyEntity.getUserEntity().getId()));
     }
 }

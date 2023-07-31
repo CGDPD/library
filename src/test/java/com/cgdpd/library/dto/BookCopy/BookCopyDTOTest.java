@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.cgdpd.library.exceptions.ValidationException;
 import java.util.Optional;
+import com.cgdpd.library.type.UserId;
 import org.junit.jupiter.api.Test;
 
 class BookCopyDTOTest {
@@ -22,7 +23,7 @@ class BookCopyDTOTest {
         // when
         var book = aBookCopy()
               .trackingStatus(CHECKED_OUT)
-              .userId(Optional.of(4L))
+              .userId(Optional.of(UserId.of(4L)))
               .build();
 
         // then
@@ -46,7 +47,7 @@ class BookCopyDTOTest {
         assertThatThrownBy(
               () -> aBookCopy()
                     .trackingStatus(REFERENCE)
-                    .userId(Optional.of(4L))
+                    .userId(Optional.of(UserId.of(4L)))
                     .build())
               .isInstanceOf(ValidationException.class);
     }
@@ -74,7 +75,7 @@ class BookCopyDTOTest {
               .build();
 
         // when
-        var result = book.onHold(4L);
+        var result = book.onHold(UserId.of(4L));
 
         // then
         assertThat(result.trackingStatus()).isEqualTo(ON_HOLD);
@@ -89,7 +90,7 @@ class BookCopyDTOTest {
               .build();
 
         // then
-        assertThatThrownBy(() -> book.onHold(4L))
+        assertThatThrownBy(() -> book.onHold(UserId.of(4L)))
               .isInstanceOf(ValidationException.class);
     }
 
@@ -102,7 +103,7 @@ class BookCopyDTOTest {
               .build();
 
         // when
-        var result = book.checkedOut(4L);
+        var result = book.checkedOut(UserId.of(4L));
 
         // then
         assertThat(result.trackingStatus()).isEqualTo(CHECKED_OUT);
@@ -116,7 +117,7 @@ class BookCopyDTOTest {
               .build();
 
         // then
-        assertThatThrownBy(() -> book.checkedOut(4L))
+        assertThatThrownBy(() -> book.checkedOut(UserId.of(4L)))
               .isInstanceOf(ValidationException.class);
     }
 

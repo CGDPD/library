@@ -61,7 +61,7 @@ class BookServiceTest {
         BookDTO bookDTO = bookService.createBook(request);
 
         // then
-        assertThat(bookDTO.id()).isEqualTo(bookEntity.getId());
+        assertThat(bookDTO.id().value()).isEqualTo(bookEntity.getId());
         assertThat(bookDTO.title()).isEqualTo(request.title());
         assertThat(bookDTO.authorId()).isEqualTo(request.authorId());
         assertThat(bookDTO.publicationYear()).isEqualTo(request.publicationYear());

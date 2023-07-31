@@ -9,15 +9,18 @@ import static com.cgdpd.library.dto.book.copy.TrackingStatus.RETIRED;
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.validate;
 
+import com.cgdpd.library.type.BookCopyId;
+import com.cgdpd.library.type.BookId;
+import com.cgdpd.library.type.UserId;
 import java.util.Optional;
 import java.util.Set;
 import lombok.Builder;
 
 @Builder
-public record BookCopyDTO(Long id,
-                          Long bookId,
+public record BookCopyDTO(BookCopyId id,
+                          BookId bookId,
                           TrackingStatus trackingStatus,
-                          Optional<Long> userId) {
+                          Optional<UserId> userId) {
 
     private static final Set<TrackingStatus> MANDATORY_USER_ID_WITH_STATUS = Set.of(
           ON_HOLD,
@@ -25,10 +28,10 @@ public record BookCopyDTO(Long id,
     private static final Set<TrackingStatus> OPTIONAL_USER_ID_WITH_STATUS = Set.of(
           LOST);
 
-    public BookCopyDTO(Long id,
-                       Long bookId,
+    public BookCopyDTO(BookCopyId id,
+                       BookId bookId,
                        TrackingStatus trackingStatus,
-                       Optional<Long> userId) {
+                       Optional<UserId> userId) {
         this.id = required("id", id);
         this.bookId = required("bookId", bookId);
         this.trackingStatus = required("trackingStatus", trackingStatus);
@@ -40,11 +43,11 @@ public record BookCopyDTO(Long id,
         return changeStatusIfAllowed(AVAILABLE).userId(Optional.empty()).build();
     }
 
-    public BookCopyDTO onHold(Long userId) {
+    public BookCopyDTO onHold(UserId userId) {
         return changeStatusIfAllowed(ON_HOLD).userId(Optional.of(userId)).build();
     }
 
-    public BookCopyDTO checkedOut(Long userId) {
+    public BookCopyDTO checkedOut(UserId userId) {
         return changeStatusIfAllowed(CHECKED_OUT).userId(Optional.of(userId)).build();
     }
 
