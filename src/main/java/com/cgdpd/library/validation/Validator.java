@@ -1,6 +1,5 @@
 package com.cgdpd.library.validation;
 
-import com.cgdpd.library.dto.book.copy.TrackingStatus;
 import com.cgdpd.library.exceptions.ValidationException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -31,26 +30,6 @@ public class Validator {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);
-        return value;
-    }
-
-    public static Optional<Long> checkTrackingStatus(String paramName,
-                                                     TrackingStatus trackingStatus,
-                                                     Optional<Long> value) {
-        switch (trackingStatus) {
-            case ON_HOLD:
-            case CHECKED_OUT:
-            case LOST:
-                validate(() -> value.isEmpty(), "%s must be empty for trackingStatus %s", paramName,
-                      trackingStatus);
-                break;
-            case AVAILABLE:
-            case RETIRED:
-            case REFERENCE:
-                validate(() -> value.isPresent(), "%s must be present for trackingStatus %s",
-                      paramName, trackingStatus);
-                break;
-        }
         return value;
     }
 
