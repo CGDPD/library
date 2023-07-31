@@ -15,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 class TrackingStatusTest {
+
     @ParameterizedTest
     @EnumSource(TrackingStatus.class)
     void should_return_true_when_transition_is_allowed(TrackingStatus status) {
