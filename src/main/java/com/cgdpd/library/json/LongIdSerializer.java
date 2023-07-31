@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
 public class LongIdSerializer<T extends IdType> extends JsonSerializer<T> {
+
     @Override
     public void serialize(T value, JsonGenerator gen, SerializerProvider serializers)
           throws IOException {
