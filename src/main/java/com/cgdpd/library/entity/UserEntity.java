@@ -24,7 +24,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private long id;
+    private Long id;
 
     @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;

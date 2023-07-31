@@ -12,40 +12,35 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "books")
+@Table(name = "book_copies")
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class BookEntity {
+public class BookCopyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 100)
-    private String title;
-
     @JoinColumn(
-          name = "author_id",
+          name = "book_id",
           nullable = false,
           referencedColumnName = "id",
-          foreignKey = @ForeignKey(name = "fk_author_id"))
+          foreignKey = @ForeignKey(name = "fk_book_copies_book_id"))
     @ManyToOne
-    private AuthorEntity authorEntity;
+    private BookEntity bookEntity;
 
-    @Column(name = "publication_year")
-    private short publicationYear;
+    @Column(name = "tracking_status", nullable = false)
+    private String trackingStatus;
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
-
-    @Column(name = "genre", nullable = false, length = 100)
-    private String genre;
+    @JoinColumn(
+          name = "user_id",
+          referencedColumnName = "id",
+          foreignKey = @ForeignKey(name = "fk_book_copies_user_id"))
+    @ManyToOne
+    private UserEntity userEntity;
 }
