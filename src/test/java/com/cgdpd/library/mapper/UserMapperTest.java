@@ -25,7 +25,7 @@ class UserMapperTest {
         UserDTO userDTO = userMapper.mapToUserDto(userEntity);
 
         // then
-        assertThat(userDTO.id()).isEqualTo(userEntity.getId());
+        assertThat(userDTO.id().value()).isEqualTo(userEntity.getId());
         assertThat(userDTO.firstName()).isEqualTo(userEntity.getFirstName());
         assertThat(userDTO.lastName()).isEqualTo(userEntity.getLastName());
         assertThat(userDTO.yearOfBirth()).isEqualTo(userEntity.getYearOfBirth());

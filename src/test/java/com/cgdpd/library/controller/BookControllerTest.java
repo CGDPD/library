@@ -8,6 +8,7 @@ import com.cgdpd.library.BookTestData;
 import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.service.BookService;
+import com.cgdpd.library.type.BookId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,7 @@ class BookControllerTest {
     public void should_create_book() {
         // given
         CreateBookRequestDTO request = aCreateBookRequestDTO().build();
-        Long id = 1L;
-
+        BookId id = BookId.of(1L);
         BookDTO book = BookTestData.bookFromRequest(request).id(id).build();
         given(bookService.createBook(request)).willReturn(book);
 

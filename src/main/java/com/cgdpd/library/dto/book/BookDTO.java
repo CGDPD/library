@@ -5,20 +5,22 @@ import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 import static com.cgdpd.library.validation.Validator.requiredValidIsbn;
 
+import com.cgdpd.library.type.AuthorId;
+import com.cgdpd.library.type.BookId;
 import java.util.Optional;
 import lombok.Builder;
 
 @Builder
-public record BookDTO(Long id,
+public record BookDTO(BookId id,
                       String title,
-                      Long authorId,
+                      AuthorId authorId,
                       String isbn,
                       String genre,
                       Optional<Short> publicationYear) {
 
-    public BookDTO(Long id,
+    public BookDTO(BookId id,
                    String title,
-                   Long authorId,
+                   AuthorId authorId,
                    String isbn,
                    String genre,
                    Optional<Short> publicationYear) {

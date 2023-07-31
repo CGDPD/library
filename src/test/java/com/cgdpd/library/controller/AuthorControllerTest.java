@@ -7,6 +7,7 @@ import com.cgdpd.library.dto.author.AuthorDTO;
 import com.cgdpd.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdpd.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdpd.library.service.AuthorService;
+import com.cgdpd.library.type.AuthorId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class AuthorControllerTest {
     void should_create_author() {
         // given
         String authorName = "John Doe";
-        Long id = 1L;
+        AuthorId id = AuthorId.of(1L);
         CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
         AuthorDTO authorDTO = new AuthorDTO(id, authorName);

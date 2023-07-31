@@ -6,16 +6,19 @@ import static com.cgdpd.library.dto.book.copy.TrackingStatus.CHECKED_OUT;
 
 import com.cgdpd.library.dto.book.copy.BookCopyDTO;
 import com.cgdpd.library.entity.BookCopyEntity;
+import com.cgdpd.library.type.BookCopyId;
+import com.cgdpd.library.type.BookId;
+import com.cgdpd.library.type.UserId;
 import java.util.Optional;
 
 public class BookCopyTestData {
 
     public static BookCopyDTO.BookCopyDTOBuilder aBookCopy() {
         return BookCopyDTO.builder()
-              .id(1L)
-              .bookId(1L)
+              .id(BookCopyId.of(1L))
+              .bookId(BookId.of(1L))
               .trackingStatus(CHECKED_OUT)
-              .userId(Optional.of(1L));
+              .userId(Optional.of(UserId.of(1L)));
     }
 
     public static BookCopyEntity.BookCopyEntityBuilder aBookCopyEntity() {

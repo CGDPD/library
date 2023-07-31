@@ -6,6 +6,8 @@ import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
+import com.cgdpd.library.type.AuthorId;
+import com.cgdpd.library.type.BookId;
 import java.util.Optional;
 
 public class BookTestData {
@@ -13,7 +15,7 @@ public class BookTestData {
     public static CreateBookRequestDTO.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
         return CreateBookRequestDTO.builder()
               .title("The Lord Of The Rings")
-              .authorId(1L)
+              .authorId(AuthorId.of(1L))
               .publicationYear(Optional.of((short) 1997))
               .isbn("978-0007632190")
               .genre("Fiction");
@@ -33,15 +35,15 @@ public class BookTestData {
         return BookEntity.builder()
               .id(1L)
               .title(request.title())
-              .authorEntity(AuthorEntity.builder().id(request.authorId()).build())
-              .publicationYear(request.publicationYear().orElse(null))
+              .authorEntity(AuthorEntity.builder().id(request.authorId().value()).build())
+              .publicationYear(request.publicationYear().orElse((short) 0))
               .isbn(request.isbn())
               .genre(request.genre());
     }
 
     public static BookDTO.BookDTOBuilder bookFromRequest(CreateBookRequestDTO request) {
         return BookDTO.builder()
-              .id(1L)
+              .id(BookId.of(1L))
               .title(request.title())
               .authorId(request.authorId())
               .publicationYear(request.publicationYear())

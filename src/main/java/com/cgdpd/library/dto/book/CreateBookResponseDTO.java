@@ -2,9 +2,11 @@ package com.cgdpd.library.dto.book;
 
 import static com.cgdpd.library.validation.Validator.required;
 
-public record CreateBookResponseDTO(Long bookId) {
+import com.cgdpd.library.type.BookId;
 
-    public CreateBookResponseDTO(Long bookId) {
+public record CreateBookResponseDTO(BookId bookId) {
+
+    public CreateBookResponseDTO(BookId bookId) {
         this.bookId = required("bookId", bookId);
     }
 }

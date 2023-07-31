@@ -3,9 +3,11 @@ package com.cgdpd.library.dto.author;
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 
-public record CreateAuthorResponseDTO(Long id, String authorName) {
+import com.cgdpd.library.type.AuthorId;
 
-    public CreateAuthorResponseDTO(Long id, String authorName) {
+public record CreateAuthorResponseDTO(AuthorId id, String authorName) {
+
+    public CreateAuthorResponseDTO(AuthorId id, String authorName) {
         this.id = required("id", id);
         this.authorName = requiredNotBlank("authorName", authorName);
     }
