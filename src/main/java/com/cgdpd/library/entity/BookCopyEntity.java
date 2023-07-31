@@ -26,14 +26,21 @@ public class BookCopyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "book_id", nullable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_book_id"))
+    @JoinColumn(
+          name = "book_id",
+          nullable = false,
+          referencedColumnName = "id",
+          foreignKey = @ForeignKey(name = "fk_book_copies_book_id"))
     @ManyToOne
     private BookEntity bookEntity;
 
     @Column(name = "tracking_status", nullable = false)
     private String trackingStatus;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_user_id"))
+    @JoinColumn(
+          name = "user_id",
+          referencedColumnName = "id",
+          foreignKey = @ForeignKey(name = "fk_book_copies_user_id"))
     @ManyToOne
     private UserEntity userEntity;
 }

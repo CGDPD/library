@@ -1,6 +1,6 @@
 package com.cgdpd.library.validation;
 
-import com.cgdpd.library.entity.TrackingStatus;
+import com.cgdpd.library.dto.book.copy.TrackingStatus;
 import com.cgdpd.library.exceptions.ValidationException;
 import java.time.LocalDate;
 import java.util.Optional;

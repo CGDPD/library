@@ -32,7 +32,11 @@ public class BookEntity {
     @Column(name = "title", nullable = false, length = 100)
     private String title;
 
-    @JoinColumn(name = "author_id", nullable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_author_id"))
+    @JoinColumn(
+          name = "author_id",
+          nullable = false,
+          referencedColumnName = "id",
+          foreignKey = @ForeignKey(name = "fk_author_id"))
     @ManyToOne
     private AuthorEntity authorEntity;
 
