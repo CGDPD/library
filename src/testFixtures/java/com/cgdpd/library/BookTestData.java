@@ -12,6 +12,7 @@ import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
+import com.cgdpd.library.type.Isbn13;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -61,7 +62,7 @@ public class BookTestData {
               .title("The Lord Of The Rings")
               .authorId(AuthorId.of(1L))
               .publicationYear(Optional.of((short) 1997))
-              .isbn("978-0007632190")
+              .isbn(Isbn13.of("978-0007632190"))
               .genre("Fiction");
     }
 
@@ -86,7 +87,7 @@ public class BookTestData {
               .title(request.title())
               .authorEntity(AuthorEntity.builder().id(request.authorId().value()).build())
               .publicationYear(request.publicationYear().orElse((short) 0))
-              .isbn(request.isbn())
+              .isbn(request.isbn().value())
               .genre(request.genre());
     }
 

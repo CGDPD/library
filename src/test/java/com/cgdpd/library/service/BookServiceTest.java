@@ -71,7 +71,7 @@ class BookServiceTest {
         assertThat(request.title()).isEqualTo(captor.getValue().getTitle());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(captor.getValue().getAuthorEntity());
         assertThat(request.publicationYear()).hasValue(captor.getValue().getPublicationYear());
-        assertThat(request.isbn()).isEqualTo(captor.getValue().getIsbn());
+        assertThat(request.isbn().value()).isEqualTo(captor.getValue().getIsbn());
         assertThat(request.genre()).isEqualTo(captor.getValue().getGenre());
     }
 
