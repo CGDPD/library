@@ -33,4 +33,11 @@ public abstract class IdType {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "IdType{" +
+              "id=" + id +
+              '}';
+    }
 }

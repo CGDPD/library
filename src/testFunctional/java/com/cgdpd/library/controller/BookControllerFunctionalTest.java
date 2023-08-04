@@ -46,7 +46,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         // given
         CreateBookRequestDTO request = BookTestData.aCreateBookRequestDTO().build();
 
-        AuthorEntity authorEntity = AuthorTestData.anAuthor().build();
+        AuthorEntity authorEntity = AuthorTestData.anAuthorEntity().build();
         authorRepository.save(authorEntity);
 
         // when

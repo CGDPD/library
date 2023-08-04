@@ -1,6 +1,10 @@
 package com.cgdpd.library;
 
-import static com.cgdpd.library.AuthorTestData.anAuthor;
+import static com.cgdpd.library.AuthorTestData.AUTHOR_CHRIS_DANE;
+import static com.cgdpd.library.AuthorTestData.AUTHOR_COLUMBUS_CHRISTOPHER;
+import static com.cgdpd.library.AuthorTestData.AUTHOR_JANE_DANE;
+import static com.cgdpd.library.AuthorTestData.AUTHOR_JOHN_DOE;
+import static com.cgdpd.library.RandomIsbn.generateISBN13;
 
 import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
@@ -9,8 +13,48 @@ import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class BookTestData {
+
+    private static final AtomicLong bookId = new AtomicLong(1L);
+    public static final BookEntity JOHN_DOE__THE_ADVENTUROUS = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_JOHN_DOE)
+          .title("The Adventurous")
+          .publicationYear((short) 1987)
+          .build();
+    public static final BookEntity JOHN_DOE__FINDER = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_JOHN_DOE)
+          .title("Finder")
+          .publicationYear((short) 1995)
+          .build();
+    public static final BookEntity JANE_DANE__KILLER = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_JANE_DANE)
+          .title("Killer")
+          .publicationYear((short) 2001)
+          .build();
+    public static final BookEntity JANE_DANE__SURVIVOR = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_JANE_DANE)
+          .title("Once Again")
+          .publicationYear((short) 2007)
+          .build();
+    public static final BookEntity CHRIS_DANE__ONCE_AGAIN = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_CHRIS_DANE)
+          .title("Once Again")
+          .publicationYear((short) 2022)
+          .build();
+    public static final BookEntity COLUMBUS_CHRISTOPHER__IN_LOVE = aBookEntityWithRandomIsbn()
+          .id(bookId.getAndIncrement())
+          .authorEntity(AUTHOR_COLUMBUS_CHRISTOPHER)
+          .title("In Love")
+          .publicationYear((short) 2011)
+          .build();
+
 
     public static CreateBookRequestDTO.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
         return CreateBookRequestDTO.builder()
@@ -22,12 +66,17 @@ public class BookTestData {
     }
 
     public static BookEntity.BookEntityBuilder aBookEntity() {
+        return aBookEntityWithRandomIsbn()
+              .isbn("978-0007632190");
+    }
+
+    public static BookEntity.BookEntityBuilder aBookEntityWithRandomIsbn() {
         return BookEntity.builder()
               .id(1L)
               .title("The Lord Of The Rings")
-              .authorEntity(anAuthor().build())
+              .authorEntity(AuthorTestData.anAuthorEntity().build())
               .publicationYear((short) 1997)
-              .isbn("978-0007632190")
+              .isbn(generateISBN13())
               .genre("Fiction");
     }
 

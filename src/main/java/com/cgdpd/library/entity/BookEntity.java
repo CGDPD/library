@@ -1,7 +1,10 @@
 package com.cgdpd.library.entity;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,11 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 @Entity
 @Table(name = "books")
@@ -37,7 +43,7 @@ public class BookEntity {
           nullable = false,
           referencedColumnName = "id",
           foreignKey = @ForeignKey(name = "fk_author_id"))
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     private AuthorEntity authorEntity;
 
     @Column(name = "publication_year")
