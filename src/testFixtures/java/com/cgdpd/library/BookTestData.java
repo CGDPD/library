@@ -19,37 +19,37 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BookTestData {
 
     private static final AtomicLong bookId = new AtomicLong(1L);
-    public static final BookEntity JOHN_DOE__THE_ADVENTUROUS = aBookEntityWithRandomIsbn()
+    public static final BookEntity JOHN_DOE__THE_ADVENTUROUS__1987 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JOHN_DOE)
           .title("The Adventurous")
           .publicationYear((short) 1987)
           .build();
-    public static final BookEntity JOHN_DOE__FINDER = aBookEntityWithRandomIsbn()
+    public static final BookEntity JOHN_DOE__FINDER__1995 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JOHN_DOE)
           .title("Finder")
           .publicationYear((short) 1995)
           .build();
-    public static final BookEntity JANE_DANE__KILLER = aBookEntityWithRandomIsbn()
+    public static final BookEntity JANE_DANE__KILLER__2001 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JANE_DANE)
           .title("Killer")
           .publicationYear((short) 2001)
           .build();
-    public static final BookEntity JANE_DANE__SURVIVOR = aBookEntityWithRandomIsbn()
+    public static final BookEntity JANE_DANE__SURVIVOR__2007 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JANE_DANE)
-          .title("Once Again")
+          .title("Survivor")
           .publicationYear((short) 2007)
           .build();
-    public static final BookEntity CHRIS_DANE__ONCE_AGAIN = aBookEntityWithRandomIsbn()
+    public static final BookEntity CHRIS_DANE__ONCE_AGAIN__2022 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_CHRIS_DANE)
           .title("Once Again")
           .publicationYear((short) 2022)
           .build();
-    public static final BookEntity COLUMBUS_CHRISTOPHER__IN_LOVE = aBookEntityWithRandomIsbn()
+    public static final BookEntity COLUMBUS_CHRISTOPHER__IN_LOVE__2011 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_COLUMBUS_CHRISTOPHER)
           .title("In Love")

@@ -16,12 +16,12 @@ import static com.cgdpd.library.BookCopyTestData.JOHN_DOE__FINDER_COPY_1;
 import static com.cgdpd.library.BookCopyTestData.JOHN_DOE__FINDER_COPY_2;
 import static com.cgdpd.library.BookCopyTestData.JOHN_DOE__THE_ADVENTUROUS_COPY_1;
 import static com.cgdpd.library.BookCopyTestData.JOHN_DOE__THE_ADVENTUROUS_COPY_2;
-import static com.cgdpd.library.BookTestData.CHRIS_DANE__ONCE_AGAIN;
-import static com.cgdpd.library.BookTestData.COLUMBUS_CHRISTOPHER__IN_LOVE;
-import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER;
-import static com.cgdpd.library.BookTestData.JANE_DANE__SURVIVOR;
-import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER;
-import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS;
+import static com.cgdpd.library.BookTestData.CHRIS_DANE__ONCE_AGAIN__2022;
+import static com.cgdpd.library.BookTestData.COLUMBUS_CHRISTOPHER__IN_LOVE__2011;
+import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
+import static com.cgdpd.library.BookTestData.JANE_DANE__SURVIVOR__2007;
+import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
+import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.UserTestData.USER_LOLA_ROGER;
 import static com.cgdpd.library.UserTestData.USER_LOUIS_CASTRO;
 
@@ -58,24 +58,48 @@ public class TestData {
               .toList();
     }
 
+    public static List<BookEntity> booksByTitleCriteria(String bookTitleCriteria) {
+        return books().stream()
+              .filter(bookEntity -> containsIgnoreCase(bookEntity.getTitle(), bookTitleCriteria))
+              .toList();
+    }
+
     public static List<BookEntity> johnDoeBooks() {
         return List.of(
-              JOHN_DOE__THE_ADVENTUROUS,
-              JOHN_DOE__FINDER);
+              JOHN_DOE__THE_ADVENTUROUS__1987,
+              JOHN_DOE__FINDER__1995);
     }
 
     public static List<BookEntity> janeDaneBooks() {
         return List.of(
-              JANE_DANE__KILLER,
-              JANE_DANE__SURVIVOR);
+              JANE_DANE__KILLER__2001,
+              JANE_DANE__SURVIVOR__2007);
     }
 
     public static List<BookEntity> chrisDaneBooks() {
-        return List.of(CHRIS_DANE__ONCE_AGAIN);
+        return List.of(CHRIS_DANE__ONCE_AGAIN__2022);
     }
 
     public static List<BookEntity> columbusChristopherBooks() {
-        return List.of(COLUMBUS_CHRISTOPHER__IN_LOVE);
+        return List.of(COLUMBUS_CHRISTOPHER__IN_LOVE__2011);
+    }
+
+    public static List<BookEntity> booksByAuthorNameCriteria(String authorNameCriteria) {
+        return books().stream()
+              .filter(bookEntity -> containsIgnoreCase(bookEntity.getAuthorEntity().getName(), authorNameCriteria))
+              .toList();
+    }
+
+    public static List<BookEntity> booksYoungerThan(short year) {
+        return books().stream()
+              .filter(bookEntity -> bookEntity.getPublicationYear() < year)
+              .toList();
+    }
+
+    public static List<BookEntity> booksOlderThan(short year) {
+        return books().stream()
+              .filter(bookEntity -> bookEntity.getPublicationYear() > year)
+              .toList();
     }
 
 
@@ -115,5 +139,9 @@ public class TestData {
               COLUMBUS_CHRISTOPHER__IN_LOVE_COPY_1,
               COLUMBUS_CHRISTOPHER__IN_LOVE_COPY_2,
               COLUMBUS_CHRISTOPHER__IN_LOVE_COPY_3);
+    }
+
+    private static boolean containsIgnoreCase(String s1, String s2) {
+        return s1.toUpperCase().contains(s2.toUpperCase());
     }
 }
