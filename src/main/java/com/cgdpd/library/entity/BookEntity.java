@@ -49,7 +49,7 @@ public class BookEntity {
     @Column(name = "publication_year")
     private short publicationYear;
 
-    @Column(name = "isbn", nullable = false)
+    @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
 
     @Column(name = "genre", nullable = false, length = 100)
