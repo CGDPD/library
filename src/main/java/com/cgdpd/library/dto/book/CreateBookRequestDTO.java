@@ -1,5 +1,6 @@
 package com.cgdpd.library.dto.book;
 
+import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
 import static com.cgdpd.library.validation.Validator.checkYearNotFuture;
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
@@ -23,8 +24,9 @@ public record CreateBookRequestDTO(String title,
                                 Optional<Short> publicationYear) {
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);
-        this.publicationYear = checkYearNotFuture("publicationYear", publicationYear);
         this.isbn = required("isbn", isbn);
         this.genre = requiredNotBlank("genre", genre);
+        this.publicationYear = checkYearNotFuture("publicationYear",
+              actualOrEmpty(publicationYear));
     }
 }

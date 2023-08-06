@@ -7,6 +7,11 @@ import java.util.function.Supplier;
 
 public class Validator {
 
+    public static <T> Optional<T> notNull(String paramName, Optional<T> value) {
+        validate(() -> value == null, "Optional %s should be initialized with Optional.empty() instead of null", paramName);
+        return value;
+    }
+
     public static <T> T required(String paramName, T value) {
         validate(() -> value == null, "%s must not be null", paramName);
         return value;
@@ -26,7 +31,7 @@ public class Validator {
         return value;
     }
 
-    public static String requiredValidIsbn(String paramName, String value) {
+    public static String requiredValidIsbn13(String paramName, String value) {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);

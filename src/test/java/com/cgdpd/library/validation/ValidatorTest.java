@@ -121,7 +121,7 @@ public class ValidatorTest {
 
         // when
         Throwable thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn(paramName, value));
+              () -> Validator.requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -139,7 +139,7 @@ public class ValidatorTest {
 
         // when
         Throwable thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn(paramName, value));
+              () -> Validator.requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -156,7 +156,7 @@ public class ValidatorTest {
         String value = "9780134685991";
 
         // when
-        String result = Validator.requiredValidIsbn(paramName, value);
+        String result = Validator.requiredValidIsbn13(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
