@@ -1,12 +1,13 @@
 package com.cgdpd.library;
 
+import com.cgdpd.library.type.Isbn13;
 import java.util.Random;
 
 public class RandomIsbn {
 
     private static final Random random = new Random();
 
-    public static String generateISBN13() {
+    public static Isbn13 generateISBN13() {
         int[] isbn = new int[13];
         isbn[0] = 9;
         isbn[1] = 7;
@@ -26,6 +27,6 @@ public class RandomIsbn {
         for (int i : isbn) {
             sb.append(i);
         }
-        return sb.toString();
+        return Isbn13.of(sb.toString());
     }
 }

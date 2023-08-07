@@ -83,7 +83,7 @@ public class BookTestData {
               .title("The Lord Of The Rings")
               .authorEntity(AuthorTestData.anAuthorEntity().build())
               .publicationYear((short) 1997)
-              .isbn(generateISBN13())
+              .isbn(generateISBN13().value())
               .genre("Fiction");
     }
 

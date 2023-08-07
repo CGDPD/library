@@ -5,11 +5,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class Validator {
+public final class Validator {
 
-    public static <T> Optional<T> notNull(String paramName, Optional<T> value) {
-        validate(() -> value == null, "Optional %s should be initialized with Optional.empty() instead of null", paramName);
-        return value;
+    private Validator() {
     }
 
     public static <T> T required(String paramName, T value) {

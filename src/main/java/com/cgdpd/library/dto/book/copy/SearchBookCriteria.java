@@ -2,7 +2,6 @@ package com.cgdpd.library.dto.book.copy;
 
 import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
 
-import com.cgdpd.library.type.Isbn13;
 import java.util.Optional;
 import lombok.Builder;
 
@@ -12,6 +11,7 @@ public record SearchBookCriteria(Optional<String> bookTitle,
                                  Optional<String> genre,
                                  Optional<Short> publicationYearLessThan,
                                  Optional<Short> publicationYearGreaterThan) {
+
     public SearchBookCriteria(Optional<String> bookTitle,
                               Optional<String> authorName,
                               Optional<String> genre,
