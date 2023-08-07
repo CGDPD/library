@@ -15,6 +15,12 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecifications {
 
+    /**
+     * Creates a JPA Specification based on the search criteria provided.
+     *
+     * @param criteria The criteria to search by.
+     * @return A JPA Specification for filtering books.
+     */
     public static Specification<BookEntity> byBookSearchCriteria(SearchBookCriteria criteria) {
         return (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
@@ -76,4 +82,3 @@ public class BookSpecifications {
         return (it) -> criteriaBuilder.greaterThan(expression, it);
     }
 }
-
