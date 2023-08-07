@@ -1,11 +1,11 @@
 package com.cgdpd.library.repository;
 
 import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
+import com.cgdpd.library.entity.AuthorEntity_;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.entity.BookEntity_;
 import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecifications {
@@ -26,7 +26,8 @@ public class BookSpecifications {
             criteria.authorName().ifPresent(author ->
                   predicates.add(
                         criteriaBuilder.like(
-                              criteriaBuilder.upper(root.get(BookEntity_.authorEntity).get("name")),
+                              criteriaBuilder.upper(
+                                    root.get(BookEntity_.authorEntity).get(AuthorEntity_.name)),
                               "%" + author.toUpperCase() + "%")
                   )
             );
