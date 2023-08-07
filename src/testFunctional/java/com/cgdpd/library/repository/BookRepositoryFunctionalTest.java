@@ -4,11 +4,10 @@ import static com.cgdpd.library.AuthorTestData.AUTHOR_JOHN_DOE;
 import static com.cgdpd.library.BookTestData.CHRIS_DANE__ONCE_AGAIN__2022;
 import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
-import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
+import static com.cgdpd.library.TestData.booksByAuthorNameCriteria;
 import static com.cgdpd.library.TestData.booksByGenreCriteria;
 import static com.cgdpd.library.TestData.booksByTitleCriteria;
 import static com.cgdpd.library.TestData.booksOlderThan;
-import static com.cgdpd.library.TestData.booksByAuthorNameCriteria;
 import static com.cgdpd.library.TestData.booksYoungerThan;
 import static com.cgdpd.library.TestData.johnDoeBooks;
 import static com.cgdpd.library.repository.BookSpecifications.byBookSearchCriteria;
@@ -19,7 +18,6 @@ import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
 import com.cgdpd.library.entity.BookEntity;
 import java.util.List;
 import java.util.Optional;
-import com.cgdpd.library.type.Isbn13;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,7 +46,10 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
         var result = bookRepository.findAll(spec);
 
         // then
-        assertThat(result).hasSameElementsAs(List.of(JOHN_DOE__FINDER__1995, JANE_DANE__KILLER__2001));
+        assertThat(result).hasSameElementsAs(
+              List.of(
+                    JOHN_DOE__FINDER__1995,
+                    JANE_DANE__KILLER__2001));
     }
 
     @Test

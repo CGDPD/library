@@ -1,11 +1,11 @@
 package com.cgdpd.library.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.cgdpd.library.dto.user.Gender;
 import com.cgdpd.library.dto.user.UserDTO;
 import com.cgdpd.library.entity.UserEntity;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class UserMapperTest {
 

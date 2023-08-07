@@ -86,7 +86,8 @@ public class TestData {
 
     public static List<BookEntity> booksByAuthorNameCriteria(String authorNameCriteria) {
         return books().stream()
-              .filter(bookEntity -> containsIgnoreCase(bookEntity.getAuthorEntity().getName(), authorNameCriteria))
+              .filter(bookEntity -> containsIgnoreCase(bookEntity.getAuthorEntity().getName(),
+                    authorNameCriteria))
               .toList();
     }
 
