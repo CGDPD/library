@@ -16,9 +16,9 @@ public class AuthorService {
 
     @Transactional
     public AuthorDTO createAuthor(String authorName) {
-        AuthorEntity authorEntity = new AuthorEntity();
+        var authorEntity = new AuthorEntity();
         authorEntity.setName(authorName);
-        AuthorEntity savedAuthor = authorRepository.save(authorEntity);
+        var savedAuthor = authorRepository.save(authorEntity);
         return new AuthorDTO(AuthorId.of(savedAuthor.getId()), savedAuthor.getName());
     }
 

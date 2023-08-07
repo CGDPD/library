@@ -23,8 +23,8 @@ public class AuthorController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateAuthorResponseDTO createAuthor(
           @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
-        String authorName = createAuthorRequestDTO.authorName();
-        AuthorDTO authorDTO = authorService.createAuthor(authorName);
+        var authorName = createAuthorRequestDTO.authorName();
+        var authorDTO = authorService.createAuthor(authorName);
         return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
     }
 }

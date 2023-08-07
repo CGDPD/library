@@ -13,7 +13,7 @@ public class BookSpecifications {
 
     public static Specification<BookEntity> byBookSearchCriteria(SearchBookCriteria criteria) {
         return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
+            var predicates = new ArrayList<Predicate>();
 
             criteria.bookTitle().ifPresent(title ->
                   predicates.add(
