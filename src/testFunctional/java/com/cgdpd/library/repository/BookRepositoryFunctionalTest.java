@@ -40,7 +40,7 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
               .publicationYearLessThan(Optional.of(publicationYearCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -55,11 +55,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     @Test
     void should_find_books_by_book_title() {
         // given
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .bookTitle(Optional.of(CHRIS_DANE__ONCE_AGAIN__2022.getTitle()))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -76,7 +76,7 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
               .bookTitle(Optional.of(bookTitleCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -88,11 +88,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     @Test
     void should_find_books_by_author_name() {
         // given
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .authorName(Optional.of(AUTHOR_JOHN_DOE.getName()))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -105,11 +105,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     void should_find_books_by_non_specific_author_name() {
         // given
         var authorNameCriteria = "j";
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .authorName(Optional.of(authorNameCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -122,11 +122,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     void should_find_books_by_genre() {
         // given
         var genreCriteria = "Suspense";
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .genre(Optional.of(genreCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -139,11 +139,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     void should_find_books_with_publication_year_older_than_2003() {
         // given
         var publicationYearCriteria = (short) 2003;
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .publicationYearGreaterThan(Optional.of(publicationYearCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
@@ -156,11 +156,11 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
     void should_find_books_with_publication_year_younger_than_2003() {
         // given
         var publicationYearCriteria = (short) 2003;
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .publicationYearLessThan(Optional.of(publicationYearCriteria))
               .build();
 
-        Specification<BookEntity> spec = byBookSearchCriteria(criteria);
+        var spec = byBookSearchCriteria(criteria);
 
         // when
         var result = bookRepository.findAll(spec);
