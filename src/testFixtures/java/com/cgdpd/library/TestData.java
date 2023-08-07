@@ -90,6 +90,12 @@ public class TestData {
               .toList();
     }
 
+    public static List<BookEntity> booksByGenreCriteria(String genreCriteria) {
+        return books().stream()
+              .filter(bookEntity -> bookEntity.getGenre().equalsIgnoreCase(genreCriteria))
+              .toList();
+    }
+
     public static List<BookEntity> booksYoungerThan(short year) {
         return books().stream()
               .filter(bookEntity -> bookEntity.getPublicationYear() < year)

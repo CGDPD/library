@@ -24,36 +24,42 @@ public class BookTestData {
           .authorEntity(AUTHOR_JOHN_DOE)
           .title("The Adventurous")
           .publicationYear((short) 1987)
+          .genre("Fiction")
           .build();
     public static final BookEntity JOHN_DOE__FINDER__1995 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JOHN_DOE)
           .title("Finder")
           .publicationYear((short) 1995)
+          .genre("Mystery")
           .build();
     public static final BookEntity JANE_DANE__KILLER__2001 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JANE_DANE)
           .title("Killer")
           .publicationYear((short) 2001)
+          .genre("Drama")
           .build();
     public static final BookEntity JANE_DANE__SURVIVOR__2007 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_JANE_DANE)
           .title("Survivor")
           .publicationYear((short) 2007)
+          .genre("Suspense")
           .build();
     public static final BookEntity CHRIS_DANE__ONCE_AGAIN__2022 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_CHRIS_DANE)
           .title("Once Again")
           .publicationYear((short) 2022)
+          .genre("Suspense")
           .build();
     public static final BookEntity COLUMBUS_CHRISTOPHER__IN_LOVE__2011 = aBookEntityWithRandomIsbn()
           .id(bookId.getAndIncrement())
           .authorEntity(AUTHOR_COLUMBUS_CHRISTOPHER)
           .title("In Love")
           .publicationYear((short) 2011)
+          .genre("Romance")
           .build();
 
 

@@ -39,12 +39,6 @@ public class BookSpecifications {
                   )
             );
 
-            criteria.isbn13().ifPresent(isbn ->
-                  predicates.add(
-                        criteriaBuilder.equal(root
-                              .get(BookEntity_.isbn), isbn.value()))
-            );
-
             criteria.publicationYearLessThan().ifPresent(year ->
                   predicates.add(
                         criteriaBuilder.lessThan(root
