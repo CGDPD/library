@@ -26,30 +26,30 @@ public class BookSpecifications {
             var predicates = new ArrayList<Predicate>();
 
             addPredicateIfValueIsPresent(
-                  criteria.bookTitle(),
+                  like(criteriaBuilder, root.get(BookEntity_.title)),
                   predicates,
-                  like(criteriaBuilder, root.get(BookEntity_.title)));
+                  criteria.bookTitle());
 
             addPredicateIfValueIsPresent(
-                  criteria.authorName(),
-                  predicates,
                   like(criteriaBuilder,
-                        root.get(BookEntity_.authorEntity).get(AuthorEntity_.name)));
+                        root.get(BookEntity_.authorEntity).get(AuthorEntity_.name)),
+                  predicates,
+                  criteria.authorName());
 
             addPredicateIfValueIsPresent(
-                  criteria.genre(),
+                  like(criteriaBuilder, root.get(BookEntity_.genre)),
                   predicates,
-                  like(criteriaBuilder, root.get(BookEntity_.genre)));
+                  criteria.genre());
 
             addPredicateIfValueIsPresent(
-                  criteria.publicationYearLessThan(),
+                  lessThan(criteriaBuilder, root.get(BookEntity_.publicationYear)),
                   predicates,
-                  lessThan(criteriaBuilder, root.get(BookEntity_.publicationYear)));
+                  criteria.publicationYearLessThan());
 
             addPredicateIfValueIsPresent(
-                  criteria.publicationYearGreaterThan(),
+                  greaterThan(criteriaBuilder, root.get(BookEntity_.publicationYear)),
                   predicates,
-                  greaterThan(criteriaBuilder, root.get(BookEntity_.publicationYear)));
+                  criteria.publicationYearGreaterThan());
 
             query.orderBy(criteriaBuilder.desc(root.get(BookEntity_.publicationYear)));
 
@@ -57,9 +57,9 @@ public class BookSpecifications {
         };
     }
 
-    private static <T> void addPredicateIfValueIsPresent(Optional<T> value,
+    private static <T> void addPredicateIfValueIsPresent(Function<T, Predicate> predicate,
                                                          List<Predicate> predicates,
-                                                         Function<T, Predicate> predicate) {
+                                                         Optional<T> value) {
         value.ifPresent(it ->
               predicates.add(predicate.apply(it))
         );
