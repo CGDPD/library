@@ -22,7 +22,7 @@ class TrackingStatusTest {
         // given
         var allowedStatusTransitions = getAllowedTransitions(status);
 
-        for (TrackingStatus allowedStatusTransition : allowedStatusTransitions) {
+        for (var allowedStatusTransition : allowedStatusTransitions) {
             // when
             var result = status.isTransitionAllowed(allowedStatusTransition);
 
@@ -37,7 +37,7 @@ class TrackingStatusTest {
         // given
         var notAllowedStatusTransitions = getNotAllowedStatusTransitions(status);
 
-        for (TrackingStatus notAllowedStatusTransition : notAllowedStatusTransitions) {
+        for (var notAllowedStatusTransition : notAllowedStatusTransitions) {
             // when
             var result = status.isTransitionAllowed(notAllowedStatusTransition);
 

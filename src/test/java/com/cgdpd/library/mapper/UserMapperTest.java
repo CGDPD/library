@@ -14,7 +14,7 @@ class UserMapperTest {
     @Test
     void should_map_to_user_dto() {
         // given
-        UserEntity userEntity = new UserEntity();
+        var userEntity = new UserEntity();
         userEntity.setId(1L);
         userEntity.setFirstName("John");
         userEntity.setLastName("Doe");
@@ -22,7 +22,7 @@ class UserMapperTest {
         userEntity.setGender("MALE");
 
         // when
-        UserDTO userDTO = userMapper.mapToUserDto(userEntity);
+        var userDTO = userMapper.mapToUserDto(userEntity);
 
         // then
         assertThat(userDTO.id().value()).isEqualTo(userEntity.getId());

@@ -15,12 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.DbPrePopulatedFunctionalTest;
 import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
-import com.cgdpd.library.entity.BookEntity;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 
 public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
 
@@ -34,7 +32,7 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
         var bookTitleCriteria = "i";
         var authorNameCriteria = "j";
         var publicationYearCriteria = (short) 2003;
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .authorName(Optional.of(authorNameCriteria))
               .bookTitle(Optional.of(bookTitleCriteria))
               .publicationYearLessThan(Optional.of(publicationYearCriteria))

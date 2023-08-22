@@ -25,7 +25,7 @@ public abstract class IdType {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        IdType idType = (IdType) o;
+        var idType = (IdType) o;
         return Objects.equals(id, idType.id);
     }
 

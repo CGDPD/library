@@ -2,7 +2,6 @@ package com.cgdpd.library.service;
 
 import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
-import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.repository.BookRepository;

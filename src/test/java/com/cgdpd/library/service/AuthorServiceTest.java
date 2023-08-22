@@ -42,13 +42,13 @@ public class AuthorServiceTest {
     @Test
     public void should_create_and_return_author() {
         // given
-        String authorName = "John Doe";
+        var authorName = "John Doe";
         Long id = 1L;
-        AuthorEntity authorEntity = new AuthorEntity(id, authorName);
+        var authorEntity = new AuthorEntity(id, authorName);
         given(authorRepository.save(captor.capture())).willReturn(authorEntity);
 
         // when
-        AuthorDTO authorDTO = authorService.createAuthor(authorName);
+        var authorDTO = authorService.createAuthor(authorName);
 
         // then
         assertThat(authorDTO.id().value()).isEqualTo(id);

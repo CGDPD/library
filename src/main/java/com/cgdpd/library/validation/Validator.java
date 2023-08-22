@@ -22,7 +22,7 @@ public final class Validator {
 
     public static Optional<Short> checkYearNotFuture(String paramName, Optional<Short> value) {
         value.ifPresent(year -> {
-            int currentYear = LocalDate.now().getYear();
+            var currentYear = LocalDate.now().getYear();
             validate(() -> year > currentYear,
                   "Invalid %s. %s is after the current year", paramName, year);
         });

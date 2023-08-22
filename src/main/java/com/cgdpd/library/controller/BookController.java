@@ -1,6 +1,5 @@
 package com.cgdpd.library.controller;
 
-import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.dto.book.CreateBookResponseDTO;
 import com.cgdpd.library.service.BookService;

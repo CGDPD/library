@@ -13,11 +13,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_value_is_null() {
         // given
-        String paramName = "value";
+        var paramName = "value";
         String value = null;
 
         // when
-        Throwable thrownException = catchThrowable(() -> Validator.required(paramName, value));
+        var thrownException = catchThrowable(() -> Validator.required(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -28,11 +28,11 @@ public class ValidatorTest {
     @Test
     void should_return_value_when_value_is_not_null() {
         // given
-        String paramName = "value";
-        String value = "valid";
+        var paramName = "value";
+        var value = "valid";
 
         // when
-        String result = Validator.required(paramName, value);
+        var result = Validator.required(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -41,11 +41,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_value_is_blank() {
         // given
-        String paramName = "value";
-        String value = "";
+        var paramName = "value";
+        var value = "";
 
         // when
-        Throwable thrownException = catchThrowable(
+        var thrownException = catchThrowable(
               () -> Validator.requiredNotBlank(paramName, value));
 
         // then
@@ -57,11 +57,11 @@ public class ValidatorTest {
     @Test
     void should_return_value_if_value_is_not_blank() {
         // given
-        String paramName = "value";
-        String value = "valid";
+        var paramName = "value";
+        var value = "valid";
 
         // when
-        String result = Validator.requiredNotBlank(paramName, value);
+        var result = Validator.requiredNotBlank(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -70,11 +70,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_the_value_is_null() {
         // given
-        String paramName = "value";
+        var paramName = "value";
         String value = null;
 
         // when
-        Throwable thrownException = catchThrowable(
+        var thrownException = catchThrowable(
               () -> Validator.requiredNotBlank(paramName, value));
 
         // then
@@ -86,11 +86,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_year_value_is_after_now() {
         // given
-        String paramName = "value";
-        Optional<Short> value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
+        var paramName = "value";
+        var value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
 
         // when
-        Throwable thrownException = catchThrowable(
+        var thrownException = catchThrowable(
               () -> Validator.checkYearNotFuture(paramName, value));
 
         // then
@@ -103,11 +103,11 @@ public class ValidatorTest {
     @Test
     void should_return_year_value_when_it_is_not_future_year() {
         // given
-        String paramName = "value";
-        Optional<Short> value = Optional.of((short) (LocalDate.now().getYear() - 1));
+        var paramName = "value";
+        var value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        Optional<Short> result = Validator.checkYearNotFuture(paramName, value);
+        var result = Validator.checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -116,11 +116,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_isbn_value_is_invalid() {
         // given
-        String paramName = "value";
-        String value = "9780134685992";
+        var paramName = "value";
+        var value = "9780134685992";
 
         // when
-        Throwable thrownException = catchThrowable(
+        var thrownException = catchThrowable(
               () -> Validator.requiredValidIsbn13(paramName, value));
 
         // then
@@ -134,11 +134,11 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_isbn_value_is_blank() {
         // given
-        String paramName = "value";
-        String value = "";
+        var paramName = "value";
+        var value = "";
 
         // when
-        Throwable thrownException = catchThrowable(
+        var thrownException = catchThrowable(
               () -> Validator.requiredValidIsbn13(paramName, value));
 
         // then
@@ -152,11 +152,11 @@ public class ValidatorTest {
     @Test
     void should_return_value_when_isbn_is_valid() {
         // given
-        String paramName = "value";
-        String value = "9780134685991";
+        var paramName = "value";
+        var value = "9780134685991";
 
         // when
-        String result = Validator.requiredValidIsbn13(paramName, value);
+        var result = Validator.requiredValidIsbn13(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);

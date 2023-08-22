@@ -41,16 +41,16 @@ public abstract class DbPrePopulatedFunctionalTest extends FunctionalTest {
     void setUp() {
         super.setUp();
 
-        List<UserEntity> users = users();
+        var users = users();
         userRepository.saveAll(users);
 
-        List<AuthorEntity> authors = authors();
+        var authors = authors();
         authorRepository.saveAll(authors);
 
-        List<BookEntity> books = books();
+        var books = books();
         bookRepository.saveAll(books);
 
-        List<BookCopyEntity> bookCopies = bookCopies();
+        var bookCopies = bookCopies();
         bookCopyRepository.saveAll(bookCopies);
     }
 }

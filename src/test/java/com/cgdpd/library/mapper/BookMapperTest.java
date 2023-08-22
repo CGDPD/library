@@ -16,10 +16,10 @@ class BookMapperTest {
     @Test
     void should_map_create_book_request_to_book_entity() {
         // given
-        CreateBookRequestDTO request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDTO().build();
 
         // when
-        BookEntity bookEntity = bookMapper.mapToBookEntity(request);
+        var bookEntity = bookMapper.mapToBookEntity(request);
 
         // then
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
@@ -33,10 +33,10 @@ class BookMapperTest {
     @Test
     void should_map_book_entity_to_book_dto() {
         // given
-        BookEntity bookEntity = aBookEntity().build();
+        var bookEntity = aBookEntity().build();
 
         // when
-        BookDTO bookDTO = bookMapper.mapToBookDTO(bookEntity);
+        var bookDTO = bookMapper.mapToBookDTO(bookEntity);
 
         // then
         assertThat(bookDTO.id().value()).isEqualTo(bookEntity.getId());
