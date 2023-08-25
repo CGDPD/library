@@ -8,8 +8,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
-import com.cgdpd.library.dto.book.BookDTO;
-import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
@@ -52,13 +50,13 @@ class BookServiceTest {
     @Test
     public void should_create_a_book() {
         // given
-        CreateBookRequestDTO request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(true);
-        BookEntity bookEntity = bookEntityFromRequest(request).build();
+        var bookEntity = bookEntityFromRequest(request).build();
         given(bookRepository.save(captor.capture())).willReturn(bookEntity);
 
         // when
-        BookDTO bookDTO = bookService.createBook(request);
+        var bookDTO = bookService.createBook(request);
 
         // then
         assertThat(bookDTO.id().value()).isEqualTo(bookEntity.getId());
@@ -71,14 +69,14 @@ class BookServiceTest {
         assertThat(request.title()).isEqualTo(captor.getValue().getTitle());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(captor.getValue().getAuthorEntity());
         assertThat(request.publicationYear()).hasValue(captor.getValue().getPublicationYear());
-        assertThat(request.isbn()).isEqualTo(captor.getValue().getIsbn());
+        assertThat(request.isbn().value()).isEqualTo(captor.getValue().getIsbn());
         assertThat(request.genre()).isEqualTo(captor.getValue().getGenre());
     }
 
     @Test
     public void should_throw_exception_if_author_not_exist() {
         // given
-        CreateBookRequestDTO request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(false);
 
         // when then

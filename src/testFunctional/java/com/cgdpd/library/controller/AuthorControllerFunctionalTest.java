@@ -39,11 +39,11 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_create_author_and_return_name() throws Exception {
         // given
-        String authorName = "John Doe";
-        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
+        var authorName = "John Doe";
+        var createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/authors")
+        var resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(createAuthorRequestDTO)));
         // then
@@ -52,8 +52,8 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
               .andExpect(jsonPath("$.id", is(Long.class)).exists())
               .andExpect(jsonPath("$.authorName", is(authorName)).exists());
 
-        Long id = getIdFromResult(resultActions);
-        Optional<AuthorEntity> authorEntity = authorRepository.findById(id);
+        var id = getIdFromResult(resultActions);
+        var authorEntity = authorRepository.findById(id);
         assertThat(authorEntity).isPresent();
         assertThat(authorEntity.get().getName()).isEqualTo(authorName);
     }
@@ -61,14 +61,14 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_return_bad_request_when_author_name_is_empty() throws Exception {
         // given
-        String requestBody = """
+        var requestBody = """
               {
                   "authorName": ""
               }
               """;
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/authors")
+        var resultActions = mockMvc.perform(post("/authors")
               .contentType(MediaType.APPLICATION_JSON)
               .content(requestBody));
 
@@ -79,9 +79,9 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
 
     private Long getIdFromResult(ResultActions resultActions)
           throws UnsupportedEncodingException, JSONException {
-        MvcResult mvcResult = resultActions.andReturn();
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-        JSONObject jsonObject = new JSONObject(jsonResponse);
+        var mvcResult = resultActions.andReturn();
+        var jsonResponse = mvcResult.getResponse().getContentAsString();
+        var jsonObject = new JSONObject(jsonResponse);
         return jsonObject.getLong("id");
     }
 }

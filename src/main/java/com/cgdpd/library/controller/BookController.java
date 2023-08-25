@@ -1,6 +1,5 @@
 package com.cgdpd.library.controller;
 
-import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.dto.book.CreateBookResponseDTO;
 import com.cgdpd.library.service.BookService;
@@ -22,7 +21,7 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateBookResponseDTO createBook(@RequestBody CreateBookRequestDTO requestDTO) {
-        BookDTO bookDTO = bookService.createBook(requestDTO);
+        var bookDTO = bookService.createBook(requestDTO);
         return new CreateBookResponseDTO(bookDTO.id());
     }
 }

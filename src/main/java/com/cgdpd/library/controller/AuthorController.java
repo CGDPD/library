@@ -1,6 +1,5 @@
 package com.cgdpd.library.controller;
 
-import com.cgdpd.library.dto.author.AuthorDTO;
 import com.cgdpd.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdpd.library.dto.author.CreateAuthorResponseDTO;
 import com.cgdpd.library.service.AuthorService;
@@ -23,8 +22,8 @@ public class AuthorController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateAuthorResponseDTO createAuthor(
           @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
-        String authorName = createAuthorRequestDTO.authorName();
-        AuthorDTO authorDTO = authorService.createAuthor(authorName);
+        var authorName = createAuthorRequestDTO.authorName();
+        var authorDTO = authorService.createAuthor(authorName);
         return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
     }
 }

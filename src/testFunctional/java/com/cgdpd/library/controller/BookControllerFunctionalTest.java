@@ -44,13 +44,13 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_create_book_and_return_id() throws Exception {
         // given
-        CreateBookRequestDTO request = BookTestData.aCreateBookRequestDTO().build();
+        var request = BookTestData.aCreateBookRequestDTO().build();
 
-        AuthorEntity authorEntity = AuthorTestData.anAuthor().build();
+        var authorEntity = AuthorTestData.anAuthorEntity().build();
         authorRepository.save(authorEntity);
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/books")
+        var resultActions = mockMvc.perform(post("/books")
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(request)));
 
@@ -59,23 +59,23 @@ public class BookControllerFunctionalTest extends FunctionalTest {
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.bookId", is(Long.class)).exists());
 
-        Long id = getIdFromResult(resultActions);
-        BookEntity bookEntity = bookRepository.findById(id).orElseThrow();
+        var id = getIdFromResult(resultActions);
+        var bookEntity = bookRepository.findById(id).orElseThrow();
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
-        assertThat(bookEntity.getAuthorEntity()).isEqualTo(authorEntity);
+        assertThat(bookEntity.getAuthorEntity().getId()).isEqualTo(authorEntity.getId());
         assertThat(bookEntity.getPublicationYear())
               .isEqualTo(request.publicationYear().orElseThrow());
-        assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn());
+        assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn().value());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
 
     @Test
     public void should_return_not_found_code_when_author_does_not_exist() throws Exception {
         // given
-        CreateBookRequestDTO request = BookTestData.aCreateBookRequestDTO().build();
+        var request = BookTestData.aCreateBookRequestDTO().build();
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/books")
+        var resultActions = mockMvc.perform(post("/books")
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(request)));
 
@@ -86,9 +86,9 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
     private Long getIdFromResult(ResultActions resultActions)
           throws UnsupportedEncodingException, JSONException {
-        MvcResult mvcResult = resultActions.andReturn();
-        String jsonResponse = mvcResult.getResponse().getContentAsString();
-        JSONObject jsonObject = new JSONObject(jsonResponse);
+        var mvcResult = resultActions.andReturn();
+        var jsonResponse = mvcResult.getResponse().getContentAsString();
+        var jsonObject = new JSONObject(jsonResponse);
         return jsonObject.getLong("bookId");
     }
 }

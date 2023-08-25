@@ -6,6 +6,7 @@ import static com.cgdpd.library.dto.book.copy.TrackingStatus.LOST;
 import static com.cgdpd.library.dto.book.copy.TrackingStatus.ON_HOLD;
 import static com.cgdpd.library.dto.book.copy.TrackingStatus.REFERENCE;
 import static com.cgdpd.library.dto.book.copy.TrackingStatus.RETIRED;
+import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.validate;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.Builder;
 
-@Builder
+@Builder(toBuilder = true)
 public record BookCopyDTO(BookCopyId id,
                           BookId bookId,
                           TrackingStatus trackingStatus,
@@ -35,7 +36,7 @@ public record BookCopyDTO(BookCopyId id,
         this.id = required("id", id);
         this.bookId = required("bookId", bookId);
         this.trackingStatus = required("trackingStatus", trackingStatus);
-        this.userId = required("userId", userId);
+        this.userId = actualOrEmpty(userId);
         validateUserIdCanBePresent();
     }
 
@@ -69,7 +70,7 @@ public record BookCopyDTO(BookCopyId id,
               trackingStatus,
               nextStatus);
 
-        return copy().trackingStatus(nextStatus);
+        return toBuilder().trackingStatus(nextStatus);
     }
 
     private void validateUserIdCanBePresent() {
@@ -80,13 +81,5 @@ public record BookCopyDTO(BookCopyId id,
                   "When status is %s the user id should be empty",
                   trackingStatus);
         }
-    }
-
-    private BookCopyDTO.BookCopyDTOBuilder copy() {
-        return builder()
-              .id(id)
-              .bookId(bookId)
-              .trackingStatus(trackingStatus)
-              .userId(userId);
     }
 }

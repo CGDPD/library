@@ -28,12 +28,12 @@ public class FunctionalTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         flyway.migrate();
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         flyway.clean();
     }
 

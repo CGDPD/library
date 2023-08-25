@@ -39,9 +39,9 @@ class BookControllerTest {
     @Test
     public void should_create_book() {
         // given
-        CreateBookRequestDTO request = aCreateBookRequestDTO().build();
-        BookId id = BookId.of(1L);
-        BookDTO book = BookTestData.bookFromRequest(request).id(id).build();
+        var request = aCreateBookRequestDTO().build();
+        var id = BookId.of(1L);
+        var book = BookTestData.bookFromRequest(request).id(id).build();
         given(bookService.createBook(request)).willReturn(book);
 
         // when

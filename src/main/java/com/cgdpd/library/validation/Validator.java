@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class Validator {
+public final class Validator {
+
+    private Validator() {
+    }
 
     public static <T> T required(String paramName, T value) {
         validate(() -> value == null, "%s must not be null", paramName);
@@ -19,14 +22,14 @@ public class Validator {
 
     public static Optional<Short> checkYearNotFuture(String paramName, Optional<Short> value) {
         value.ifPresent(year -> {
-            int currentYear = LocalDate.now().getYear();
+            var currentYear = LocalDate.now().getYear();
             validate(() -> year > currentYear,
                   "Invalid %s. %s is after the current year", paramName, year);
         });
         return value;
     }
 
-    public static String requiredValidIsbn(String paramName, String value) {
+    public static String requiredValidIsbn13(String paramName, String value) {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);

@@ -1,11 +1,11 @@
 package com.cgdpd.library.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.cgdpd.library.dto.user.Gender;
 import com.cgdpd.library.dto.user.UserDTO;
 import com.cgdpd.library.entity.UserEntity;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class UserMapperTest {
 
@@ -14,7 +14,7 @@ class UserMapperTest {
     @Test
     void should_map_to_user_dto() {
         // given
-        UserEntity userEntity = new UserEntity();
+        var userEntity = new UserEntity();
         userEntity.setId(1L);
         userEntity.setFirstName("John");
         userEntity.setLastName("Doe");
@@ -22,7 +22,7 @@ class UserMapperTest {
         userEntity.setGender("MALE");
 
         // when
-        UserDTO userDTO = userMapper.mapToUserDto(userEntity);
+        var userDTO = userMapper.mapToUserDto(userEntity);
 
         // then
         assertThat(userDTO.id().value()).isEqualTo(userEntity.getId());

@@ -25,12 +25,19 @@ public abstract class IdType {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        IdType idType = (IdType) o;
+        var idType = (IdType) o;
         return Objects.equals(id, idType.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "IdType{" +
+              "id=" + id +
+              '}';
     }
 }

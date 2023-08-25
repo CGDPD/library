@@ -38,15 +38,15 @@ public class AuthorControllerTest {
     @Test
     void should_create_author() {
         // given
-        String authorName = "John Doe";
-        AuthorId id = AuthorId.of(1L);
-        CreateAuthorRequestDTO createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
+        var authorName = "John Doe";
+        var id = AuthorId.of(1L);
+        var createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
-        AuthorDTO authorDTO = new AuthorDTO(id, authorName);
+        var authorDTO = new AuthorDTO(id, authorName);
         given(authorService.createAuthor(authorName)).willReturn(authorDTO);
 
         // when
-        CreateAuthorResponseDTO responseDTO = authorController.createAuthor(createAuthorRequestDTO);
+        var responseDTO = authorController.createAuthor(createAuthorRequestDTO);
 
         // then
         assertThat(responseDTO).isNotNull();
