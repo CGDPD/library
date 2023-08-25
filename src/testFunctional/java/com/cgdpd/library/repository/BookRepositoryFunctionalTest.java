@@ -10,7 +10,7 @@ import static com.cgdpd.library.TestData.booksByTitleCriteria;
 import static com.cgdpd.library.TestData.booksOlderThan;
 import static com.cgdpd.library.TestData.booksYoungerThan;
 import static com.cgdpd.library.TestData.johnDoeBooks;
-import static com.cgdpd.library.repository.BookSpecifications.byBookSearchCriteria;
+import static com.cgdpd.library.repository.specification.BookSpecifications.byBookSearchCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.DbPrePopulatedFunctionalTest;
