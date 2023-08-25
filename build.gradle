@@ -57,6 +57,10 @@ compileJava {
     options.annotationProcessorGeneratedSourcesDirectory = file("$projectDir/src/main/generated")
 }
 
+clean {
+    delete file("$projectDir/src/main/generated")
+}
+
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
