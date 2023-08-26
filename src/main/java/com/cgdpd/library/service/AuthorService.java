@@ -5,6 +5,9 @@ import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.type.AuthorId;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,5 +28,12 @@ public class AuthorService {
     @Transactional
     public boolean authorExist(AuthorId authorId) {
         return authorRepository.existsById(authorId.value());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AuthorDTO> getAuthors(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AuthorEntity> authors = authorRepository.findAll(pageable);
+        return authors.map(author -> new AuthorDTO(AuthorId.of(author.getId()), author.getName()));
     }
 }

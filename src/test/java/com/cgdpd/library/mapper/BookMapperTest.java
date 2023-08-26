@@ -4,9 +4,6 @@ import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cgdpd.library.dto.book.BookDTO;
-import com.cgdpd.library.dto.book.CreateBookRequestDTO;
-import com.cgdpd.library.entity.BookEntity;
 import org.junit.jupiter.api.Test;
 
 class BookMapperTest {
