@@ -1,13 +1,14 @@
 package com.cgdpd.library.dto.book.copy;
 
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.AVAILABLE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.CHECKED_OUT;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.LOST;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.ON_HOLD;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.REFERENCE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.RETIRED;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.CHECKED_OUT;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.LOST;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.ON_HOLD;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.REFERENCE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.RETIRED;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.cgdpd.library.model.book.copy.TrackingStatus;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;

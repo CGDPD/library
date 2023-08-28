@@ -3,7 +3,7 @@ package com.cgdpd.library.mapper;
 import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cgdpd.library.dto.book.copy.TrackingStatus;
+import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.type.UserId;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +12,12 @@ class BookCopyMapperTest {
     private final BookCopyMapper bookCopyMapper = new BookCopyMapperImpl();
 
     @Test
-    void should_map_from_entity_to_dto() {
+    void should_map_book_copy_entity_to_book_copy() {
         // given
         var bookCopyEntity = aBookCopyEntity().build();
 
         // when
-        var result = bookCopyMapper.mapToBookCopyDto(bookCopyEntity);
+        var result = bookCopyMapper.mapToBookCopy(bookCopyEntity);
 
         // then
         assertThat(result.id().value()).isEqualTo(bookCopyEntity.getId());

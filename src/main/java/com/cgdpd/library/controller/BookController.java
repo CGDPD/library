@@ -21,7 +21,7 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateBookResponseDTO createBook(@RequestBody CreateBookRequestDTO requestDTO) {
-        var bookDTO = bookService.createBook(requestDTO);
-        return new CreateBookResponseDTO(bookDTO.id());
+        var book = bookService.createBook(requestDTO);
+        return new CreateBookResponseDTO(book.id());
     }
 }

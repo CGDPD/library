@@ -2,9 +2,8 @@ package com.cgdpd.library.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cgdpd.library.dto.user.Gender;
-import com.cgdpd.library.dto.user.UserDTO;
 import com.cgdpd.library.entity.UserEntity;
+import com.cgdpd.library.model.user.Gender;
 import org.junit.jupiter.api.Test;
 
 class UserMapperTest {
@@ -12,7 +11,7 @@ class UserMapperTest {
     private final UserMapper userMapper = new UserMapperImpl();
 
     @Test
-    void should_map_to_user_dto() {
+    void should_map_user_entity_to_user() {
         // given
         var userEntity = new UserEntity();
         userEntity.setId(1L);
@@ -22,13 +21,13 @@ class UserMapperTest {
         userEntity.setGender("MALE");
 
         // when
-        var userDTO = userMapper.mapToUserDto(userEntity);
+        var user = userMapper.mapToUser(userEntity);
 
         // then
-        assertThat(userDTO.id().value()).isEqualTo(userEntity.getId());
-        assertThat(userDTO.firstName()).isEqualTo(userEntity.getFirstName());
-        assertThat(userDTO.lastName()).isEqualTo(userEntity.getLastName());
-        assertThat(userDTO.yearOfBirth()).isEqualTo(userEntity.getYearOfBirth());
-        assertThat(userDTO.gender()).hasValue(Gender.valueOf(userEntity.getGender()));
+        assertThat(user.id().value()).isEqualTo(userEntity.getId());
+        assertThat(user.firstName()).isEqualTo(userEntity.getFirstName());
+        assertThat(user.lastName()).isEqualTo(userEntity.getLastName());
+        assertThat(user.yearOfBirth()).isEqualTo(userEntity.getYearOfBirth());
+        assertThat(user.gender()).hasValue(Gender.valueOf(userEntity.getGender()));
     }
 }
