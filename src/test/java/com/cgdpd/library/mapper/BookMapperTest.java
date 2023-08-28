@@ -11,7 +11,7 @@ class BookMapperTest {
     private final BookMapper bookMapper = new BookMapperImpl();
 
     @Test
-    void should_map_create_book_requestdto_to_book_entity() {
+    void should_map_create_book_request_dto_to_book_entity() {
         // given
         var request = aCreateBookRequestDTO().build();
 
