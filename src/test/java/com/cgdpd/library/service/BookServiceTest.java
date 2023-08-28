@@ -1,5 +1,8 @@
 package com.cgdpd.library.service;
 
+import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
+import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
+import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,13 +13,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.cgdpd.library.dto.book.BookDTO;
-import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
-import com.cgdpd.library.entity.AuthorEntity;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
+import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.repository.BookRepository;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +63,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void should_create_a_book() {
+    void should_create_a_book() {
         // given
         var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(true);
@@ -86,7 +89,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void should_throw_exception_if_author_not_exist() {
+    void should_throw_exception_if_author_not_exist() {
         // given
         var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(false);
@@ -100,9 +103,9 @@ class BookServiceTest {
     }
 
     @Test
-    public void should_return_books_and_pages() {
+    void should_return_books_and_pagination() {
         // given
-        SearchBookCriteria criteria = SearchBookCriteria.builder()
+        var criteria = SearchBookCriteria.builder()
               .bookTitle(Optional.of("The Great Gatsby"))
               .authorName(Optional.of("F. Scott Fitzgerald"))
               .genre(Optional.of("Fiction"))
@@ -112,31 +115,80 @@ class BookServiceTest {
 
         int page = 0;
         int size = 10;
-        Sort sort = Sort.by(Sort.Direction.ASC, "title");
-
-        BookEntity bookEntity = new BookEntity();
-        bookEntity.setId(1L);
-        bookEntity.setTitle("The Great Gatsby");
-        bookEntity.setGenre("Fiction");
-        bookEntity.setIsbn("9780134685991");
-        bookEntity.setPublicationYear((short) 1925);
-
-        AuthorEntity authorEntity = new AuthorEntity();
-        authorEntity.setName("F. Scott Fitzgerald");
-        authorEntity.setId(1L);
-        bookEntity.setAuthorEntity(authorEntity);
-
-        Page<BookEntity> booksPage = new PageImpl<>(List.of(bookEntity));
+        var sort = Sort.by(Sort.Direction.ASC, "title");
 
         when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
-              .thenReturn(booksPage);
+              .thenReturn(new PageImpl<>(List.of(
+                    JOHN_DOE__THE_ADVENTUROUS__1987,
+                    JOHN_DOE__FINDER__1995,
+                    JANE_DANE__KILLER__2001
+              )));
 
         // when
-        Page<BookDTO> result = bookService.getBooks(criteria, page, size, sort);
+        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result).hasSize(1);
-        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().size()).isEqualTo(3);
+        assertThat(result.getContent().get(0).title()).isEqualTo("The Adventurous");
+    }
+
+    @Test
+    void should_return_empty_page_when_no_books_found() {
+        // given
+        var criteria = SearchBookCriteria.builder().build();
+        int page = 0;
+        int size = 10;
+        var sort = Sort.by(Sort.Direction.ASC, "title");
+
+        when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
+              .thenReturn(Page.empty());
+
+        // when
+        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
+
+        // then
+        assertThat(result.getContent()).isEmpty();
+        assertThat(result.getPageNumber()).isEqualTo(page);
+        assertThat(result.getPageSize()).isEqualTo(size);
+        assertThat(result.getTotalElements()).isEqualTo(0L);
+        assertThat(result.getTotalPages()).isEqualTo(0);
+    }
+
+    @Test
+    void should_return_last_page() {
+        // given
+        var criteria = SearchBookCriteria.builder().build();
+        int page = 5;
+        int size = 10;
+        var sort = Sort.by(Sort.Direction.ASC, "title");
+
+        when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
+              .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
+
+        // when
+        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
+
+        // then
+        assertThat(result.getContent()).isEmpty();
+        assertThat(result.getPageNumber()).isEqualTo(page);
+        assertThat(result.getPageSize()).isEqualTo(size);
+        assertThat(result.getTotalElements()).isEqualTo(0L);
+        assertThat(result.getTotalPages()).isLessThan(page + 1);
+    }
+
+    @Test
+    void should_throw_exception_for_invalid_input_page() {
+        // given
+        var criteria = SearchBookCriteria.builder().build();
+        int invalidPage = -1;
+        int size = 10;
+        var sort = Sort.by(Sort.Direction.ASC, "title");
+
+        // when then
+        assertThatThrownBy(() -> bookService.getBooks(criteria, invalidPage, size, sort))
+              .isInstanceOf(IllegalArgumentException.class)
+              .hasMessageContaining("Page index must not be less than zero");
+
+        verifyNoInteractions(bookRepository);
     }
 }
