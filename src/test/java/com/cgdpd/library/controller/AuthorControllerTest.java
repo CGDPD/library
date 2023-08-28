@@ -3,9 +3,8 @@ package com.cgdpd.library.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.cgdpd.library.dto.author.AuthorDTO;
 import com.cgdpd.library.dto.author.CreateAuthorRequestDTO;
-import com.cgdpd.library.dto.author.CreateAuthorResponseDTO;
+import com.cgdpd.library.model.author.Author;
 import com.cgdpd.library.service.AuthorService;
 import com.cgdpd.library.type.AuthorId;
 import org.junit.jupiter.api.AfterEach;
@@ -42,8 +41,8 @@ public class AuthorControllerTest {
         var id = AuthorId.of(1L);
         var createAuthorRequestDTO = new CreateAuthorRequestDTO(authorName);
 
-        var authorDTO = new AuthorDTO(id, authorName);
-        given(authorService.createAuthor(authorName)).willReturn(authorDTO);
+        var author = new Author(id, authorName);
+        given(authorService.createAuthor(authorName)).willReturn(author);
 
         // when
         var responseDTO = authorController.createAuthor(createAuthorRequestDTO);

@@ -4,7 +4,7 @@ import static com.cgdpd.library.repository.specification.SpecificationPredicates
 import static com.cgdpd.library.repository.specification.SpecificationPredicates.lessThan;
 import static com.cgdpd.library.repository.specification.SpecificationPredicates.like;
 
-import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.entity.AuthorEntity_;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.entity.BookEntity_;

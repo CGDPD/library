@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.cgdpd.library.BookTestData;
-import com.cgdpd.library.dto.book.BookDTO;
-import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.service.BookService;
 import com.cgdpd.library.type.BookId;
 import org.junit.jupiter.api.AfterEach;

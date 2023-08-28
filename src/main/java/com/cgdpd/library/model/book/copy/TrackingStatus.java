@@ -1,4 +1,4 @@
-package com.cgdpd.library.dto.book.copy;
+package com.cgdpd.library.model.book.copy;
 
 import java.util.Collections;
 import java.util.Map;

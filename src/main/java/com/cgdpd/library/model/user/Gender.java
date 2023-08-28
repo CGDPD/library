@@ -1,4 +1,4 @@
-package com.cgdpd.library.dto.user;
+package com.cgdpd.library.model.user;
 
 public enum Gender {
     MALE,

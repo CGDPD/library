@@ -1,8 +1,8 @@
 package com.cgdpd.library.mapper;
 
-import com.cgdpd.library.dto.book.copy.BookCopyDTO;
-import com.cgdpd.library.dto.book.copy.TrackingStatus;
 import com.cgdpd.library.entity.BookCopyEntity;
+import com.cgdpd.library.model.book.copy.BookCopy;
+import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.type.BookCopyId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.UserId;
@@ -18,7 +18,7 @@ public interface BookCopyMapper {
     @Mapping(target = "bookId", source = "bookEntity.id", qualifiedByName = "mapBookId")
     @Mapping(target = "trackingStatus", source = "trackingStatus", qualifiedByName = "stringToTrackingStatus")
     @Mapping(target = "userId", source = "userEntity.id", qualifiedByName = "mapUserId")
-    BookCopyDTO mapToBookCopyDto(BookCopyEntity bookCopyEntity);
+    BookCopy mapToBookCopy(BookCopyEntity bookCopyEntity);
 
     @Named("mapBookCopyId")
     default BookCopyId mapBookCopyId(Long id) {

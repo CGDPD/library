@@ -6,10 +6,10 @@ import static com.cgdpd.library.AuthorTestData.AUTHOR_JANE_DANE;
 import static com.cgdpd.library.AuthorTestData.AUTHOR_JOHN_DOE;
 import static com.cgdpd.library.RandomIsbn.generateISBN13;
 
-import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
+import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.Isbn13;
@@ -97,8 +97,8 @@ public class BookTestData {
               .genre(request.genre());
     }
 
-    public static BookDTO.BookDTOBuilder bookFromRequest(CreateBookRequestDTO request) {
-        return BookDTO.builder()
+    public static Book.BookBuilder bookFromRequest(CreateBookRequestDTO request) {
+        return Book.builder()
               .id(BookId.of(1L))
               .title(request.title())
               .authorId(request.authorId())

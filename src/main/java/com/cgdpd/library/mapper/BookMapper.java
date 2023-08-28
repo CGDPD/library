@@ -1,8 +1,8 @@
 package com.cgdpd.library.mapper;
 
-import com.cgdpd.library.dto.book.BookDTO;
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.entity.BookEntity;
+import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.Isbn13;
@@ -18,7 +18,7 @@ public interface BookMapper {
     BookEntity mapToBookEntity(CreateBookRequestDTO requestDTO);
 
     @Mapping(source = "authorEntity.id", target = "authorId", qualifiedByName = "mapToAuthorId")
-    BookDTO mapToBookDTO(BookEntity bookEntity);
+    Book mapToBook(BookEntity bookEntity);
 
     @Named("mapToAuthorId")
     default AuthorId mapToAuthorId(Long id) {

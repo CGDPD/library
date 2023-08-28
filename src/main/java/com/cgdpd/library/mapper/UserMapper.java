@@ -1,8 +1,8 @@
 package com.cgdpd.library.mapper;
 
-import com.cgdpd.library.dto.user.Gender;
-import com.cgdpd.library.dto.user.UserDTO;
 import com.cgdpd.library.entity.UserEntity;
+import com.cgdpd.library.model.user.Gender;
+import com.cgdpd.library.model.user.User;
 import com.cgdpd.library.type.UserId;
 import java.util.Optional;
 import org.mapstruct.Mapper;
@@ -13,7 +13,7 @@ import org.mapstruct.Named;
 public interface UserMapper {
 
     @Mapping(source = "id", target = "id", qualifiedByName = "mapUserId")
-    UserDTO mapToUserDto(UserEntity userEntity);
+    User mapToUser(UserEntity userEntity);
 
     default Optional<Gender> stringToGender(String value) {
         return Optional.ofNullable(value)

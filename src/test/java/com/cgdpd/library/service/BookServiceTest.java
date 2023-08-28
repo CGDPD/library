@@ -68,15 +68,15 @@ class BookServiceTest {
         given(bookRepository.save(captor.capture())).willReturn(bookEntity);
 
         // when
-        var bookDTO = bookService.createBook(request);
+        var book = bookService.createBook(request);
 
         // then
-        assertThat(bookDTO.id().value()).isEqualTo(bookEntity.getId());
-        assertThat(bookDTO.title()).isEqualTo(request.title());
-        assertThat(bookDTO.authorId()).isEqualTo(request.authorId());
-        assertThat(bookDTO.publicationYear()).isEqualTo(request.publicationYear());
-        assertThat(bookDTO.isbn()).isEqualTo(request.isbn());
-        assertThat(bookDTO.genre()).isEqualTo(request.genre());
+        assertThat(book.id().value()).isEqualTo(bookEntity.getId());
+        assertThat(book.title()).isEqualTo(request.title());
+        assertThat(book.authorId()).isEqualTo(request.authorId());
+        assertThat(book.publicationYear()).isEqualTo(request.publicationYear());
+        assertThat(book.isbn()).isEqualTo(request.isbn());
+        assertThat(book.genre()).isEqualTo(request.genre());
         verify(bookRepository).save(captor.getValue());
         assertThat(request.title()).isEqualTo(captor.getValue().getTitle());
         assertThat(bookEntity.getAuthorEntity()).isEqualTo(captor.getValue().getAuthorEntity());

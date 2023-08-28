@@ -23,7 +23,7 @@ public class AuthorController {
     public CreateAuthorResponseDTO createAuthor(
           @RequestBody CreateAuthorRequestDTO createAuthorRequestDTO) {
         var authorName = createAuthorRequestDTO.authorName();
-        var authorDTO = authorService.createAuthor(authorName);
-        return new CreateAuthorResponseDTO(authorDTO.id(), authorDTO.name());
+        var author = authorService.createAuthor(authorName);
+        return new CreateAuthorResponseDTO(author.id(), author.name());
     }
 }

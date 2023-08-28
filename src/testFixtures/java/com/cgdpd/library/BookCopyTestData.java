@@ -10,16 +10,16 @@ import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.UserTestData.USER_LOLA_ROGER;
 import static com.cgdpd.library.UserTestData.USER_LOUIS_CASTRO;
 import static com.cgdpd.library.UserTestData.aUserEntity;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.AVAILABLE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.BEING_PROCESSED;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.CHECKED_OUT;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.LOST;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.ON_HOLD;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.REFERENCE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.RETIRED;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.BEING_PROCESSED;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.CHECKED_OUT;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.LOST;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.ON_HOLD;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.REFERENCE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.RETIRED;
 
-import com.cgdpd.library.dto.book.copy.BookCopyDTO;
 import com.cgdpd.library.entity.BookCopyEntity;
+import com.cgdpd.library.model.book.copy.BookCopy;
 import com.cgdpd.library.type.BookCopyId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.UserId;
@@ -104,8 +104,8 @@ public class BookCopyTestData {
           .trackingStatus(AVAILABLE.name())
           .build();
 
-    public static BookCopyDTO.BookCopyDTOBuilder aBookCopy() {
-        return BookCopyDTO.builder()
+    public static BookCopy.BookCopyBuilder aBookCopy() {
+        return BookCopy.builder()
               .id(BookCopyId.of(1L))
               .bookId(BookId.of(1L))
               .trackingStatus(CHECKED_OUT)

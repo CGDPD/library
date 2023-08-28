@@ -11,7 +11,7 @@ class BookMapperTest {
     private final BookMapper bookMapper = new BookMapperImpl();
 
     @Test
-    void should_map_create_book_request_to_book_entity() {
+    void should_map_create_book_request_dto_to_book_entity() {
         // given
         var request = aCreateBookRequestDTO().build();
 
@@ -21,26 +21,25 @@ class BookMapperTest {
         // then
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
         assertThat(bookEntity.getAuthorEntity().getId()).isEqualTo(request.authorId().value());
-        assertThat(bookEntity.getPublicationYear())
-              .isEqualTo(request.publicationYear().orElseThrow());
+        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear().orElseThrow());
         assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn().value());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
 
     @Test
-    void should_map_book_entity_to_book_dto() {
+    void should_map_book_entity_to_book() {
         // given
         var bookEntity = aBookEntity().build();
 
         // when
-        var bookDTO = bookMapper.mapToBookDTO(bookEntity);
+        var book = bookMapper.mapToBook(bookEntity);
 
         // then
-        assertThat(bookDTO.id().value()).isEqualTo(bookEntity.getId());
-        assertThat(bookDTO.title()).isEqualTo(bookEntity.getTitle());
-        assertThat(bookDTO.authorId().value()).isEqualTo(bookEntity.getAuthorEntity().getId());
-        assertThat(bookDTO.publicationYear()).hasValue(bookEntity.getPublicationYear());
-        assertThat(bookDTO.isbn().value()).isEqualTo(bookEntity.getIsbn());
-        assertThat(bookDTO.genre()).isEqualTo(bookEntity.getGenre());
+        assertThat(book.id().value()).isEqualTo(bookEntity.getId());
+        assertThat(book.title()).isEqualTo(bookEntity.getTitle());
+        assertThat(book.authorId().value()).isEqualTo(bookEntity.getAuthorEntity().getId());
+        assertThat(book.publicationYear()).hasValue(bookEntity.getPublicationYear());
+        assertThat(book.isbn().value()).isEqualTo(bookEntity.getIsbn());
+        assertThat(book.genre()).isEqualTo(bookEntity.getGenre());
     }
 }
