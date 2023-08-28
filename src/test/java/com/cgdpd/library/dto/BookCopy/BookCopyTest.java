@@ -1,13 +1,13 @@
 package com.cgdpd.library.dto.BookCopy;
 
 import static com.cgdpd.library.BookCopyTestData.aBookCopy;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.AVAILABLE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.BEING_PROCESSED;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.CHECKED_OUT;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.LOST;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.ON_HOLD;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.REFERENCE;
-import static com.cgdpd.library.dto.book.copy.TrackingStatus.RETIRED;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.BEING_PROCESSED;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.CHECKED_OUT;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.LOST;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.ON_HOLD;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.REFERENCE;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.RETIRED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -16,7 +16,7 @@ import com.cgdpd.library.type.UserId;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class BookCopyDTOTest {
+class BookCopyTest {
 
     @Test
     void should_build_book_with_user_id_and_allowed_status() {

@@ -14,7 +14,7 @@ import static com.cgdpd.library.repository.specification.BookSpecifications.byBo
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.DbPrePopulatedFunctionalTest;
-import com.cgdpd.library.dto.book.copy.SearchBookCriteria;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;

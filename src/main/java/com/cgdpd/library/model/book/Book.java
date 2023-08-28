@@ -1,4 +1,4 @@
-package com.cgdpd.library.dto.book;
+package com.cgdpd.library.model.book;
 
 import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
 import static com.cgdpd.library.validation.Validator.checkYearNotFuture;
@@ -12,19 +12,19 @@ import java.util.Optional;
 import lombok.Builder;
 
 @Builder
-public record BookDTO(BookId id,
-                      String title,
-                      AuthorId authorId,
-                      Isbn13 isbn,
-                      String genre,
-                      Optional<Short> publicationYear) {
-
-    public BookDTO(BookId id,
+public record Book(BookId id,
                    String title,
                    AuthorId authorId,
                    Isbn13 isbn,
                    String genre,
                    Optional<Short> publicationYear) {
+
+    public Book(BookId id,
+                String title,
+                AuthorId authorId,
+                Isbn13 isbn,
+                String genre,
+                Optional<Short> publicationYear) {
         this.id = required("id", id);
         this.title = requiredNotBlank("title", title);
         this.authorId = required("authorId", authorId);

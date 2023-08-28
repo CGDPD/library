@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.cgdpd.library.dto.author.AuthorDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.repository.AuthorRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -48,11 +47,11 @@ public class AuthorServiceTest {
         given(authorRepository.save(captor.capture())).willReturn(authorEntity);
 
         // when
-        var authorDTO = authorService.createAuthor(authorName);
+        var author = authorService.createAuthor(authorName);
 
         // then
-        assertThat(authorDTO.id().value()).isEqualTo(id);
-        assertThat(authorDTO.name()).isEqualTo(authorName);
+        assertThat(author.id().value()).isEqualTo(id);
+        assertThat(author.name()).isEqualTo(authorName);
         verify(authorRepository).save(captor.getValue());
         assertThat(authorName).isEqualTo(captor.getValue().getName());
     }

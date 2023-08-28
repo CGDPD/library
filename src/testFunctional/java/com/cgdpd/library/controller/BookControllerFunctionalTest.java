@@ -9,9 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cgdpd.library.AuthorTestData;
 import com.cgdpd.library.BookTestData;
 import com.cgdpd.library.FunctionalTest;
-import com.cgdpd.library.dto.book.CreateBookRequestDTO;
-import com.cgdpd.library.entity.AuthorEntity;
-import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.repository.BookRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 @AutoConfigureMockMvc
