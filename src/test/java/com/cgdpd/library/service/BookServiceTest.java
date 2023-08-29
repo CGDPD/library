@@ -134,7 +134,6 @@ class BookServiceTest {
         assertThat(result.getContent().get(0).title()).isEqualTo("The Adventurous");
     }
 
-
     @Test
     void should_return_empty_page_when_no_books_found() {
         // given
@@ -157,7 +156,6 @@ class BookServiceTest {
         assertThat(result.getTotalElements()).isEqualTo(0L);
         assertThat(result.getTotalPages()).isEqualTo(0);
     }
-
 
     @Test
     void should_return_last_page() {
@@ -198,5 +196,4 @@ class BookServiceTest {
 
         verifyNoInteractions(bookRepository);
     }
-
 }

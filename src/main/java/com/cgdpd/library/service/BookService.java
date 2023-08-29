@@ -1,7 +1,6 @@
 package com.cgdpd.library.service;
 
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
-import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.dto.book.SearchBookRequest;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.entity.BookEntity;
@@ -13,7 +12,6 @@ import com.cgdpd.library.repository.specification.BookSpecifications;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +42,4 @@ public class BookService {
               books.getTotalElements());
         return response;
     }
-
-
 }

@@ -8,5 +8,3 @@ public record SearchBookRequest(SearchBookCriteria criteria, int pageIndex, int 
         this(criteria, pageIndex, pageSize, null);
     }
 }
-
-
