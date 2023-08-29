@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.book.SearchBookRequest;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
@@ -103,7 +104,7 @@ class BookServiceTest {
     }
 
     @Test
-    void should_return_books_and_pagination() {
+    void should_return_books_with_pagination() {
         // given
         var criteria = SearchBookCriteria.builder()
               .bookTitle(Optional.of("The Great Gatsby"))
@@ -113,9 +114,10 @@ class BookServiceTest {
               .publicationYearGreaterThan(Optional.of((short) 1924))
               .build();
 
-        int page = 0;
-        int size = 10;
+        int pageNumber = 0;
+        int pageSize = 10;
         var sort = Sort.by(Sort.Direction.ASC, "title");
+        var request = new SearchBookRequest(criteria, pageNumber, pageSize, sort);
 
         when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
               .thenReturn(new PageImpl<>(List.of(
@@ -125,12 +127,13 @@ class BookServiceTest {
               )));
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
+        PagedResponse<Book> result = bookService.getBooks(request);
 
         // then
         assertThat(result.getContent().size()).isEqualTo(3);
         assertThat(result.getContent().get(0).title()).isEqualTo("The Adventurous");
     }
+
 
     @Test
     void should_return_empty_page_when_no_books_found() {
@@ -139,12 +142,13 @@ class BookServiceTest {
         int page = 0;
         int size = 10;
         var sort = Sort.by(Sort.Direction.ASC, "title");
+        var request = new SearchBookRequest(criteria, page, size, sort);
 
         when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
               .thenReturn(Page.empty());
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
+        PagedResponse<Book> result = bookService.getBooks(request);
 
         // then
         assertThat(result.getContent()).isEmpty();
@@ -154,6 +158,7 @@ class BookServiceTest {
         assertThat(result.getTotalPages()).isEqualTo(0);
     }
 
+
     @Test
     void should_return_last_page() {
         // given
@@ -161,12 +166,13 @@ class BookServiceTest {
         int page = 5;
         int size = 10;
         var sort = Sort.by(Sort.Direction.ASC, "title");
+        var request = new SearchBookRequest(criteria, page, size, sort);
 
         when(bookRepository.findAll(any(Specification.class), any(Pageable.class)))
               .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(criteria, page, size, sort);
+        PagedResponse<Book> result = bookService.getBooks(request);
 
         // then
         assertThat(result.getContent()).isEmpty();
@@ -183,12 +189,14 @@ class BookServiceTest {
         int invalidPage = -1;
         int size = 10;
         var sort = Sort.by(Sort.Direction.ASC, "title");
+        var request = new SearchBookRequest(criteria, invalidPage, size, sort);
 
         // when then
-        assertThatThrownBy(() -> bookService.getBooks(criteria, invalidPage, size, sort))
+        assertThatThrownBy(() -> bookService.getBooks(request))
               .isInstanceOf(IllegalArgumentException.class)
               .hasMessageContaining("Page index must not be less than zero");
 
         verifyNoInteractions(bookRepository);
     }
+
 }

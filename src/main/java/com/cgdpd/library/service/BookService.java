@@ -2,6 +2,7 @@ package com.cgdpd.library.service;
 
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.book.SearchBookRequest;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
@@ -34,15 +35,15 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<Book> getBooks(SearchBookCriteria criteria, int pageIndex, int pageSize,
-                                        Sort sort) {
-        var pageable = PageRequest.of(pageIndex, pageSize, sort);
+    public PagedResponse<Book> getBooks(SearchBookRequest request) {
+        var pageable = PageRequest.of(request.pageIndex(), request.pageSize(), request.sort());
         Page<BookEntity> books = bookRepository.findAll(
-              BookSpecifications.byBookSearchCriteria(criteria), pageable);
+              BookSpecifications.byBookSearchCriteria(request.criteria()), pageable);
         PagedResponse<Book> response = new PagedResponse<>(
               books.map(bookMapper::mapToBook).getContent(), books.getNumber(), books.getSize(),
               books.getTotalElements());
         return response;
     }
+
 
 }
