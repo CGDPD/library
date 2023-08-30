@@ -4,10 +4,12 @@ import com.cgdpd.library.entity.UserEntity;
 import com.cgdpd.library.model.user.Gender;
 import com.cgdpd.library.model.user.User;
 import com.cgdpd.library.type.UserId;
-import java.util.Optional;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

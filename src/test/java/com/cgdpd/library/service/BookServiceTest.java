@@ -4,6 +4,7 @@ import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -39,6 +40,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Optional;
+
 class BookServiceTest {
 
     private final BookMapper bookMapper = new BookMapperImpl();
@@ -50,7 +53,6 @@ class BookServiceTest {
 
     @Captor
     private ArgumentCaptor<BookEntity> captor;
-
 
     private AutoCloseable closeable;
 
@@ -106,6 +108,7 @@ class BookServiceTest {
     }
 
     @Test
+
     void should_return_books_with_pagination() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
@@ -198,5 +201,18 @@ class BookServiceTest {
               .hasMessageContaining("Page index must not be less than zero");
 
         verifyNoInteractions(bookRepository);
+      
+    void should_find_book_by_isbn13() {
+        // given
+        var detailedBookDto = aDetailedBookDto().build();
+        var isbn13 = detailedBookDto.isbn();
+        given(bookRepository.findDetailedBookByIsbn(isbn13.value()))
+              .willReturn(Optional.of(detailedBookDto));
+
+        // when
+        var result = bookService.findDetailedBookByIsbn13(isbn13);
+
+        // then
+        assertThat(result).hasValue(detailedBookDto);
     }
 }

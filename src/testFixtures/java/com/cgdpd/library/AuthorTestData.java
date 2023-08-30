@@ -3,6 +3,7 @@ package com.cgdpd.library;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.model.author.Author;
 import com.cgdpd.library.type.AuthorId;
+
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AuthorTestData {

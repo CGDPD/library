@@ -3,6 +3,7 @@ package com.cgdpd.library.repository.specification;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
+
 import java.util.function.Function;
 
 public final class SpecificationPredicates {

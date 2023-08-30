@@ -8,8 +8,10 @@ import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.Isbn13;
-import java.util.Optional;
+
 import lombok.Builder;
+
+import java.util.Optional;
 
 @Builder
 public record Book(BookId id,

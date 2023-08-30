@@ -4,8 +4,10 @@ import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 
 import com.cgdpd.library.type.UserId;
-import java.util.Optional;
+
 import lombok.Builder;
+
+import java.util.Optional;
 
 @Builder
 public record User(UserId id,
