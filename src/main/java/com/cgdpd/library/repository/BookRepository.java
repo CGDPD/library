@@ -16,13 +16,11 @@ public interface BookRepository
       extends JpaRepository<BookEntity, Long>, JpaSpecificationExecutor<BookEntity> {
 
     @Query("""
-          SELECT new com.cgdpd.library.dto.book.DetailedBookDTO(
-          b.id, b.title, a.id, a.name, b.isbn, b.genre, STRING_AGG(c.trackingStatus, ','), b.publicationYear)
+          SELECT b
           FROM BookEntity b
           JOIN b.authorEntity a
           LEFT JOIN b.bookCopyEntities c
           WHERE b.isbn = :isbn
-          GROUP BY b.id, a.id, a.name, b.isbn, b.genre, b.publicationYear
           """)
-    Optional<DetailedBookDTO> findDetailedBookByIsbn(@Param("isbn") String isbn);
+    Optional<BookEntity> findDetailedBookByIsbn(@Param("isbn") String isbn);
 }

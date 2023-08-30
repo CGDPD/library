@@ -1,8 +1,11 @@
 package com.cgdpd.library.service;
 
+import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
+import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
+import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
@@ -23,6 +26,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.Optional;
 
 class BookServiceTest {
@@ -93,10 +97,18 @@ class BookServiceTest {
     @Test
     void should_find_book_by_isbn13() {
         // given
+        var bookId = 1L;
+        var bookEntity = aBookEntity()
+              .id(bookId)
+              .bookCopyEntities(List.of(
+                    aBookCopyEntity(bookId)
+                          .trackingStatus(AVAILABLE.name())
+                          .build()))
+              .build();
         var detailedBookDto = aDetailedBookDto().build();
         var isbn13 = detailedBookDto.isbn();
         given(bookRepository.findDetailedBookByIsbn(isbn13.value()))
-              .willReturn(Optional.of(detailedBookDto));
+              .willReturn(Optional.of(bookEntity));
 
         // when
         var result = bookService.findDetailedBookByIsbn13(isbn13);
