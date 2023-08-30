@@ -13,18 +13,20 @@ import java.util.Optional;
 
 public class BookAssertion {
 
-    public static void assertThatDetailedBookDtoHasCorrectValues(DetailedBookDTO resultBook,
-                                                                 BookEntity bookEntity,
-                                                                 BookAvailability bookAvailability) {
-        assertThat(resultBook.id()).isEqualTo(BookId.of(bookEntity.getId()));
-        assertThat(resultBook.title()).isEqualTo(bookEntity.getTitle());
-        assertThat(resultBook.authorId()).isEqualTo(
-              AuthorId.of(bookEntity.getAuthorEntity().getId()));
-        assertThat(resultBook.authorName()).isEqualTo(bookEntity.getAuthorEntity().getName());
-        assertThat(resultBook.isbn()).isEqualTo(Isbn13.of(bookEntity.getIsbn()));
-        assertThat(resultBook.genre()).isEqualTo(bookEntity.getGenre());
-        assertThat(resultBook.availability()).isEqualTo(bookAvailability);
-        assertThat(resultBook.publicationYear()).isEqualTo(
-              Optional.of(bookEntity.getPublicationYear()));
+    public static void assertThatDetailedBookDtoHasCorrectValues(
+            DetailedBookDTO resultDetailedBookDto,
+            BookEntity bookEntity,
+            BookAvailability bookAvailability) {
+
+        assertThat(resultDetailedBookDto.id()).isEqualTo(BookId.of(bookEntity.getId()));
+        assertThat(resultDetailedBookDto.title()).isEqualTo(bookEntity.getTitle());
+        assertThat(resultDetailedBookDto.authorId()).isEqualTo(
+                AuthorId.of(bookEntity.getAuthorEntity().getId()));
+        assertThat(resultDetailedBookDto.authorName()).isEqualTo(bookEntity.getAuthorEntity().getName());
+        assertThat(resultDetailedBookDto.isbn()).isEqualTo(Isbn13.of(bookEntity.getIsbn()));
+        assertThat(resultDetailedBookDto.genre()).isEqualTo(bookEntity.getGenre());
+        assertThat(resultDetailedBookDto.availability()).isEqualTo(bookAvailability);
+        assertThat(resultDetailedBookDto.publicationYear()).isEqualTo(
+                Optional.of(bookEntity.getPublicationYear()));
     }
 }

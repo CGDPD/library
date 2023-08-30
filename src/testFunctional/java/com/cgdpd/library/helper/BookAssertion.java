@@ -13,9 +13,11 @@ import java.util.Optional;
 
 public class BookAssertion {
 
-    public static void assertThatDetailedBookDtoHasCorrectValues(DetailedBookDTO resultDetailedBookDto,
-                                                                 BookEntity bookEntity,
-                                                                 BookAvailability bookAvailability) {
+    public static void assertThatDetailedBookDtoHasCorrectValues(
+          DetailedBookDTO resultDetailedBookDto,
+          BookEntity bookEntity,
+          BookAvailability bookAvailability) {
+
         assertThat(resultDetailedBookDto.id()).isEqualTo(BookId.of(bookEntity.getId()));
         assertThat(resultDetailedBookDto.title()).isEqualTo(bookEntity.getTitle());
         assertThat(resultDetailedBookDto.authorId())
