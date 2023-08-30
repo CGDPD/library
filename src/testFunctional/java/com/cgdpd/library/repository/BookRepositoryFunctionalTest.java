@@ -15,10 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.DbPrePopulatedFunctionalTest;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
-import java.util.List;
-import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Optional;
 
 public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
 

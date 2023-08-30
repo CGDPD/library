@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cgdpd.library.FunctionalTest;
 import com.cgdpd.library.dto.author.CreateAuthorRequestDTO;
 import com.cgdpd.library.repository.AuthorRepository;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.UnsupportedEncodingException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.io.UnsupportedEncodingException;
 
 @AutoConfigureMockMvc
 public class AuthorControllerFunctionalTest extends FunctionalTest {

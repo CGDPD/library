@@ -6,10 +6,12 @@ import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.Isbn13;
-import java.util.Optional;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {

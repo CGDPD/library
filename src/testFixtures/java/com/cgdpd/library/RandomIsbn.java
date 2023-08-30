@@ -1,6 +1,7 @@
 package com.cgdpd.library;
 
 import com.cgdpd.library.type.Isbn13;
+
 import java.util.Random;
 
 public class RandomIsbn {

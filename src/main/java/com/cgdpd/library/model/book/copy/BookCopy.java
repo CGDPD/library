@@ -13,9 +13,11 @@ import static com.cgdpd.library.validation.Validator.validate;
 import com.cgdpd.library.type.BookCopyId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.UserId;
+
+import lombok.Builder;
+
 import java.util.Optional;
 import java.util.Set;
-import lombok.Builder;
 
 @Builder(toBuilder = true)
 public record BookCopy(BookCopyId id,

@@ -21,7 +21,8 @@ class BookMapperTest {
         // then
         assertThat(bookEntity.getTitle()).isEqualTo(request.title());
         assertThat(bookEntity.getAuthorEntity().getId()).isEqualTo(request.authorId().value());
-        assertThat(bookEntity.getPublicationYear()).isEqualTo(request.publicationYear().orElseThrow());
+        assertThat(bookEntity.getPublicationYear()).isEqualTo(
+              request.publicationYear().orElseThrow());
         assertThat(bookEntity.getIsbn()).isEqualTo(request.isbn().value());
         assertThat(bookEntity.getGenre()).isEqualTo(request.genre());
     }
@@ -29,7 +30,7 @@ class BookMapperTest {
     @Test
     void should_map_book_entity_to_book() {
         // given
-        var bookEntity = aBookEntity().build();
+        var bookEntity = aBookEntity().id(1L).build();
 
         // when
         var book = bookMapper.mapToBook(bookEntity);

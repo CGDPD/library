@@ -4,9 +4,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import com.cgdpd.library.exceptions.ValidationException;
+
+import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
 
 public class ValidatorTest {
 
