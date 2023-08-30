@@ -36,6 +36,7 @@ public class BookService {
     }
 
     public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
-        return bookRepository.findDetailedBookByIsbn(isbn13.value());
+        return bookRepository.findDetailedBookByIsbn(isbn13.value())
+              .map(bookMapper::mapToDetailedBookDto);
     }
 }
