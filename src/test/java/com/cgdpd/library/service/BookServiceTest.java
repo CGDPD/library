@@ -17,6 +17,7 @@ import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
 import com.cgdpd.library.repository.BookRepository;
+import com.cgdpd.library.type.Isbn13;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,15 +106,16 @@ class BookServiceTest {
                           .trackingStatus(AVAILABLE.name())
                           .build()))
               .build();
-        var detailedBookDto = aDetailedBookDto().build();
-        var isbn13 = detailedBookDto.isbn();
-        given(bookRepository.findDetailedBookByIsbn(isbn13.value()))
+
+        var isbn13 = bookEntity.getIsbn();
+        given(bookRepository.findDetailedBookByIsbn(isbn13))
               .willReturn(Optional.of(bookEntity));
 
         // when
-        var result = bookService.findDetailedBookByIsbn13(isbn13);
+        var result = bookService.findDetailedBookByIsbn13(Isbn13.of(isbn13));
 
         // then
-        assertThat(result).hasValue(detailedBookDto);
+        var expectedDetailedBookDto = bookMapper.mapToDetailedBookDto(bookEntity);
+        assertThat(result).hasValue(expectedDetailedBookDto);
     }
 }
