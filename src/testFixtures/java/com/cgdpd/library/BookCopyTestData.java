@@ -9,7 +9,6 @@ import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.UserTestData.USER_LOLA_ROGER;
 import static com.cgdpd.library.UserTestData.USER_LOUIS_CASTRO;
-import static com.cgdpd.library.UserTestData.aUserEntity;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.BEING_PROCESSED;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.CHECKED_OUT;
@@ -23,6 +22,7 @@ import com.cgdpd.library.model.book.copy.BookCopy;
 import com.cgdpd.library.type.BookCopyId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.UserId;
+
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -113,10 +113,13 @@ public class BookCopyTestData {
     }
 
     public static BookCopyEntity.BookCopyEntityBuilder aBookCopyEntity() {
+        return aBookCopyEntity(1L);
+    }
+
+    public static BookCopyEntity.BookCopyEntityBuilder aBookCopyEntity(long bookId) {
         return BookCopyEntity.builder()
-              .id(1L)
-              .bookEntity(aBookEntity().build())
-              .trackingStatus(CHECKED_OUT.name())
-              .userEntity(aUserEntity().build());
+              .id(null)
+              .bookEntity(aBookEntity().id(bookId).build())
+              .trackingStatus(AVAILABLE.name());
     }
 }

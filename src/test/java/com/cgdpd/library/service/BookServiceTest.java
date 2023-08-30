@@ -1,6 +1,7 @@
 package com.cgdpd.library.service;
 
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -13,6 +14,7 @@ import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
 import com.cgdpd.library.repository.BookRepository;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
 
 class BookServiceTest {
 
@@ -32,7 +36,6 @@ class BookServiceTest {
 
     @Captor
     private ArgumentCaptor<BookEntity> captor;
-
 
     private AutoCloseable closeable;
 
@@ -85,5 +88,20 @@ class BookServiceTest {
               .hasMessage(String.format("Author with id %s not found", request.authorId()));
 
         verifyNoInteractions(bookRepository);
+    }
+
+    @Test
+    void should_find_book_by_isbn13() {
+        // given
+        var detailedBookDto = aDetailedBookDto().build();
+        var isbn13 = detailedBookDto.isbn();
+        given(bookRepository.findDetailedBookByIsbn(isbn13.value()))
+              .willReturn(Optional.of(detailedBookDto));
+
+        // when
+        var result = bookService.findDetailedBookByIsbn13(isbn13);
+
+        // then
+        assertThat(result).hasValue(detailedBookDto);
     }
 }

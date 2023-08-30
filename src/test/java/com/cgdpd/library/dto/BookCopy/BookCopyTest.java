@@ -13,8 +13,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.cgdpd.library.exceptions.ValidationException;
 import com.cgdpd.library.type.UserId;
-import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 class BookCopyTest {
 
