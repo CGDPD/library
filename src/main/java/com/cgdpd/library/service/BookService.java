@@ -7,6 +7,8 @@ import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.dto.pagination.SortParam;
 import com.cgdpd.library.entity.BookEntity;
+
+
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.Book;
@@ -20,6 +22,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import java.util.Optional;
 
@@ -58,11 +62,12 @@ public class BookService {
 
     public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
         return findDetailedBookByIsbn13(isbn13).orElseThrow(
-              () -> new NotFoundException(
-                    String.format("No book by the isbn %s", isbn13.value())));
+              () -> new NotFoundException(String.format("No book by the isbn %s", isbn13.value())));
     }
 
     public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
-        return bookRepository.findDetailedBookByIsbn(isbn13.value());
+        return bookRepository.findDetailedBookByIsbn(isbn13.value())
+              .map(bookMapper::mapToDetailedBookDto);
+
     }
 }
