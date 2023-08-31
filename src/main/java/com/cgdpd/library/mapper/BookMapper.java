@@ -14,10 +14,7 @@ import com.cgdpd.library.type.Isbn13;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-
 import java.util.List;
-
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")

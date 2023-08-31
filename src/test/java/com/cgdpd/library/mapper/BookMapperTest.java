@@ -28,7 +28,6 @@ class BookMapperTest {
         var resultBookEntity = bookMapper.mapToBookEntity(request);
 
         // then
-
         assertThat(resultBookEntity.getTitle()).isEqualTo(request.title());
         assertThat(resultBookEntity.getAuthorEntity().getId()).isEqualTo(
               request.authorId().value());

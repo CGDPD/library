@@ -7,6 +7,7 @@ import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.dto.pagination.SortParam;
 import com.cgdpd.library.entity.BookEntity;
+import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.Book;
@@ -40,11 +41,11 @@ public class BookService {
         return bookMapper.mapToBook(createdBook);
     }
 
-    @Transactional
-    public PagedResponse<DetailedBookDTO> getBooks(PaginationCriteria paginationCriteria,
-                                                   SearchBookCriteria searchCriteria) {
-        var sort = paginationCriteria.sort()
-              .map(SortParam::toDomainSort)
+    @Transactional(readOnly = true)
+    public PagedResponse<Book> getBooks(PaginationCriteria paginationCriteria,
+                                        SearchBookCriteria searchCriteria) {
+        Sort sort = paginationCriteria.sort()
+              .map(SortParam::toSort)
               .orElse(Sort.unsorted());
         var pageable = PageRequest.of(paginationCriteria.pageIndex(), paginationCriteria.pageSize(),
               sort);
@@ -55,6 +56,15 @@ public class BookService {
               books.getSize(),
               books.getTotalElements());
         return response;
+
+    public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
+        return findDetailedBookByIsbn13(isbn13).orElseThrow(
+              () -> new NotFoundException(String.format("No book by the isbn %s", isbn13.value())));
+    }
+
+    public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
+        return bookRepository.findDetailedBookByIsbn(isbn13.value())
+              .map(bookMapper::mapToDetailedBookDto);
     }
 
     public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
@@ -65,6 +75,5 @@ public class BookService {
     public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
         return bookRepository.findDetailedBookByIsbn(isbn13.value())
               .map(bookMapper::mapToDetailedBookDto);
-
     }
 }

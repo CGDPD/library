@@ -5,16 +5,10 @@ import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.RandomIsbn.generateISBN13;
-
-import static com.cgdpd.library.TestUtils.getJsonObjectFromResult;
-import static com.cgdpd.library.TestUtils.getObjectFromResultActions;
-import static com.cgdpd.library.dto.book.BookAvailability.UNAVAILABLE;
-
 import static com.cgdpd.library.dto.book.BookAvailability.UNAVAILABLE;
 import static com.cgdpd.library.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
 import static com.cgdpd.library.helper.TestUtils.getJsonObjectFromResult;
 import static com.cgdpd.library.helper.TestUtils.getObjectFromResultActions;
-
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,12 +26,6 @@ import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.repository.BookCopyRepository;
 import com.cgdpd.library.repository.BookRepository;
-
-import com.cgdpd.library.type.AuthorId;
-import com.cgdpd.library.type.BookId;
-import com.cgdpd.library.type.Isbn13;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
@@ -46,10 +34,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
-
 
 
 @AutoConfigureMockMvc
@@ -156,20 +141,6 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         // then
         resultActions.andExpect(status().isOk());
 
-    private void assertThatDetailedBookHasCorrectValues(DetailedBookDTO resultBook,
-                                                        BookEntity bookEntity,
-                                                        BookAvailability bookAvailability) {
-        assertThat(resultBook.id()).isEqualTo(BookId.of(bookEntity.getId()));
-        assertThat(resultBook.title()).isEqualTo(bookEntity.getTitle());
-        assertThat(resultBook.authorId()).isEqualTo(
-              AuthorId.of(bookEntity.getAuthorEntity().getId()));
-        assertThat(resultBook.authorName()).isEqualTo(bookEntity.getAuthorEntity().getName());
-        assertThat(resultBook.isbn()).isEqualTo(Isbn13.of(bookEntity.getIsbn()));
-        assertThat(resultBook.genre()).isEqualTo(bookEntity.getGenre());
-        assertThat(resultBook.availability()).isEqualTo(bookAvailability);
-        assertThat(resultBook.publicationYear()).isEqualTo(
-              Optional.of(bookEntity.getPublicationYear()));
-
         var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDTO.class,
               objectMapper);
         assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, UNAVAILABLE);
@@ -183,7 +154,6 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this
     private BookEntity givenRandomBookExists() {
-
         var bookEntity = aBookEntity().build();
         return givenBookExists(bookEntity);
     }

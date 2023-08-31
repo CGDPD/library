@@ -1,12 +1,13 @@
 package com.cgdpd.library.service;
 
-
-import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
+
+import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,6 +28,8 @@ import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
 import com.cgdpd.library.repository.BookRepository;
 import com.cgdpd.library.repository.specification.BookSpecifications;
+import java.util.List;
+import java.util.Optional;
 import com.cgdpd.library.type.Isbn13;
 
 import org.junit.jupiter.api.AfterEach;
@@ -111,6 +114,7 @@ class BookServiceTest {
     }
 
     @Test
+
     void should_return_books_with_pagination() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
@@ -206,6 +210,28 @@ class BookServiceTest {
               .hasMessageContaining("Page index must not be less than zero");
 
         verifyNoInteractions(bookRepository);
+      
+    void should_find_book_by_isbn13() {
+        // given
+        var bookId = 1L;
+        var bookEntity = aBookEntity()
+              .id(bookId)
+              .bookCopyEntities(List.of(
+                    aBookCopyEntity(bookId)
+                          .trackingStatus(AVAILABLE.name())
+                          .build()))
+              .build();
+
+        var isbn13 = bookEntity.getIsbn();
+        given(bookRepository.findDetailedBookByIsbn(isbn13))
+              .willReturn(Optional.of(bookEntity));
+
+        // when
+        var result = bookService.findDetailedBookByIsbn13(Isbn13.of(isbn13));
+
+        // then
+        var expectedDetailedBookDto = bookMapper.mapToDetailedBookDto(bookEntity);
+        assertThat(result).hasValue(expectedDetailedBookDto);
     }
 
     @Test
