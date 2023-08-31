@@ -42,10 +42,10 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<Book> getBooks(PaginationCriteria paginationCriteria,
+    public PagedResponse<DetailedBookDTO> getBooks(PaginationCriteria paginationCriteria,
                                         SearchBookCriteria searchCriteria) {
-        Sort sort = paginationCriteria.sort()
-              .map(SortParam::toSort)
+        var sort = paginationCriteria.sort()
+              .map(SortParam::toDomainSort)
               .orElse(Sort.unsorted());
         var pageable = PageRequest.of(paginationCriteria.pageIndex(), paginationCriteria.pageSize(),
               sort);
@@ -56,15 +56,6 @@ public class BookService {
               books.getSize(),
               books.getTotalElements());
         return response;
-
-    public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
-        return findDetailedBookByIsbn13(isbn13).orElseThrow(
-              () -> new NotFoundException(String.format("No book by the isbn %s", isbn13.value())));
-    }
-
-    public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
-        return bookRepository.findDetailedBookByIsbn(isbn13.value())
-              .map(bookMapper::mapToDetailedBookDto);
     }
 
     public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
