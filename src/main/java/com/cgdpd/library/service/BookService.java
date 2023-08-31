@@ -7,8 +7,6 @@ import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.dto.pagination.SortParam;
 import com.cgdpd.library.entity.BookEntity;
-
-
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.Book;
@@ -22,8 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import java.util.Optional;
 
@@ -44,9 +40,9 @@ public class BookService {
         return bookMapper.mapToBook(createdBook);
     }
 
-    @Transactional(readOnly = true)
-    public PagedResponse<Book> getBooks(PaginationCriteria paginationCriteria,
-                                        SearchBookCriteria searchCriteria) {
+    @Transactional
+    public PagedResponse<DetailedBookDTO> getBooks(PaginationCriteria paginationCriteria,
+                                                   SearchBookCriteria searchCriteria) {
         var sort = paginationCriteria.sort()
               .map(SortParam::toDomainSort)
               .orElse(Sort.unsorted());
@@ -54,8 +50,9 @@ public class BookService {
               sort);
         Page<BookEntity> books = bookRepository.findAll(
               BookSpecifications.byBookSearchCriteria(searchCriteria), pageable);
-        PagedResponse<Book> response = new PagedResponse<>(
-              books.map(bookMapper::mapToBook).getContent(), books.getNumber(), books.getSize(),
+        PagedResponse<DetailedBookDTO> response = new PagedResponse<>(
+              books.map(bookMapper::mapToDetailedBookDto).getContent(), books.getNumber(),
+              books.getSize(),
               books.getTotalElements());
         return response;
     }

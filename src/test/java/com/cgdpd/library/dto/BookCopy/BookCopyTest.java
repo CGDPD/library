@@ -203,5 +203,4 @@ class BookCopyTest {
         assertThatThrownBy(book::retired)
               .isInstanceOf(ValidationException.class);
     }
-
 }

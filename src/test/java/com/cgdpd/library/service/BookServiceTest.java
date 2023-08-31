@@ -1,15 +1,12 @@
 package com.cgdpd.library.service;
 
 
+import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
-
-import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.aBookEntity;
-
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
-import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
@@ -27,12 +25,9 @@ import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
-import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.repository.BookRepository;
 import com.cgdpd.library.repository.specification.BookSpecifications;
-
 import com.cgdpd.library.type.Isbn13;
-
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,11 +40,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.util.List;
-import java.util.Optional;
 
 import java.util.List;
 import java.util.Optional;
@@ -140,7 +131,8 @@ class BookServiceTest {
               )));
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
+        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+              searchCriteria);
 
         // then
         assertThat(result.content()).containsExactlyInAnyOrder();
@@ -164,7 +156,8 @@ class BookServiceTest {
         when(bookRepository.findAll(spec, pageable)).thenReturn(emptyPage);
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
+        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+              searchCriteria);
 
         // then
         assertThat(result.content()).isEmpty();
@@ -189,7 +182,8 @@ class BookServiceTest {
               .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
 
         // when
-        PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
+        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+              searchCriteria);
 
         // then
         assertThat(result.content()).isEmpty();

@@ -9,6 +9,7 @@ import com.cgdpd.library.entity.AuthorEntity_;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.entity.BookEntity_;
 
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -23,6 +24,9 @@ public class BookSpecifications {
     public static Specification<BookEntity> byBookSearchCriteria(SearchBookCriteria criteria) {
         return (root, query, criteriaBuilder) -> {
             var predicates = new Predicates();
+
+            root.fetch(BookEntity_.authorEntity, JoinType.INNER);
+            root.fetch(BookEntity_.bookCopyEntities, JoinType.LEFT);
 
             predicates.addPredicateIfValueIsPresent(
                   like(criteriaBuilder, root.get(BookEntity_.title)),

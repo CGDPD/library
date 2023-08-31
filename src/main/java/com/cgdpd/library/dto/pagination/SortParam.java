@@ -1,15 +1,24 @@
 package com.cgdpd.library.dto.pagination;
 
+import static com.cgdpd.library.validation.Validator.required;
+
 import org.springframework.data.domain.Sort;
 
-public record SortParam(String field, Order order) {
-    public enum Order {
+public record SortParam(String field,
+                        Direction direction) {
+
+    public SortParam(String field, Direction direction) {
+        this.field = required("field", field);
+        this.direction = required("order", direction);
+    }
+
+    public enum Direction {
         ASC, DESC
     }
 
-    public Sort toSort() {
+    public Sort toDomainSort() {
         return Sort.by(
-              this.order == Order.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,
+              this.direction == Direction.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,
               this.field
         );
     }

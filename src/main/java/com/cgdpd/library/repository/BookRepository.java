@@ -1,6 +1,5 @@
 package com.cgdpd.library.repository;
 
-import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.entity.BookEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,5 +24,4 @@ public interface BookRepository
 
           """)
     Optional<BookEntity> findDetailedBookByIsbn(@Param("isbn") String isbn);
-
 }

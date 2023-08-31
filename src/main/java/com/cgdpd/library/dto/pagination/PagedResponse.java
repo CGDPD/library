@@ -1,21 +1,29 @@
 package com.cgdpd.library.dto.pagination;
 
+import com.cgdpd.library.validation.Validator;
+
+import lombok.Builder;
+
 import java.util.List;
-import lombok.Data;
 
-@Data
-public class PagedResponse<T> {
-    private List<T> content;
-    private int pageNumber;
-    private int pageSize;
-    private long totalElements;
-    private int totalPages;
+@Builder
+public record PagedResponse<T>(List<T> content,
+                               int pageNumber,
+                               int pageSize,
+                               long totalElements) {
 
-    public PagedResponse(List<T> content, int pageNumber, int pageSize, long totalElements) {
-        this.content = content;
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
-        this.totalElements = totalElements;
+    public PagedResponse {
+        Validator.required("content", content);
+        Validator.required("pageNumber", pageNumber);
+        Validator.required("pageSize", pageSize);
+        Validator.required("totalElements", totalElements);
         this.totalPages = (int) Math.ceil((double) totalElements / (double) pageSize);
     }
+
+    private static int totalPages;
+
+    public static int getTotalPages() {
+        return totalPages;
+    }
 }
+
