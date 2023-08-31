@@ -2,8 +2,9 @@ package com.cgdpd.library.dto.book;
 
 import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
 
-import java.util.Optional;
 import lombok.Builder;
+
+import java.util.Optional;
 
 @Builder
 public record SearchBookCriteria(Optional<String> bookTitle,

@@ -5,14 +5,17 @@ import static com.cgdpd.library.AuthorTestData.AUTHOR_COLUMBUS_CHRISTOPHER;
 import static com.cgdpd.library.AuthorTestData.AUTHOR_JANE_DANE;
 import static com.cgdpd.library.AuthorTestData.AUTHOR_JOHN_DOE;
 import static com.cgdpd.library.RandomIsbn.generateISBN13;
+import static com.cgdpd.library.dto.book.BookAvailability.AVAILABLE;
 
 import com.cgdpd.library.dto.book.CreateBookRequestDTO;
+import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.type.AuthorId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.Isbn13;
+
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -63,6 +66,21 @@ public class BookTestData {
           .build();
 
 
+    public static Book.BookBuilder aBook() {
+        return aBookWithRandomIsbn()
+              .isbn(Isbn13.of("978-0007632190"));
+    }
+
+    public static Book.BookBuilder aBookWithRandomIsbn() {
+        return Book.builder()
+              .id(BookId.of(1L))
+              .title("The Lord Of The Rings")
+              .authorId(AuthorId.of(1L))
+              .publicationYear(Optional.of((short) 1997))
+              .isbn(generateISBN13())
+              .genre("Fiction");
+    }
+
     public static CreateBookRequestDTO.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
         return CreateBookRequestDTO.builder()
               .title("The Lord Of The Rings")
@@ -79,13 +97,25 @@ public class BookTestData {
 
     public static BookEntity.BookEntityBuilder aBookEntityWithRandomIsbn() {
         return BookEntity.builder()
-              .id(1L)
               .title("The Lord Of The Rings")
               .authorEntity(AuthorTestData.anAuthorEntity().build())
               .publicationYear((short) 1997)
               .isbn(generateISBN13().value())
               .genre("Fiction");
     }
+
+    public static DetailedBookDTO.DetailedBookDTOBuilder aDetailedBookDto() {
+        return DetailedBookDTO.builder()
+              .id(BookId.of(1L))
+              .title("The Lord Of The Rings")
+              .authorId(AuthorId.of(1L))
+              .authorName("J. R. R. Tolkien")
+              .isbn(generateISBN13())
+              .genre("Fiction")
+              .availability(AVAILABLE)
+              .publicationYear(Optional.of((short) 1954));
+    }
+
 
     public static BookEntity.BookEntityBuilder bookEntityFromRequest(CreateBookRequestDTO request) {
         return BookEntity.builder()
@@ -95,6 +125,16 @@ public class BookTestData {
               .publicationYear(request.publicationYear().orElse((short) 0))
               .isbn(request.isbn().value())
               .genre(request.genre());
+    }
+
+    public static BookEntity.BookEntityBuilder bookEntityFromBook(Book book) {
+        return BookEntity.builder()
+              .id(book.id().value())
+              .title(book.title())
+              .authorEntity(AuthorEntity.builder().id(book.authorId().value()).build())
+              .publicationYear(book.publicationYear().orElse((short) 0))
+              .isbn(book.isbn().value())
+              .genre(book.genre());
     }
 
     public static Book.BookBuilder bookFromRequest(CreateBookRequestDTO request) {

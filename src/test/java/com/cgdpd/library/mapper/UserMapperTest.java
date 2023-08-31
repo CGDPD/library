@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.entity.UserEntity;
 import com.cgdpd.library.model.user.Gender;
+
 import org.junit.jupiter.api.Test;
 
 class UserMapperTest {

@@ -4,6 +4,7 @@ import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
 import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,8 +24,7 @@ import com.cgdpd.library.mapper.BookMapperImpl;
 import com.cgdpd.library.model.book.Book;
 import com.cgdpd.library.repository.BookRepository;
 import com.cgdpd.library.repository.specification.BookSpecifications;
-import java.util.List;
-import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +39,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+import java.util.Optional;
+
 class BookServiceTest {
 
     private final BookMapper bookMapper = new BookMapperImpl();
@@ -50,7 +53,6 @@ class BookServiceTest {
 
     @Captor
     private ArgumentCaptor<BookEntity> captor;
-
 
     private AutoCloseable closeable;
 
@@ -112,11 +114,11 @@ class BookServiceTest {
         Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
         int pageNumber = 0;
         int pageSize = 10;
-        var sortParam = new SortParam("title", SortParam.Order.ASC);
+        var sortParam = new SortParam("title", SortParam.Direction.ASC);
         var paginationCriteria = new PaginationCriteria(pageNumber, pageSize,
               Optional.of(sortParam));
-        Sort sort = sortParam.toSort();
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        var sort = sortParam.toDomainSort();
+        var pageable = PageRequest.of(pageNumber, pageSize, sort);
 
         when(bookRepository.findAll(spec, pageable))
               .thenReturn(new PageImpl<>(List.of(
@@ -129,8 +131,8 @@ class BookServiceTest {
         PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
 
         // then
-        assertThat(result.getContent().size()).isEqualTo(3);
-        assertThat(result.getContent().get(0).title()).isEqualTo("Expected Title");
+        assertThat(result.content()).containsExactlyInAnyOrder();
+        assertThat(result.content().get(0).title()).isEqualTo("The Adventurous");
     }
 
     @Test
@@ -140,10 +142,10 @@ class BookServiceTest {
         Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
         int page = 0;
         int size = 10;
-        var sortParam = new SortParam("title", SortParam.Order.ASC);
+        var sortParam = new SortParam("title", SortParam.Direction.ASC);
         var paginationCriteria = new PaginationCriteria(page, size, Optional.of(sortParam));
-        Sort sort = sortParam.toSort();
-        Pageable pageable = PageRequest.of(page, size, sort);
+        var sort = sortParam.toDomainSort();
+        var pageable = PageRequest.of(page, size, sort);
 
         Page<BookEntity> emptyPage = Page.empty();
 
@@ -153,10 +155,10 @@ class BookServiceTest {
         PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
 
         // then
-        assertThat(result.getContent()).isEmpty();
-        assertThat(result.getPageNumber()).isEqualTo(page);
-        assertThat(result.getPageSize()).isEqualTo(size);
-        assertThat(result.getTotalElements()).isEqualTo(emptyPage.getTotalElements());
+        assertThat(result.content()).isEmpty();
+        assertThat(result.pageNumber()).isEqualTo(page);
+        assertThat(result.pageSize()).isEqualTo(size);
+        assertThat(result.totalElements()).isEqualTo(emptyPage.getTotalElements());
     }
 
     @Test
@@ -166,10 +168,10 @@ class BookServiceTest {
         Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
         int page = 5;
         int size = 10;
-        var sortParam = new SortParam("title", SortParam.Order.ASC);
+        var sortParam = new SortParam("title", SortParam.Direction.ASC);
         var paginationCriteria = new PaginationCriteria(page, size, Optional.of(sortParam));
-        Sort sort = sortParam.toSort();
-        Pageable pageable = PageRequest.of(page, size, sort);
+        var sort = sortParam.toDomainSort();
+        var pageable = PageRequest.of(page, size, sort);
 
         when(bookRepository.findAll(spec, pageable))
               .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
@@ -178,9 +180,9 @@ class BookServiceTest {
         PagedResponse<Book> result = bookService.getBooks(paginationCriteria, searchCriteria);
 
         // then
-        assertThat(result.getContent()).isEmpty();
-        assertThat(result.getPageNumber()).isEqualTo(page);
-        assertThat(result.getPageSize()).isEqualTo(size);
+        assertThat(result.content()).isEmpty();
+        assertThat(result.pageNumber()).isEqualTo(page);
+        assertThat(result.pageSize()).isEqualTo(size);
     }
 
     @Test
@@ -189,7 +191,7 @@ class BookServiceTest {
         var searchCriteria = SearchBookCriteria.builder().build();
         int invalidPage = -1;
         int size = 10;
-        var sortParam = new SortParam("title", SortParam.Order.ASC);
+        var sortParam = new SortParam("title", SortParam.Direction.ASC);
         var paginationCriteria = new PaginationCriteria(invalidPage, size, Optional.of(sortParam));
 
         // when then
@@ -198,5 +200,20 @@ class BookServiceTest {
               .hasMessageContaining("Page index must not be less than zero");
 
         verifyNoInteractions(bookRepository);
+    }
+
+    @Test
+    void should_find_book_by_isbn13() {
+        // given
+        var detailedBookDto = aDetailedBookDto().build();
+        var isbn13 = detailedBookDto.isbn();
+        given(bookRepository.findDetailedBookByIsbn(isbn13.value()))
+              .willReturn(Optional.of(detailedBookDto));
+
+        // when
+        var result = bookService.findDetailedBookByIsbn13(isbn13);
+
+        // then
+        assertThat(result).hasValue(detailedBookDto);
     }
 }

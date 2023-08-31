@@ -1,6 +1,7 @@
 package com.cgdpd.library.type;
 
 import com.cgdpd.library.json.LongIdSerializer;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = LongIdSerializer.class)

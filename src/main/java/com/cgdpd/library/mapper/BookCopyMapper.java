@@ -6,10 +6,12 @@ import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.type.BookCopyId;
 import com.cgdpd.library.type.BookId;
 import com.cgdpd.library.type.UserId;
-import java.util.Optional;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface BookCopyMapper {

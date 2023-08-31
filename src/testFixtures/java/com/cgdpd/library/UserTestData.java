@@ -6,6 +6,7 @@ import static com.cgdpd.library.model.user.Gender.MALE;
 import com.cgdpd.library.entity.UserEntity;
 import com.cgdpd.library.model.user.User;
 import com.cgdpd.library.type.UserId;
+
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -35,7 +36,7 @@ public class UserTestData {
     }
 
     public static UserEntity.UserEntityBuilder aUserEntity() {
-        return aUserEntity(1L);
+        return aUserEntity(null);
     }
 
     public static UserEntity.UserEntityBuilder aUserEntity(Long id) {

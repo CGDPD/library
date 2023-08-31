@@ -9,11 +9,13 @@ import static com.cgdpd.library.model.book.copy.TrackingStatus.RETIRED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.cgdpd.library.model.book.copy.TrackingStatus;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 class TrackingStatusTest {
 
