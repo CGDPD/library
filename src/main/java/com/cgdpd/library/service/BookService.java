@@ -5,7 +5,6 @@ import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
-import com.cgdpd.library.dto.pagination.SortParam;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.Book;
@@ -14,8 +13,6 @@ import com.cgdpd.library.repository.specification.BookSpecifications;
 import com.cgdpd.library.type.Isbn13;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +38,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public PagedResponse<DetailedBookDTO> getBooks(PaginationCriteria paginationCriteria,
                                                    SearchBookCriteria searchCriteria) {
-        var sort = paginationCriteria.sort()
-              .map(SortParam::toDomainSort)
-              .orElse(Sort.unsorted());
-        var pageable = PageRequest.of(paginationCriteria.pageIndex(), paginationCriteria.pageSize(),
-              sort);
+        var pageable = paginationCriteria.toPageRequest();
         var books = bookRepository.findAll(
               BookSpecifications.byBookSearchCriteria(searchCriteria), pageable);
         return PagedResponse.<DetailedBookDTO>builder()

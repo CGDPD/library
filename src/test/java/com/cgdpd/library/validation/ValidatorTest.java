@@ -72,7 +72,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_the_value_is_null() {
+    void should_throw_exception_when_required_not_blank_value_is_null() {
         // given
         var paramName = "value";
         String value = null;
@@ -167,7 +167,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_an_exception_when_value_is_null() {
+    void should_throw_exception_when_required_not_negative_number_is_null() {
         // given
         var paramName = "value";
 
@@ -197,7 +197,7 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_value_is_null1() {
+    void should_throw_exception_when_required_positive_number_is_null() {
         // given
         var paramName = "value";
 

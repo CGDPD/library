@@ -33,8 +33,8 @@ public class SortParamTest {
     @Test
     void should_return_paginated_books_sorted_by_title() {
         // given
-        int page = 0;
-        int size = 2;
+        var page = 0;
+        var size = 2;
         var sortParam = new SortParam("title", SortParam.Direction.ASC);
         var pageable = PageRequest.of(page, size, sortParam.toDomainSort());
 
@@ -57,8 +57,8 @@ public class SortParamTest {
     @Test
     void should_return_paginated_books_sorted_by_publicationYear() {
         // given
-        int pageIndex = 0;
-        int pageSize = 10;
+        var pageIndex = 0;
+        var pageSize = 10;
         var sortParam = new SortParam("publicationYear", SortParam.Direction.DESC);
         var pageable = PageRequest.of(pageIndex, pageSize, sortParam.toDomainSort());
 

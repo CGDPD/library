@@ -5,6 +5,8 @@ import static com.cgdpd.library.validation.Validator.requiredNotNegative;
 import static com.cgdpd.library.validation.Validator.requiredPositive;
 
 import lombok.Builder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -19,5 +21,12 @@ public record PaginationCriteria(int pageIndex,
         this.pageIndex = requiredPositive("pageIndex", pageIndex);
         this.pageSize = requiredNotNegative("pageSize", pageSize);
         this.sort = actualOrEmpty(sort);
+    }
+
+    public PageRequest toPageRequest() {
+        var sort = this.sort()
+              .map(SortParam::toDomainSort)
+              .orElse(Sort.unsorted());
+        return PageRequest.of(this.pageIndex, this.pageSize, sort);
     }
 }
