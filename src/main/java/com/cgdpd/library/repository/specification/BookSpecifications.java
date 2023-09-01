@@ -3,13 +3,14 @@ package com.cgdpd.library.repository.specification;
 import static com.cgdpd.library.repository.specification.SpecificationPredicates.greaterThan;
 import static com.cgdpd.library.repository.specification.SpecificationPredicates.lessThan;
 import static com.cgdpd.library.repository.specification.SpecificationPredicates.like;
+import static jakarta.persistence.criteria.JoinType.INNER;
+import static jakarta.persistence.criteria.JoinType.LEFT;
 
 import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.entity.AuthorEntity_;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.entity.BookEntity_;
 
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -25,8 +26,8 @@ public class BookSpecifications {
         return (root, query, criteriaBuilder) -> {
             var predicates = new Predicates();
 
-            root.fetch(BookEntity_.authorEntity, JoinType.INNER);
-            root.fetch(BookEntity_.bookCopyEntities, JoinType.LEFT);
+            root.fetch(BookEntity_.authorEntity, INNER);
+            root.fetch(BookEntity_.bookCopyEntities, LEFT);
 
             predicates.addPredicateIfValueIsPresent(
                   like(criteriaBuilder, root.get(BookEntity_.title)),
