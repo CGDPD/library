@@ -1,5 +1,7 @@
 package com.cgdpd.library.validation;
 
+import static com.cgdpd.library.validation.Validator.requiredNotNegative;
+import static com.cgdpd.library.validation.Validator.requiredPositive;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
@@ -159,6 +161,66 @@ public class ValidatorTest {
 
         // when
         var result = Validator.requiredValidIsbn13(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_an_exception_when_value_is_null() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(
+              () -> requiredNotNegative(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null or negative",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_not_negative() {
+        // given
+        var paramName = "value";
+        var value = 0;
+
+        // when
+        var result = Validator.requiredNotNegative(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_value_is_null1() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(
+              () -> requiredPositive(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null, must be a positive number",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_positive() {
+        // given
+        var paramName = "value";
+        var value = 1;
+
+        // when
+        var result = Validator.requiredPositive(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);

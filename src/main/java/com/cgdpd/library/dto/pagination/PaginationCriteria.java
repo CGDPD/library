@@ -1,7 +1,8 @@
 package com.cgdpd.library.dto.pagination;
 
 import static com.cgdpd.library.util.OptionalUtil.actualOrEmpty;
-import static com.cgdpd.library.validation.Validator.required;
+import static com.cgdpd.library.validation.Validator.requiredNotNegative;
+import static com.cgdpd.library.validation.Validator.requiredPositive;
 
 import lombok.Builder;
 
@@ -15,8 +16,8 @@ public record PaginationCriteria(int pageIndex,
     public PaginationCriteria(int pageIndex,
                               int pageSize,
                               Optional<SortParam> sort) {
-        this.pageIndex = required("pageIndex", pageIndex);
-        this.pageSize = required("pageSize", pageSize);
+        this.pageIndex = requiredPositive("pageIndex", pageIndex);
+        this.pageSize = requiredNotNegative("pageSize", pageSize);
         this.sort = actualOrEmpty(sort);
     }
 }

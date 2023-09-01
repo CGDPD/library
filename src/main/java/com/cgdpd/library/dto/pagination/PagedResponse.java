@@ -14,16 +14,12 @@ public record PagedResponse<T>(List<T> content,
 
     public PagedResponse {
         Validator.required("content", content);
-        Validator.required("pageNumber", pageNumber);
-        Validator.required("pageSize", pageSize);
-        Validator.required("totalElements", totalElements);
-        this.totalPages = (int) Math.ceil((double) totalElements / (double) pageSize);
+        Validator.requiredPositive("pageNumber", pageNumber);
+        Validator.requiredNotNegative("pageSize", pageSize);
+        Validator.requiredNotNegative("totalElements", totalElements);
     }
 
-    private static int totalPages;
-
-    public static int getTotalPages() {
-        return totalPages;
+    public int totalPages() {
+        return (int) Math.ceil((double) totalElements / (double) pageSize);
     }
 }
-

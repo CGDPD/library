@@ -6,8 +6,6 @@ import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.dto.pagination.SortParam;
-import com.cgdpd.library.entity.BookEntity;
-import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.Book;
@@ -16,7 +14,6 @@ import com.cgdpd.library.repository.specification.BookSpecifications;
 import com.cgdpd.library.type.Isbn13;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -43,19 +40,20 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public PagedResponse<DetailedBookDTO> getBooks(PaginationCriteria paginationCriteria,
-                                        SearchBookCriteria searchCriteria) {
+                                                   SearchBookCriteria searchCriteria) {
         var sort = paginationCriteria.sort()
               .map(SortParam::toDomainSort)
               .orElse(Sort.unsorted());
         var pageable = PageRequest.of(paginationCriteria.pageIndex(), paginationCriteria.pageSize(),
               sort);
-        Page<BookEntity> books = bookRepository.findAll(
+        var books = bookRepository.findAll(
               BookSpecifications.byBookSearchCriteria(searchCriteria), pageable);
-        PagedResponse<DetailedBookDTO> response = new PagedResponse<>(
-              books.map(bookMapper::mapToDetailedBookDto).getContent(), books.getNumber(),
-              books.getSize(),
-              books.getTotalElements());
-        return response;
+        return PagedResponse.<DetailedBookDTO>builder()
+              .content(books.map(bookMapper::mapToDetailedBookDto).getContent())
+              .pageNumber(books.getNumber())
+              .pageSize(books.getSize())
+              .totalElements(books.getTotalElements())
+              .build();
     }
 
     public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {

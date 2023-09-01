@@ -12,14 +12,14 @@ public record SortParam(String field,
         this.direction = required("order", direction);
     }
 
-    public enum Direction {
-        ASC, DESC
-    }
-
     public Sort toDomainSort() {
         return Sort.by(
               this.direction == Direction.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,
               this.field
         );
+    }
+
+    public enum Direction {
+        ASC, DESC
     }
 }
