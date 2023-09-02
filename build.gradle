@@ -77,3 +77,39 @@ tasks.named('asciidoctor') {
 }
 
 build.dependsOn testFunctional
+
+
+subprojects {
+    apply plugin: "java"
+
+    sourceCompatibility = 17
+    targetCompatibility = 17
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.projectlombok:lombok:1.18.26'
+        annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+        testImplementation "org.assertj:assertj-core:3.23.1"
+    }
+
+    ext {
+        set('snippetsDir', file("build/generated-snippets"))
+    }
+
+    compileJava {
+        options.annotationProcessorGeneratedSourcesDirectory = file("$projectDir/src/main/generated")
+    }
+
+    clean {
+        delete file("$projectDir/src/main/generated")
+    }
+
+    tasks.named('test') {
+        outputs.dir snippetsDir
+        useJUnitPlatform()
+    }
+}
