@@ -8,6 +8,6 @@ public final class OptionalUtil {
     }
 
     public static <T> Optional<T> actualOrEmpty(Optional<T> actual) {
-        return actual.isEmpty() ? Optional.empty() : actual;
+        return actual == null ? Optional.empty() : actual;
     }
 }

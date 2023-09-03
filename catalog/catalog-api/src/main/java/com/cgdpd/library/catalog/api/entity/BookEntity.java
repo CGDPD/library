@@ -38,16 +38,8 @@ public class BookEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 100)
+    @Column(name = "title", nullable = false)
     private String title;
-
-    @JoinColumn(
-            name = "author_id",
-            nullable = false,
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_book_author_id"))
-    @ManyToOne(fetch = LAZY)
-    private AuthorEntity authorEntity;
 
     @Column(name = "publication_year")
     private short publicationYear;
@@ -55,8 +47,16 @@ public class BookEntity {
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
 
-    @Column(name = "genre", nullable = false, length = 100)
+    @Column(name = "genre", nullable = false)
     private String genre;
+
+    @JoinColumn(
+          name = "author_id",
+          nullable = false,
+          referencedColumnName = "id",
+          foreignKey = @ForeignKey(name = "fk_book_author_id"))
+    @ManyToOne(fetch = LAZY)
+    private AuthorEntity authorEntity;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
@@ -65,12 +65,12 @@ public class BookEntity {
     @Override
     public String toString() {
         return "BookEntity{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", authorId=" + authorEntity.getId() +
-                ", publicationYear=" + publicationYear +
-                ", isbn='" + isbn + '\'' +
-                ", genre='" + genre + '\'' +
-                '}';
+              "id=" + id +
+              ", title='" + title + '\'' +
+              ", publicationYear=" + publicationYear +
+              ", isbn='" + isbn + '\'' +
+              ", genre='" + genre + '\'' +
+              ", authorId=" + authorEntity.getId() +
+              '}';
     }
 }

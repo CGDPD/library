@@ -33,6 +33,12 @@ public class BookCopyEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(name = "tracking_status", nullable = false)
+    private String trackingStatus;
+
+    @Column(name = "user_id")
+    private Long userId;
+
     @JoinColumn(
           name = "book_id",
           nullable = false,
@@ -41,19 +47,13 @@ public class BookCopyEntity {
     @ManyToOne(fetch = LAZY)
     private BookEntity bookEntity;
 
-    @Column(name = "tracking_status", nullable = false)
-    private String trackingStatus;
-
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @Override
     public String toString() {
         return "BookCopyEntity{" +
               "id=" + id +
-              ", bookId=" + bookEntity.getId() +
               ", trackingStatus='" + trackingStatus + '\'' +
               ", userId=" + userId +
+              ", bookId=" + bookEntity.getId() +
               '}';
     }
 }

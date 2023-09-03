@@ -37,8 +37,6 @@ public abstract class IdType {
 
     @Override
     public String toString() {
-        return "IdType{" +
-              "id=" + id +
-              '}';
+        return id.toString();
     }
 }

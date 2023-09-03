@@ -1,9 +1,7 @@
 package com.cgdpd.library.catalog.domain.author;
 
-
 import static com.cgdpd.library.common.validation.Validator.required;
 import static com.cgdpd.library.common.validation.Validator.requiredNotBlank;
-
 
 import lombok.Builder;
 
