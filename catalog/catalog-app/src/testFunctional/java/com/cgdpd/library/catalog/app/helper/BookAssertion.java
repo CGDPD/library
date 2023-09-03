@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api.helper;
+package com.cgdpd.library.catalog.app.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

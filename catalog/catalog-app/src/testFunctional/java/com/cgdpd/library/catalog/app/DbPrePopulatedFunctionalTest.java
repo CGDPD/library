@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api;
+package com.cgdpd.library.catalog.app;
 
 
 import static com.cgdpd.library.catalog.app.TestData.authors;

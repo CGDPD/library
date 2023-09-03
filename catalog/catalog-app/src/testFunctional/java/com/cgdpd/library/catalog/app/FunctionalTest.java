@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api;
+package com.cgdpd.library.catalog.app;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;

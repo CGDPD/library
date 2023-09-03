@@ -1,11 +1,11 @@
-package com.cgdpd.library.catalog.api.controller;
+package com.cgdpd.library.catalog.app.controller;
 
-import static com.cgdpd.library.catalog.api.helper.TestUtils.getObjectFromResultActions;
+import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.cgdpd.library.catalog.api.FunctionalTest;
+import com.cgdpd.library.catalog.app.FunctionalTest;
 import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;

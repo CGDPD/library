@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api.repository;
+package com.cgdpd.library.catalog.app.repository;
 
 import static com.cgdpd.library.catalog.app.AuthorTestData.AUTHOR_JOHN_DOE;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.CHRIS_DANE__ONCE_AGAIN__2022;
@@ -13,8 +13,7 @@ import static com.cgdpd.library.catalog.app.TestData.johnDoeBooks;
 import static com.cgdpd.library.catalog.app.repository.specification.BookSpecifications.byBookSearchCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cgdpd.library.catalog.api.DbPrePopulatedFunctionalTest;
-import com.cgdpd.library.catalog.app.repository.BookRepository;
+import com.cgdpd.library.catalog.app.DbPrePopulatedFunctionalTest;
 import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
 
 import org.junit.jupiter.api.Test;

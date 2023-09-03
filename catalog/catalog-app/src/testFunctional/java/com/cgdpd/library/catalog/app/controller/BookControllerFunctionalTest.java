@@ -1,11 +1,11 @@
-package com.cgdpd.library.catalog.api.controller;
+package com.cgdpd.library.catalog.app.controller;
 
-import static com.cgdpd.library.catalog.api.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
-import static com.cgdpd.library.catalog.api.helper.TestUtils.getJsonObjectFromResult;
-import static com.cgdpd.library.catalog.api.helper.TestUtils.getObjectFromResultActions;
 import static com.cgdpd.library.catalog.app.AuthorTestData.anAuthorEntity;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
+import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
+import static com.cgdpd.library.catalog.app.helper.TestUtils.getJsonObjectFromResult;
+import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
 import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.UNAVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.cgdpd.library.catalog.api.FunctionalTest;
+import com.cgdpd.library.catalog.app.FunctionalTest;
 import com.cgdpd.library.catalog.app.entity.AuthorEntity;
 import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;

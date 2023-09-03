@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api.helper;
+package com.cgdpd.library.catalog.app.helper;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
