@@ -1,9 +1,9 @@
-package com.cgdpd.library.catalog.api.application;
+package com.cgdpd.library.catalog.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.cgdpd.library.catalog")
+@SpringBootApplication
 public class CatalogApplication {
 
     public static void main(String[] args) {

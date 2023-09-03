@@ -1,13 +1,15 @@
 package com.cgdpd.library.catalog.domain.book.dto;
 
-import static com.cgdpd.library.dto.book.BookAvailability.AVAILABLE;
-import static com.cgdpd.library.dto.book.BookAvailability.RENTED;
-import static com.cgdpd.library.dto.book.BookAvailability.UNAVAILABLE;
-import static com.cgdpd.library.dto.book.BookAvailability.fromTrackingStatus;
-import static com.cgdpd.library.dto.book.BookAvailability.fromTrackingStatuses;
+import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.AVAILABLE;
+import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.RENTED;
+import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.UNAVAILABLE;
+import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.fromTrackingStatus;
+import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.fromTrackingStatuses;
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cgdpd.library.model.book.copy.TrackingStatus;
+
+import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
