@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import com.cgdpd.library.catalog.api.service.AuthorService;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
-import com.cgdpd.library.catalog.domain.book.dto.CreateAuthorRequestDto;
+import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.domain.book.dto;
+package com.cgdpd.library.catalog.domain.author.dto;
 
 import static com.cgdpd.library.common.validation.Validator.requiredNotBlank;
 

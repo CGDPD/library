@@ -2,7 +2,7 @@ package com.cgdpd.library.catalog.api.controller;
 
 import com.cgdpd.library.catalog.api.service.AuthorService;
 import com.cgdpd.library.catalog.domain.author.Author;
-import com.cgdpd.library.catalog.domain.book.dto.CreateAuthorRequestDto;
+import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

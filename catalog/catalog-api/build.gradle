@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     id 'java-library'
     id 'org.springframework.boot' version '3.1.0'
@@ -7,6 +9,11 @@ plugins {
     id 'java-test-fixtures'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom SpringBootPlugin.BOM_COORDINATES
+    }
+}
 
 dependencies {
     implementation project(':catalog:catalog-domain')
@@ -20,11 +27,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.projectlombok:lombok:1.18.26'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen:6.2.2.Final'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose' // fix, is using docker compose from project root
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation project(':catalog:catalog-domain')
     testImplementation project(':types')
