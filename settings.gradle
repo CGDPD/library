@@ -1,5 +1,5 @@
 rootProject.name = 'library'
-include 'catalog:catalog-api'
+include 'catalog:catalog-app'
 include 'catalog:catalog-client'
 include 'catalog:catalog-domain'
 include 'types'
