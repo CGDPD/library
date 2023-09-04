@@ -130,7 +130,6 @@ class BookServiceTest {
               bookMapper.mapToDetailedBookDto(aBookEntity().title("The Adventurous").build()),
               bookMapper.mapToDetailedBookDto(aBookEntity().title("Finder").build()),
               bookMapper.mapToDetailedBookDto(aBookEntity().title("Killer").build()));
-        assertThat(result.content().get(0).title()).isEqualTo("The Adventurous");
     }
 
     @Test
