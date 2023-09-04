@@ -2,7 +2,6 @@ package com.cgdpd.library.dto.pagination;
 
 import static com.cgdpd.library.validation.Validator.required;
 import static com.cgdpd.library.validation.Validator.requiredNotNegative;
-import static com.cgdpd.library.validation.Validator.requiredPositive;
 
 import lombok.Builder;
 
@@ -17,7 +16,7 @@ public record PagedResponse<T>(List<T> content,
 
     public PagedResponse {
         required("content", content);
-        requiredPositive("pageNumber", pageNumber);
+        requiredNotNegative("pageNumber", pageNumber);
         requiredNotNegative("pageSize", pageSize);
         requiredNotNegative("totalElements", totalElements);
         requiredNotNegative("totalPages", totalPages);

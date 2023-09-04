@@ -1,7 +1,10 @@
 package com.cgdpd.library.validation;
 
+import static com.cgdpd.library.validation.Validator.checkYearNotFuture;
+import static com.cgdpd.library.validation.Validator.requiredNotBlank;
 import static com.cgdpd.library.validation.Validator.requiredNotNegative;
 import static com.cgdpd.library.validation.Validator.requiredPositive;
+import static com.cgdpd.library.validation.Validator.requiredValidIsbn13;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
@@ -50,7 +53,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+              () -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -65,7 +68,7 @@ public class ValidatorTest {
         var value = "valid";
 
         // when
-        var result = Validator.requiredNotBlank(paramName, value);
+        var result = requiredNotBlank(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -79,7 +82,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+              () -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -95,7 +98,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.checkYearNotFuture(paramName, value));
+              () -> checkYearNotFuture(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -111,7 +114,7 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        var result = Validator.checkYearNotFuture(paramName, value);
+        var result = checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -125,7 +128,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+              () -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -143,7 +146,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+              () -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -160,7 +163,7 @@ public class ValidatorTest {
         var value = "9780134685991";
 
         // when
-        var result = Validator.requiredValidIsbn13(paramName, value);
+        var result = requiredValidIsbn13(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -190,7 +193,7 @@ public class ValidatorTest {
         var value = 0;
 
         // when
-        var result = Validator.requiredNotNegative(paramName, value);
+        var result = requiredNotNegative(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -220,7 +223,7 @@ public class ValidatorTest {
         var value = 1;
 
         // when
-        var result = Validator.requiredPositive(paramName, value);
+        var result = requiredPositive(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);

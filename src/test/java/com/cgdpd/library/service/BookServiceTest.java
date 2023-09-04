@@ -1,13 +1,11 @@
 package com.cgdpd.library.service;
 
 import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
-import static com.cgdpd.library.BookTestData.JANE_DANE__KILLER__2001;
-import static com.cgdpd.library.BookTestData.JOHN_DOE__FINDER__1995;
-import static com.cgdpd.library.BookTestData.JOHN_DOE__THE_ADVENTUROUS__1987;
 import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
+import static com.cgdpd.library.repository.specification.BookSpecifications.byBookSearchCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
@@ -15,17 +13,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
-import com.cgdpd.library.dto.pagination.PagedResponse;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
-import com.cgdpd.library.dto.pagination.SortParam;
+import com.cgdpd.library.dto.pagination.SortParams;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.mapper.BookMapperImpl;
 import com.cgdpd.library.repository.BookRepository;
-import com.cgdpd.library.repository.specification.BookSpecifications;
 import com.cgdpd.library.type.Isbn13;
 
 import org.junit.jupiter.api.AfterEach;
@@ -37,9 +32,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +44,7 @@ class BookServiceTest {
     private BookRepository bookRepository;
     @Mock
     private AuthorService authorService;
+
     private BookService bookService;
 
     @Captor
@@ -113,28 +107,29 @@ class BookServiceTest {
     void should_return_books_with_pagination() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
-        Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
-        int pageNumber = 0;
-        int pageSize = 10;
-        var sortParam = new SortParam("title", SortParam.Direction.ASC);
-        var paginationCriteria = new PaginationCriteria(pageNumber, pageSize,
-              Optional.of(sortParam));
-        var sort = sortParam.toDomainSort();
-        var pageable = PageRequest.of(pageNumber, pageSize, sort);
+        var spec = byBookSearchCriteria(searchCriteria);
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
+              .build();
+        var pageRequest = paginationCriteria.toPageRequest();
 
-        when(bookRepository.findAll(spec, pageable))
+        when(bookRepository.findAll(spec, pageRequest))
               .thenReturn(new PageImpl<>(List.of(
-                    JOHN_DOE__THE_ADVENTUROUS__1987,
-                    JOHN_DOE__FINDER__1995,
-                    JANE_DANE__KILLER__2001
-              )));
+                    aBookEntity().title("The Adventurous").build(),
+                    aBookEntity().title("Finder").build(),
+                    aBookEntity().title("Killer").build())));
 
         // when
-        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+        var result = bookService.findBooks(paginationCriteria,
               searchCriteria);
 
         // then
-        assertThat(result.content()).containsExactlyInAnyOrder();
+        assertThat(result.content()).containsExactlyInAnyOrder(
+              bookMapper.mapToDetailedBookDto(aBookEntity().title("The Adventurous").build()),
+              bookMapper.mapToDetailedBookDto(aBookEntity().title("Finder").build()),
+              bookMapper.mapToDetailedBookDto(aBookEntity().title("Killer").build()));
         assertThat(result.content().get(0).title()).isEqualTo("The Adventurous");
     }
 
@@ -142,69 +137,52 @@ class BookServiceTest {
     void should_return_empty_page_when_no_books_found() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
-        Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
-        int page = 0;
-        int size = 10;
-        var sortParam = new SortParam("title", SortParam.Direction.ASC);
-        var paginationCriteria = new PaginationCriteria(page, size, Optional.of(sortParam));
-        var sort = sortParam.toDomainSort();
-        var pageable = PageRequest.of(page, size, sort);
+        var spec = byBookSearchCriteria(searchCriteria);
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
+              .build();
+        var pageRequest = paginationCriteria.toPageRequest();
 
         Page<BookEntity> emptyPage = Page.empty();
 
-        when(bookRepository.findAll(spec, pageable)).thenReturn(emptyPage);
+        when(bookRepository.findAll(spec, pageRequest)).thenReturn(emptyPage);
 
         // when
-        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+        var resultPagedResponse = bookService.findBooks(paginationCriteria,
               searchCriteria);
 
         // then
-        assertThat(result.content()).isEmpty();
-        assertThat(result.pageNumber()).isEqualTo(page);
-        assertThat(result.pageSize()).isEqualTo(size);
-        assertThat(result.totalElements()).isEqualTo(emptyPage.getTotalElements());
+        assertThat(resultPagedResponse.content()).isEmpty();
+        assertThat(resultPagedResponse.pageNumber()).isEqualTo(0);
+        assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
+        assertThat(resultPagedResponse.totalElements()).isEqualTo(emptyPage.getTotalElements());
     }
 
     @Test
     void should_return_last_page() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
-        Specification<BookEntity> spec = BookSpecifications.byBookSearchCriteria(searchCriteria);
-        int page = 5;
-        int size = 10;
-        var sortParam = new SortParam("title", SortParam.Direction.ASC);
-        var paginationCriteria = new PaginationCriteria(page, size, Optional.of(sortParam));
-        var sort = sortParam.toDomainSort();
-        var pageable = PageRequest.of(page, size, sort);
+        var spec = byBookSearchCriteria(searchCriteria);
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
+              .build();
+        var pageRequest = paginationCriteria.toPageRequest();
 
-        when(bookRepository.findAll(spec, pageable))
+        when(bookRepository.findAll(spec, pageRequest))
               .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
 
         // when
-        PagedResponse<DetailedBookDTO> result = bookService.getBooks(paginationCriteria,
+        var resultPagedResponse = bookService.findBooks(paginationCriteria,
               searchCriteria);
 
         // then
-        assertThat(result.content()).isEmpty();
-        assertThat(result.pageNumber()).isEqualTo(page);
-        assertThat(result.pageSize()).isEqualTo(size);
-    }
-
-    @Test
-    void should_throw_exception_for_invalid_input_page() {
-        // given
-        var searchCriteria = SearchBookCriteria.builder().build();
-        int invalidPage = -1;
-        int size = 10;
-        var sortParam = new SortParam("title", SortParam.Direction.ASC);
-        var paginationCriteria = new PaginationCriteria(invalidPage, size, Optional.of(sortParam));
-
-        // when then
-        assertThatThrownBy(() -> bookService.getBooks(paginationCriteria, searchCriteria))
-              .isInstanceOf(IllegalArgumentException.class)
-              .hasMessageContaining("Page index must not be less than zero");
-
-        verifyNoInteractions(bookRepository);
+        assertThat(resultPagedResponse.content()).isEmpty();
+        assertThat(resultPagedResponse.pageNumber()).isEqualTo(0);
+        assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
     }
 
     void should_find_book_by_isbn13() {

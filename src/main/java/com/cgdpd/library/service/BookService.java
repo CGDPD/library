@@ -38,13 +38,13 @@ public class BookService {
     public PagedResponse<DetailedBookDTO> findBooks(PaginationCriteria paginationCriteria,
                                                     SearchBookCriteria searchCriteria) {
         var pageRequest = paginationCriteria.toPageRequest();
-        var books = bookRepository.findAll(
+        var booksEntities = bookRepository.findAll(
               byBookSearchCriteria(searchCriteria), pageRequest);
         return PagedResponse.<DetailedBookDTO>builder()
-              .content(books.map(bookMapper::mapToDetailedBookDto).getContent())
-              .pageNumber(books.getNumber())
-              .pageSize(books.getSize())
-              .totalElements(books.getTotalElements())
+              .content(booksEntities.map(bookMapper::mapToDetailedBookDto).getContent())
+              .pageNumber(booksEntities.getNumber())
+              .pageSize(booksEntities.getSize())
+              .totalElements(booksEntities.getTotalElements())
               .build();
     }
 
