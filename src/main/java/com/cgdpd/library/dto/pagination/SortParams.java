@@ -4,10 +4,10 @@ import static com.cgdpd.library.validation.Validator.required;
 
 import org.springframework.data.domain.Sort;
 
-public record SortParam(String field,
-                        Direction direction) {
+public record SortParams(String field,
+                         Direction direction) {
 
-    public SortParam(String field, Direction direction) {
+    public SortParams(String field, Direction direction) {
         this.field = required("field", field);
         this.direction = required("order", direction);
     }

@@ -13,11 +13,11 @@ import java.util.Optional;
 @Builder
 public record PaginationCriteria(int pageIndex,
                                  int pageSize,
-                                 Optional<SortParam> sort) {
+                                 Optional<SortParams> sort) {
 
     public PaginationCriteria(int pageIndex,
                               int pageSize,
-                              Optional<SortParam> sort) {
+                              Optional<SortParams> sort) {
         this.pageIndex = requiredPositive("pageIndex", pageIndex);
         this.pageSize = requiredNotNegative("pageSize", pageSize);
         this.sort = actualOrEmpty(sort);
@@ -25,7 +25,7 @@ public record PaginationCriteria(int pageIndex,
 
     public PageRequest toPageRequest() {
         var sort = this.sort()
-              .map(SortParam::toDomainSort)
+              .map(SortParams::toDomainSort)
               .orElse(Sort.unsorted());
         return PageRequest.of(this.pageIndex, this.pageSize, sort);
     }

@@ -12,16 +12,14 @@ import java.util.List;
 public record PagedResponse<T>(List<T> content,
                                int pageNumber,
                                int pageSize,
-                               long totalElements) {
+                               long totalElements,
+                               int totalPages) {
 
     public PagedResponse {
         required("content", content);
         requiredPositive("pageNumber", pageNumber);
         requiredNotNegative("pageSize", pageSize);
         requiredNotNegative("totalElements", totalElements);
-    }
-
-    public int totalPages() {
-        return (int) Math.ceil((double) totalElements / (double) pageSize);
+        requiredNotNegative("totalPages", totalPages);
     }
 }
