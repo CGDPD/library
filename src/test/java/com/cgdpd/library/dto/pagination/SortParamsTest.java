@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 public class SortParamsTest {
 
     @Test
-    public void should_return_domain_sort_asc() {
+    void should_return_domain_sort_asc() {
         // given
         var sortParams = new SortParams("field", SortParams.Direction.ASC);
 
@@ -25,7 +25,7 @@ public class SortParamsTest {
     }
 
     @Test
-    public void testToDomainSortNullField() {
+    void should_throw_exception_when_field_is_null() {
         // given
         var sortParams = new SortParams(null, SortParams.Direction.ASC);
 

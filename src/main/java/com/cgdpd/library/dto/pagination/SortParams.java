@@ -9,7 +9,7 @@ public record SortParams(String field,
 
     public SortParams(String field, Direction direction) {
         this.field = required("field", field);
-        this.direction = required("order", direction);
+        this.direction = required("direction", direction);
     }
 
     public Sort toDomainSort() {
