@@ -26,11 +26,8 @@ public class SortParamsTest {
 
     @Test
     void should_throw_exception_when_field_is_null() {
-        // given
-        var sortParams = new SortParams(null, SortParams.Direction.ASC);
-
         // when/then
-        assertThatThrownBy(sortParams::toDomainSort)
+        assertThatThrownBy(() -> new SortParams(null, SortParams.Direction.ASC))
               .isInstanceOf(ValidationException.class)
               .hasMessage("field must not be null");
     }
