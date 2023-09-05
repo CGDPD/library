@@ -13,6 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
 import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.dto.pagination.SortParams;
@@ -114,22 +115,21 @@ class BookServiceTest {
               .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
               .build();
         var pageRequest = paginationCriteria.toPageRequest();
+        var books = List.of(aBookEntity().title("The Adventurous").build(),
+              aBookEntity().title("Finder").build(),
+              aBookEntity().title("Killer").build());
 
-        when(bookRepository.findAll(spec, pageRequest))
-              .thenReturn(new PageImpl<>(List.of(
-                    aBookEntity().title("The Adventurous").build(),
-                    aBookEntity().title("Finder").build(),
-                    aBookEntity().title("Killer").build())));
+        given(bookRepository.findAll(spec, pageRequest))
+              .willReturn(new PageImpl<>(books));
 
         // when
         var result = bookService.findBooks(paginationCriteria,
               searchCriteria);
 
         // then
-        assertThat(result.content()).containsExactlyInAnyOrder(
-              bookMapper.mapToDetailedBookDto(aBookEntity().title("The Adventurous").build()),
-              bookMapper.mapToDetailedBookDto(aBookEntity().title("Finder").build()),
-              bookMapper.mapToDetailedBookDto(aBookEntity().title("Killer").build()));
+        assertThat(result.content()).containsExactlyInAnyOrder(books.stream()
+              .map(bookMapper::mapToDetailedBookDto)
+              .toArray(DetailedBookDTO[]::new));
     }
 
     @Test
@@ -146,7 +146,7 @@ class BookServiceTest {
 
         Page<BookEntity> emptyPage = Page.empty();
 
-        when(bookRepository.findAll(spec, pageRequest)).thenReturn(emptyPage);
+        given(bookRepository.findAll(spec, pageRequest)).willReturn(emptyPage);
 
         // when
         var resultPagedResponse = bookService.findBooks(paginationCriteria,
@@ -171,8 +171,8 @@ class BookServiceTest {
               .build();
         var pageRequest = paginationCriteria.toPageRequest();
 
-        when(bookRepository.findAll(spec, pageRequest))
-              .thenReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
+        given(bookRepository.findAll(spec, pageRequest))
+              .willReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
 
         // when
         var resultPagedResponse = bookService.findBooks(paginationCriteria,
@@ -184,6 +184,7 @@ class BookServiceTest {
         assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
     }
 
+    @Test
     void should_find_book_by_isbn13() {
         // given
         var bookId = 1L;
