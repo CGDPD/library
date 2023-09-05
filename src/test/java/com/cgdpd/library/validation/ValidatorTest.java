@@ -52,8 +52,7 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredNotBlank(paramName, value));
+        var thrownException = catchThrowable(() -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -81,8 +80,7 @@ public class ValidatorTest {
         String value = null;
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredNotBlank(paramName, value));
+        var thrownException = catchThrowable(() -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -97,8 +95,7 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
 
         // when
-        var thrownException = catchThrowable(
-              () -> checkYearNotFuture(paramName, value));
+        var thrownException = catchThrowable(() -> checkYearNotFuture(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -127,8 +124,7 @@ public class ValidatorTest {
         var value = "9780134685992";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredValidIsbn13(paramName, value));
+        var thrownException = catchThrowable(() -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -145,8 +141,7 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredValidIsbn13(paramName, value));
+        var thrownException = catchThrowable(() -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -175,8 +170,7 @@ public class ValidatorTest {
         var paramName = "value";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredNotNegative(paramName, null));
+        var thrownException = catchThrowable(() -> requiredNotNegative(paramName, null));
 
         // then
         assertThat(thrownException)
@@ -205,8 +199,7 @@ public class ValidatorTest {
         var paramName = "value";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredPositive(paramName, null));
+        var thrownException = catchThrowable(() -> requiredPositive(paramName, null));
 
         // then
         assertThat(thrownException)
