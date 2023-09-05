@@ -21,16 +21,15 @@ public final class Validator {
         return value;
     }
 
-    public static String requiredValidIsbn13(String paramName, String value) {
-        validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn(value),
-              "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
-              paramName, value);
-        return value;
-    }
-
     public static <T extends Number> T requiredPositive(String paramName, T value) {
         validate(() -> value == null || value.intValue() <= 0,
               "%s must not be null, must be a positive number", paramName);
+        return value;
+    }
+
+    public static <T extends Number> T requiredNotNegative(String paramName, T value) {
+        validate(() -> value == null || value.intValue() < 0, "%s must not be null or negative",
+              paramName);
         return value;
     }
 
@@ -43,12 +42,13 @@ public final class Validator {
         return value;
     }
 
-    public static <T extends Number> T requiredNotNegative(String paramName, T value) {
-        validate(() -> value == null || value.intValue() < 0, "%s must not be null or negative",
-              paramName);
+    public static String requiredValidIsbn13(String paramName, String value) {
+        validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn(value),
+              "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
+              paramName, value);
         return value;
     }
-
+    
     public static void validate(Supplier<Boolean> validation, String format, Object... params) {
         if (validation.get()) {
             throw new ValidationException(String.format(format, params));
