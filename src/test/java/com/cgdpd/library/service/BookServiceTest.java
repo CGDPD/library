@@ -5,7 +5,7 @@ import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
-import static com.cgdpd.library.repository.specification.BookSpecifications.byBookSearchCriteria;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,7 +32,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -135,16 +134,15 @@ class BookServiceTest {
     void should_return_empty_page_when_no_books_found() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
-        var spec = byBookSearchCriteria(searchCriteria);
         var paginationCriteria = PaginationCriteria.builder()
               .pageIndex(0)
               .pageSize(10)
               .build();
         var pageRequest = paginationCriteria.toPageRequest();
+        var emptyPage = new PageImpl<>(emptyList(), pageRequest, 0);
 
-        var emptyPage = Page.<BookEntity>empty();
-
-        given(bookRepository.findAll(spec, pageRequest)).willReturn(emptyPage);
+        given(bookRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(
+              emptyPage);
 
         // when
         var resultPagedResponse = bookService.findDetailedBooksPage(paginationCriteria,
