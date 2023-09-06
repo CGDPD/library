@@ -48,7 +48,7 @@ public final class Validator {
               paramName, value);
         return value;
     }
-    
+
     public static void validate(Supplier<Boolean> validation, String format, Object... params) {
         if (validation.get()) {
             throw new ValidationException(String.format(format, params));

@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
 
 import com.cgdpd.library.dto.book.DetailedBookDTO;
 import com.cgdpd.library.dto.book.SearchBookCriteria;
@@ -33,7 +32,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -119,12 +117,10 @@ class BookServiceTest {
               aBookEntity().title("Finder").build(),
               aBookEntity().title("Killer").build());
 
-        given(bookRepository.findAll(spec, pageRequest))
-              .willReturn(new PageImpl<>(books));
+        given(bookRepository.findAll(spec, pageRequest)).willReturn(new PageImpl<>(books));
 
         // when
-        var result = bookService.findBooks(paginationCriteria,
-              searchCriteria);
+        var result = bookService.findDetailedBooksPage(paginationCriteria, searchCriteria);
 
         // then
         assertThat(result.content()).containsExactlyInAnyOrder(books.stream()
@@ -140,16 +136,15 @@ class BookServiceTest {
         var paginationCriteria = PaginationCriteria.builder()
               .pageIndex(0)
               .pageSize(10)
-              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
               .build();
         var pageRequest = paginationCriteria.toPageRequest();
 
-        Page<BookEntity> emptyPage = Page.empty();
+        var emptyPage = Page.<BookEntity>empty();
 
         given(bookRepository.findAll(spec, pageRequest)).willReturn(emptyPage);
 
         // when
-        var resultPagedResponse = bookService.findBooks(paginationCriteria,
+        var resultPagedResponse = bookService.findDetailedBooksPage(paginationCriteria,
               searchCriteria);
 
         // then
@@ -157,31 +152,6 @@ class BookServiceTest {
         assertThat(resultPagedResponse.pageNumber()).isEqualTo(0);
         assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
         assertThat(resultPagedResponse.totalElements()).isEqualTo(emptyPage.getTotalElements());
-    }
-
-    @Test
-    void should_return_last_page() {
-        // given
-        var searchCriteria = SearchBookCriteria.builder().build();
-        var spec = byBookSearchCriteria(searchCriteria);
-        var paginationCriteria = PaginationCriteria.builder()
-              .pageIndex(0)
-              .pageSize(10)
-              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
-              .build();
-        var pageRequest = paginationCriteria.toPageRequest();
-
-        given(bookRepository.findAll(spec, pageRequest))
-              .willReturn(new PageImpl<>(List.of(), Pageable.unpaged(), 0));
-
-        // when
-        var resultPagedResponse = bookService.findBooks(paginationCriteria,
-              searchCriteria);
-
-        // then
-        assertThat(resultPagedResponse.content()).isEmpty();
-        assertThat(resultPagedResponse.pageNumber()).isEqualTo(0);
-        assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
     }
 
     @Test

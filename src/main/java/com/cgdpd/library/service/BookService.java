@@ -35,11 +35,11 @@ public class BookService {
         return bookMapper.mapToBook(createdBook);
     }
 
-    public PagedResponse<DetailedBookDTO> findBooks(PaginationCriteria paginationCriteria,
-                                                    SearchBookCriteria searchCriteria) {
+    public PagedResponse<DetailedBookDTO> findDetailedBooksPage(
+          PaginationCriteria paginationCriteria, SearchBookCriteria searchCriteria) {
         var pageRequest = paginationCriteria.toPageRequest();
-        var booksEntitiesPage = bookRepository.findAll(
-              byBookSearchCriteria(searchCriteria), pageRequest);
+        var booksEntitiesPage = bookRepository.findAll(byBookSearchCriteria(searchCriteria),
+              pageRequest);
         return PagedResponse.<DetailedBookDTO>builder()
               .content(booksEntitiesPage.map(bookMapper::mapToDetailedBookDto).getContent())
               .pageNumber(booksEntitiesPage.getNumber())
