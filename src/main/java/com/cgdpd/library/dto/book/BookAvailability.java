@@ -31,4 +31,7 @@ public enum BookAvailability {
         };
     }
 
+    public static BookAvailability getDefault() {
+        return UNAVAILABLE;
+    }
 }

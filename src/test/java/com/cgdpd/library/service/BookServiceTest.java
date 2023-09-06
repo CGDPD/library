@@ -8,6 +8,8 @@ import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
 import static com.cgdpd.library.repository.specification.BookSpecifications.byBookSearchCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -32,6 +34,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +109,6 @@ class BookServiceTest {
     void should_return_books_with_pagination() {
         // given
         var searchCriteria = SearchBookCriteria.builder().build();
-        var spec = byBookSearchCriteria(searchCriteria);
         var paginationCriteria = PaginationCriteria.builder()
               .pageIndex(0)
               .pageSize(10)
@@ -117,7 +119,8 @@ class BookServiceTest {
               aBookEntity().title("Finder").build(),
               aBookEntity().title("Killer").build());
 
-        given(bookRepository.findAll(spec, pageRequest)).willReturn(new PageImpl<>(books));
+        given(bookRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(
+              new PageImpl<>(books));
 
         // when
         var result = bookService.findDetailedBooksPage(paginationCriteria, searchCriteria);
