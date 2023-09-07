@@ -5,7 +5,7 @@ import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDTO;
+import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public interface BookMapper {
 
     @Mapping(source = "authorId", target = "authorEntity.id", qualifiedByName = "mapFromAuthorId")
-    BookEntity mapToBookEntity(CreateBookRequestDTO requestDTO);
+    BookEntity mapToBookEntity(CreateBookRequestDto requestDTO);
 
     @Mapping(source = "authorEntity.id", target = "authorId", qualifiedByName = "mapToAuthorId")
     Book mapToBook(BookEntity bookEntity);

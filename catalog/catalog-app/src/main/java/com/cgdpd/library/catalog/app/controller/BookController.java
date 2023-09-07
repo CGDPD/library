@@ -1,7 +1,7 @@
 package com.cgdpd.library.catalog.app.controller;
 
 import com.cgdpd.library.catalog.app.service.BookService;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDTO;
+import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.types.Isbn13;
@@ -25,7 +25,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book createBook(@RequestBody CreateBookRequestDTO requestDTO) {
+    public Book createBook(@RequestBody CreateBookRequestDto requestDTO) {
         return bookService.createBook(requestDTO);
     }
 

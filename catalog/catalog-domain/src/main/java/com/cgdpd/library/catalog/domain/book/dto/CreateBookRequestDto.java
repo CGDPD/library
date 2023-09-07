@@ -14,13 +14,13 @@ import lombok.Builder;
 import java.util.Optional;
 
 @Builder
-public record CreateBookRequestDTO(String title,
+public record CreateBookRequestDto(String title,
                                    AuthorId authorId,
                                    Isbn13 isbn,
                                    String genre,
                                    Optional<Short> publicationYear) {
 
-    public CreateBookRequestDTO(String title,
+    public CreateBookRequestDto(String title,
                                 AuthorId authorId,
                                 Isbn13 isbn,
                                 String genre,

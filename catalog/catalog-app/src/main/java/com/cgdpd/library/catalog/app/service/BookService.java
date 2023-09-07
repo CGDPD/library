@@ -3,7 +3,7 @@ package com.cgdpd.library.catalog.app.service;
 
 import com.cgdpd.library.catalog.app.mapper.BookMapper;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDTO;
+import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.common.exception.NotFoundException;
@@ -22,7 +22,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final AuthorService authorService;
 
-    public Book createBook(CreateBookRequestDTO requestDTO) {
+    public Book createBook(CreateBookRequestDto requestDTO) {
         if (!authorService.authorExist(requestDTO.authorId())) {
             throw new NotFoundException("Author with id " + requestDTO.authorId() + " not found");
         }

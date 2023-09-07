@@ -7,7 +7,7 @@ import static com.cgdpd.library.catalog.app.AuthorTestData.AUTHOR_JOHN_DOE;
 
 import com.cgdpd.library.catalog.app.entity.AuthorEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDTO;
+import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.types.Isbn13;
 
@@ -73,7 +73,7 @@ public class BookEntityTestData {
               .genre("Fiction");
     }
 
-    public static BookEntity.BookEntityBuilder bookEntityFromRequest(CreateBookRequestDTO request) {
+    public static BookEntity.BookEntityBuilder bookEntityFromRequest(CreateBookRequestDto request) {
         return BookEntity.builder()
               .id(1L)
               .title(request.title())

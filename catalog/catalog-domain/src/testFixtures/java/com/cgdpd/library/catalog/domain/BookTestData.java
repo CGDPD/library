@@ -3,7 +3,7 @@ package com.cgdpd.library.catalog.domain;
 import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.AVAILABLE;
 
 import com.cgdpd.library.catalog.domain.author.AuthorId;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDTO;
+import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
@@ -29,8 +29,8 @@ public class BookTestData {
               .genre("Fiction");
     }
 
-    public static CreateBookRequestDTO.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
-        return CreateBookRequestDTO.builder()
+    public static CreateBookRequestDto.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
+        return CreateBookRequestDto.builder()
               .title("The Lord Of The Rings")
               .authorId(AuthorId.of(1L))
               .publicationYear(Optional.of((short) 1997))
@@ -51,7 +51,7 @@ public class BookTestData {
     }
 
 
-    public static Book.BookBuilder bookFromRequest(CreateBookRequestDTO request) {
+    public static Book.BookBuilder bookFromRequest(CreateBookRequestDto request) {
         return Book.builder()
               .id(BookId.of(1L))
               .title(request.title())
