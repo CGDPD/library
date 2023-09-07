@@ -3,7 +3,7 @@ package com.cgdpd.library.catalog.app.mapper;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
-import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
 import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.UNAVAILABLE;
 import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.AVAILABLE;
 import static java.util.Collections.emptyList;
@@ -22,7 +22,7 @@ class BookMapperTest {
     @Test
     void should_map_create_book_request_dto_to_book_entity() {
         // given
-        var request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDto().build();
 
         // when
         var resultBookEntity = bookMapper.mapToBookEntity(request);

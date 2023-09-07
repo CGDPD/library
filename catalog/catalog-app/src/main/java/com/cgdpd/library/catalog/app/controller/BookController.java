@@ -2,7 +2,7 @@ package com.cgdpd.library.catalog.app.controller;
 
 import com.cgdpd.library.catalog.app.service.BookService;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.types.Isbn13;
 
@@ -31,7 +31,7 @@ public class BookController {
 
     @GetMapping("/isbn13/{isbn13}")
     @ResponseStatus(HttpStatus.OK)
-    public DetailedBookDTO getBook(@PathVariable Isbn13 isbn13) {
+    public DetailedBookDto getBook(@PathVariable Isbn13 isbn13) {
         return bookService.getDetailedBookByIsbn13(isbn13);
     }
 }

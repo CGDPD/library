@@ -6,7 +6,7 @@ import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
@@ -31,7 +31,7 @@ public interface BookMapper {
     @Mapping(source = "authorEntity.id", target = "authorId", qualifiedByName = "mapToAuthorId")
     @Mapping(source = "authorEntity.name", target = "authorName")
     @Mapping(source = "bookCopyEntities", target = "availability")
-    DetailedBookDTO mapToDetailedBookDto(BookEntity bookEntity);
+    DetailedBookDto mapToDetailedBookDto(BookEntity bookEntity);
 
     @Named("mapToAuthorId")
     default AuthorId mapToAuthorId(Long id) {

@@ -4,7 +4,7 @@ import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.AVAILAB
 
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.types.Isbn13;
@@ -29,7 +29,7 @@ public class BookTestData {
               .genre("Fiction");
     }
 
-    public static CreateBookRequestDto.CreateBookRequestDTOBuilder aCreateBookRequestDTO() {
+    public static CreateBookRequestDto.CreateBookRequestDtoBuilder aCreateBookRequestDto() {
         return CreateBookRequestDto.builder()
               .title("The Lord Of The Rings")
               .authorId(AuthorId.of(1L))
@@ -38,8 +38,8 @@ public class BookTestData {
               .genre("Fiction");
     }
 
-    public static DetailedBookDTO.DetailedBookDTOBuilder aDetailedBookDto() {
-        return DetailedBookDTO.builder()
+    public static DetailedBookDto.DetailedBookDtoBuilder aDetailedBookDto() {
+        return DetailedBookDto.builder()
               .id(BookId.of(1L))
               .title("The Lord Of The Rings")
               .authorId(AuthorId.of(1L))

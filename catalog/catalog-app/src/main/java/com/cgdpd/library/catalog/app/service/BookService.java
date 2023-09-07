@@ -4,7 +4,7 @@ package com.cgdpd.library.catalog.app.service;
 import com.cgdpd.library.catalog.app.mapper.BookMapper;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.common.exception.NotFoundException;
 import com.cgdpd.library.types.Isbn13;
@@ -22,21 +22,22 @@ public class BookService {
     private final BookMapper bookMapper;
     private final AuthorService authorService;
 
-    public Book createBook(CreateBookRequestDto requestDTO) {
-        if (!authorService.authorExist(requestDTO.authorId())) {
-            throw new NotFoundException("Author with id " + requestDTO.authorId() + " not found");
+    public Book createBook(CreateBookRequestDto createBookRequestDto) {
+        if (!authorService.authorExist(createBookRequestDto.authorId())) {
+            throw new NotFoundException(
+                  "Author with id " + createBookRequestDto.authorId() + " not found");
         }
-        var bookEntity = bookMapper.mapToBookEntity(requestDTO);
+        var bookEntity = bookMapper.mapToBookEntity(createBookRequestDto);
         var createdBook = bookRepository.save(bookEntity);
         return bookMapper.mapToBook(createdBook);
     }
 
-    public DetailedBookDTO getDetailedBookByIsbn13(Isbn13 isbn13) {
+    public DetailedBookDto getDetailedBookByIsbn13(Isbn13 isbn13) {
         return findDetailedBookByIsbn13(isbn13).orElseThrow(
               () -> new NotFoundException(String.format("No book by the isbn %s", isbn13.value())));
     }
 
-    public Optional<DetailedBookDTO> findDetailedBookByIsbn13(Isbn13 isbn13) {
+    public Optional<DetailedBookDto> findDetailedBookByIsbn13(Isbn13 isbn13) {
         return bookRepository.findDetailedBookByIsbn(isbn13.value())
               .map(bookMapper::mapToDetailedBookDto);
     }

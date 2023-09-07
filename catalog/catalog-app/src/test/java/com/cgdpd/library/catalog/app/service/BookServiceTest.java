@@ -3,7 +3,7 @@ package com.cgdpd.library.catalog.app.service;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.bookEntityFromRequest;
-import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
 import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.AVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -57,7 +57,7 @@ class BookServiceTest {
     @Test
     public void should_create_a_book() {
         // given
-        var request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDto().build();
         given(authorService.authorExist(request.authorId())).willReturn(true);
         var bookEntity = bookEntityFromRequest(request).build();
         given(bookRepository.save(captor.capture())).willReturn(bookEntity);
@@ -83,7 +83,7 @@ class BookServiceTest {
     @Test
     public void should_throw_exception_if_author_not_exist() {
         // given
-        var request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDto().build();
         given(authorService.authorExist(request.authorId())).willReturn(false);
 
         // when then

@@ -14,7 +14,7 @@ import lombok.Builder;
 import java.util.Optional;
 
 @Builder
-public record DetailedBookDTO(BookId id,
+public record DetailedBookDto(BookId id,
                               String title,
                               AuthorId authorId,
                               String authorName,
@@ -24,7 +24,7 @@ public record DetailedBookDTO(BookId id,
                               Optional<Short> publicationYear) {
     // TODO: 29/08/2023 LIB-24 Due dates
 
-    public DetailedBookDTO(BookId id,
+    public DetailedBookDto(BookId id,
                            String title,
                            AuthorId authorId,
                            String authorName,

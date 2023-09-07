@@ -6,7 +6,7 @@ import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
 import static com.cgdpd.library.catalog.app.helper.TestUtils.getJsonObjectFromResult;
 import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
-import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDTO;
+import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
 import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.UNAVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +21,7 @@ import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.app.repository.BookCopyRepository;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
 import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 import com.cgdpd.library.types.Isbn13;
@@ -60,7 +60,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_create_book_and_return_id() throws Exception {
         // given
-        var request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDto().build();
 
         var authorEntity = anAuthorEntity().build();
         authorRepository.save(authorEntity);
@@ -93,7 +93,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     @Test
     public void should_return_not_found_code_when_author_does_not_exist() throws Exception {
         // given
-        var request = aCreateBookRequestDTO().build();
+        var request = aCreateBookRequestDto().build();
 
         // when
         var resultActions = mockMvc.perform(post(BASE_ENDPOINT)
@@ -117,7 +117,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
         // then
         resultActions.andExpect(status().isOk());
-        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDTO.class,
+        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDto.class,
               objectMapper);
         assertThatDetailedBookDtoHasCorrectValues(
               resultDetailedBookDto,
@@ -148,7 +148,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
         // then
         resultActions.andExpect(status().isOk());
-        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDTO.class,
+        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDto.class,
               objectMapper);
         assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, UNAVAILABLE);
     }

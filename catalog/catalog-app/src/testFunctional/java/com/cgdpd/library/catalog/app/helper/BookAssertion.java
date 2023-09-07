@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
-import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDTO;
+import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.types.Isbn13;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class BookAssertion {
 
     public static void assertThatDetailedBookDtoHasCorrectValues(
-          DetailedBookDTO resultDetailedBookDto,
+          DetailedBookDto resultDetailedBookDto,
           BookEntity bookEntity,
           BookAvailability bookAvailability) {
 
