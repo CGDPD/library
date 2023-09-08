@@ -40,7 +40,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void should_create_and_return_author() {
+    void should_create_and_return_author() {
         // given
         var authorName = "John Doe";
         Long id = 1L;

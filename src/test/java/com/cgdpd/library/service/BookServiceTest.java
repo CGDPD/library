@@ -114,9 +114,9 @@ class BookServiceTest {
               .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
               .build();
         var pageRequest = paginationCriteria.toPageRequest();
-        var books = List.of(aBookEntity().title("The Adventurous").build(),
-              aBookEntity().title("Finder").build(),
-              aBookEntity().title("Killer").build());
+        var books = List.of(aBookEntity().id(1L).title("The Adventurous").build(),
+              aBookEntity().id(2L).title("Finder").build(),
+              aBookEntity().id(3L).title("Killer").build());
 
         given(bookRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(
               new PageImpl<>(books));

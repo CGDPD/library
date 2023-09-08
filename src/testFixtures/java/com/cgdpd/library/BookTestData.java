@@ -92,7 +92,6 @@ public class BookTestData {
 
     public static BookEntity.BookEntityBuilder aBookEntity() {
         return aBookEntityWithRandomIsbn()
-              .id(BookId.of(1L).value())
               .isbn("978-0007632190");
     }
 
