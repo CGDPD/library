@@ -26,7 +26,6 @@ import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.repository.BookCopyRepository;
 import com.cgdpd.library.repository.BookRepository;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
@@ -35,8 +34,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.io.UnsupportedEncodingException;
+
 
 @AutoConfigureMockMvc
 public class BookControllerFunctionalTest extends FunctionalTest {
@@ -110,6 +109,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
         // then
         resultActions.andExpect(status().isOk());
+
         var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDTO.class,
               objectMapper);
         assertThatDetailedBookDtoHasCorrectValues(
@@ -140,6 +140,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
 
         // then
         resultActions.andExpect(status().isOk());
+
         var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDTO.class,
               objectMapper);
         assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, UNAVAILABLE);

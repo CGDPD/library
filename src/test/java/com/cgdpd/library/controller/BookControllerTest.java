@@ -36,7 +36,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void should_create_book() {
+    void should_create_book() {
         // given
         var request = aCreateBookRequestDTO().build();
         var id = BookId.of(1L);

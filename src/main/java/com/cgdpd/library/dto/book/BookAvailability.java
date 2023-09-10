@@ -20,7 +20,7 @@ public enum BookAvailability {
         return trackingStatus.stream()
               .map(BookAvailability::fromTrackingStatus)
               .min(Comparator.comparing(e -> e.priority))
-              .orElse(UNAVAILABLE);
+              .orElse(getDefault());
     }
 
     public static BookAvailability fromTrackingStatus(TrackingStatus trackingStatus) {
@@ -31,4 +31,7 @@ public enum BookAvailability {
         };
     }
 
+    public static BookAvailability getDefault() {
+        return UNAVAILABLE;
+    }
 }

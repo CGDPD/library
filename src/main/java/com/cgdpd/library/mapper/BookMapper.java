@@ -63,9 +63,12 @@ public interface BookMapper {
     }
 
     default BookAvailability mapToBookAvailability(List<BookCopyEntity> bookCopyEntities) {
-        return BookAvailability.fromTrackingStatuses(bookCopyEntities.stream()
-              .map(BookCopyEntity::getTrackingStatus)
-              .map(TrackingStatus::valueOf)
-              .toList());
+        return Optional.ofNullable(bookCopyEntities)
+              .map(list -> list.stream()
+                    .map(BookCopyEntity::getTrackingStatus)
+                    .map(TrackingStatus::valueOf)
+                    .toList())
+              .map(BookAvailability::fromTrackingStatuses)
+              .orElse(BookAvailability.getDefault());
     }
 }
