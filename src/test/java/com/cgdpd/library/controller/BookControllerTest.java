@@ -5,6 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.cgdpd.library.BookTestData;
+import com.cgdpd.library.dto.book.DetailedBookDTO;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.pagination.PagedResponse;
+import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.service.BookService;
 import com.cgdpd.library.type.BookId;
 
@@ -14,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
 
 class BookControllerTest {
 
@@ -48,5 +54,56 @@ class BookControllerTest {
 
         // then
         assertThat(result.bookId()).isEqualTo(id);
+    }
+
+    @Test
+    void should_return_book_with_criteria() {
+        // given
+        var searchCriteria = SearchBookCriteria.builder().build();
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .build();
+        var expectedResponse = PagedResponse.<DetailedBookDTO>builder()
+              .content(new ArrayList<>())
+              .pageNumber(0)
+              .pageSize(10)
+              .totalElements(0)
+              .totalPages(0)
+              .build();
+
+        given(bookService.findDetailedBooksPage(paginationCriteria, searchCriteria)).willReturn(
+              expectedResponse);
+
+        // when
+        var actualResponse = bookController.searchBook(searchCriteria, paginationCriteria);
+
+        // then
+        assertThat(actualResponse).isEqualTo(expectedResponse);
+    }
+
+    @Test
+    void should_return_book_without_criteria() {
+        // given
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .build();
+        var expectedResponse = PagedResponse.<DetailedBookDTO>builder()
+              .content(new ArrayList<>())
+              .pageNumber(0)
+              .pageSize(10)
+              .totalElements(0)
+              .totalPages(0)
+              .build();
+
+        given(bookService.findDetailedBooksPage(paginationCriteria, null)).willReturn(
+              expectedResponse);
+
+        // when
+        var actualResponse = bookController.searchBook(null, paginationCriteria);
+
+        // then
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 }
