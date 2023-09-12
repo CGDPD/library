@@ -29,7 +29,7 @@ public class BookController {
         return bookService.createBook(requestDTO);
     }
 
-    @GetMapping("/isbn13/{isbn13}")
+    @GetMapping("/{isbn13}")
     @ResponseStatus(HttpStatus.OK)
     public DetailedBookDto getBook(@PathVariable Isbn13 isbn13) {
         return bookService.getDetailedBookByIsbn13(isbn13);

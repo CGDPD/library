@@ -112,7 +112,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         var bookCopiyTrackingStatus = TrackingStatus.valueOf(bookCopyEntity.getTrackingStatus());
 
         // when
-        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/isbn13/" + bookEntity.getIsbn())
+        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/" + bookEntity.getIsbn())
               .contentType(MediaType.APPLICATION_JSON));
 
         // then
@@ -129,7 +129,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     void should_return_404_when_isbn_does_not_exist() throws Exception {
         // when
         var resultActions = mockMvc.perform(
-              get(BASE_ENDPOINT + "/isbn13/" + Isbn13.random().value())
+              get(BASE_ENDPOINT + "/" + Isbn13.random().value())
                     .contentType(MediaType.APPLICATION_JSON));
 
         // then
@@ -143,7 +143,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         var bookEntity = givenRandomBookExists();
 
         // when
-        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/isbn13/" + bookEntity.getIsbn())
+        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/" + bookEntity.getIsbn())
               .contentType(MediaType.APPLICATION_JSON));
 
         // then
