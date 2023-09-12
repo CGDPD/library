@@ -1,6 +1,5 @@
 package com.cgdpd.library.catalog.app.mapper;
 
-
 import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopy;
