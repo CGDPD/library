@@ -1,6 +1,5 @@
 package com.cgdpd.library.types;
 
-
 import static com.cgdpd.library.common.validation.Validator.required;
 
 import java.util.Objects;
