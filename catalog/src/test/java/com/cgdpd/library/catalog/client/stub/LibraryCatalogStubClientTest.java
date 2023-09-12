@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api.stub;
+package com.cgdpd.library.catalog.client.stub;
 
 import static com.cgdpd.library.catalog.domain.BookCopyTestData.aBookCopy;
 import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
