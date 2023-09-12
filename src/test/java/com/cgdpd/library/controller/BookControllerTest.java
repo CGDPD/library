@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 class BookControllerTest {
 
@@ -59,7 +60,7 @@ class BookControllerTest {
     @Test
     void should_return_book_with_criteria() {
         // given
-        var searchCriteria = SearchBookCriteria.builder().build();
+        var searchCriteria = Optional.of(SearchBookCriteria.builder().build());
         var paginationCriteria = PaginationCriteria.builder()
               .pageIndex(0)
               .pageSize(10)
@@ -72,7 +73,8 @@ class BookControllerTest {
               .totalPages(0)
               .build();
 
-        given(bookService.findDetailedBooksPage(paginationCriteria, searchCriteria)).willReturn(
+        given(bookService.findDetailedBooksPage(paginationCriteria,
+              searchCriteria.orElse(null))).willReturn(
               expectedResponse);
 
         // when
@@ -101,7 +103,7 @@ class BookControllerTest {
               expectedResponse);
 
         // when
-        var actualResponse = bookController.searchBook(null, paginationCriteria);
+        var actualResponse = bookController.searchBook(Optional.empty(), paginationCriteria);
 
         // then
         assertThat(actualResponse).isEqualTo(expectedResponse);

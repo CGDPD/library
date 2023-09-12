@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @RequestMapping("/books")
 @RestController
@@ -40,11 +42,12 @@ public class BookController {
         return bookService.getDetailedBookByIsbn13(isbn13);
     }
 
-    @GetMapping("/book")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PagedResponse<DetailedBookDTO> searchBook(
-          @RequestParam(required = false) SearchBookCriteria searchBookCriteria,
+          @RequestParam(required = false) Optional<SearchBookCriteria> searchBookCriteria,
           PaginationCriteria paginationCriteria) {
-        return bookService.findDetailedBooksPage(paginationCriteria, searchBookCriteria);
+        return bookService.findDetailedBooksPage(paginationCriteria,
+              searchBookCriteria.orElse(null));
     }
 }
