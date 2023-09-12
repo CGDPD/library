@@ -7,6 +7,7 @@ module library.catalog {
     requires spring.context;
     requires spring.data.jpa;
     requires spring.data.commons;
+    requires java.compiler;
     requires jakarta.persistence;
     requires lombok;
     requires com.fasterxml.jackson.databind;
