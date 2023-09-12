@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api.stub;
+package com.cgdpd.library.catalog.client.stub;
 
 import com.cgdpd.library.catalog.api.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.author.Author;
@@ -11,13 +11,21 @@ import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopy;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopyId;
+import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
+import com.cgdpd.library.catalog.domain.book.model.copy.UserId;
 import com.cgdpd.library.common.client.StubClient;
 import com.cgdpd.library.common.exception.NotFoundException;
 import com.cgdpd.library.types.Isbn13;
 
+import com.github.javafaker.Faker;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClient {
@@ -27,6 +35,8 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
     private static final AtomicLong authorIdGenerator = new AtomicLong(INITIAL_VALUE);
     private static final AtomicLong bookIdGenerator = new AtomicLong(INITIAL_VALUE);
     private static final AtomicLong bookCopyIdGenerator = new AtomicLong(INITIAL_VALUE);
+
+    private static final Faker FAKER = Faker.instance();
 
 
     private final Map<AuthorId, Author> authors;
@@ -117,6 +127,35 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
         bookCopyIdGenerator.set(INITIAL_VALUE);
     }
 
+    public List<AuthorBooks> generateAuthorsAndBooks() {
+
+        var authorsBooks = new ArrayList<AuthorBooks>();
+
+        for (var i = 0; i < 50; i++) {
+            authorsBooks.add(generateAuthorAndBooks());
+        }
+        return authorsBooks;
+    }
+
+    public AuthorBooks generateAuthorAndBooks() {
+
+        var createdAuthor = createAuthor(new CreateAuthorRequestDto(FAKER.book().author()));
+        var createdBooks = new HashMap<Book, List<BookCopy>>();
+
+        for (var i = 0; i < 20; i++) {
+            var createdBook = createBook(generateCreateBookRequest(createdAuthor.id()));
+            var bookCopies = new ArrayList<BookCopy>();
+            for (var j = 0; j < 5; j++) {
+                var createdBookCopy = generateBookCopy(createdBook.id());
+                bookCopies.add(createdBookCopy);
+            }
+            createdBooks.put(createdBook, bookCopies);
+        }
+
+        return new AuthorBooks(
+              createdAuthor, createdBooks);
+    }
+
     private Book getBookByIsbn13(Isbn13 isbn13) {
         return books.values().stream()
               .filter(book -> book.isbn().equals(isbn13))
@@ -129,5 +168,48 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
         return bookCopies.values().stream()
               .filter(bookCopy -> bookCopy.bookId().equals(bookId))
               .toList();
+    }
+
+    private CreateBookRequestDto generateCreateBookRequest(AuthorId authorId) {
+        var rnd = new Random();
+
+        return CreateBookRequestDto.builder()
+              .title(FAKER.book().title())
+              .authorId(authorId)
+              .isbn(Isbn13.random())
+              .genre(FAKER.book().genre())
+              .publicationYear(Optional.of(
+                    (short) rnd.nextInt(
+                          LocalDate.now().minusYears(1000).getYear(),
+                          LocalDate.now().getYear())))
+              .build();
+    }
+
+    private BookCopy generateBookCopy(BookId bookId) {
+        var rnd = new Random();
+        var trackingStatusValues = TrackingStatus.values();
+        var randomTrackingStatus = trackingStatusValues[rnd.nextInt(trackingStatusValues.length)];
+
+        var userId = Optional.<UserId>empty();
+
+        if (randomTrackingStatus.requiresUser()
+              || (randomTrackingStatus.optionalUser() && rnd.nextBoolean())) {
+            userId = Optional.of(UserId.of(rnd.nextLong()));
+        }
+
+        var bookCopy = BookCopy.builder()
+              .id(BookCopyId.of(bookCopyIdGenerator.getAndIncrement()))
+              .bookId(bookId)
+              .trackingStatus(randomTrackingStatus)
+              .userId(userId)
+              .build();
+
+        addBookCopy(bookCopy);
+        return bookCopy;
+    }
+
+    public record AuthorBooks(Author author,
+                              Map<Book, List<BookCopy>> books) {
+
     }
 }

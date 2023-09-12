@@ -4,6 +4,7 @@ package com.cgdpd.library.common.validation;
 import com.cgdpd.library.common.exception.ValidationException;
 
 import java.time.LocalDate;
+import java.time.temporal.ValueRange;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -35,6 +36,13 @@ public final class Validator {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn13(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);
+        return value;
+    }
+
+    public static Integer requiredValidHttpStatus(Integer value) {
+        validate(() -> value == null || !ValueRange.of(100, 599).isValidValue(value),
+              "%s is not a valid http status",
+              value);
         return value;
     }
 

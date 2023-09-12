@@ -1,6 +1,5 @@
 package com.cgdpd.library.catalog.app.helper;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;

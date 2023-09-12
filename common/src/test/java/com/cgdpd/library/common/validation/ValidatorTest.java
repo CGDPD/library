@@ -1,6 +1,12 @@
 package com.cgdpd.library.common.validation;
 
+import static com.cgdpd.library.common.validation.Validator.checkYearNotFuture;
+import static com.cgdpd.library.common.validation.Validator.required;
+import static com.cgdpd.library.common.validation.Validator.requiredNotBlank;
+import static com.cgdpd.library.common.validation.Validator.requiredValidHttpStatus;
+import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import com.cgdpd.library.common.exception.ValidationException;
@@ -19,7 +25,7 @@ public class ValidatorTest {
         String value = null;
 
         // when
-        var thrownException = catchThrowable(() -> Validator.required(paramName, value));
+        var thrownException = catchThrowable(() -> required(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -34,7 +40,7 @@ public class ValidatorTest {
         var value = "valid";
 
         // when
-        var result = Validator.required(paramName, value);
+        var result = required(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -48,7 +54,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+              () -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -63,7 +69,7 @@ public class ValidatorTest {
         var value = "valid";
 
         // when
-        var result = Validator.requiredNotBlank(paramName, value);
+        var result = requiredNotBlank(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -77,7 +83,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+              () -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -93,7 +99,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.checkYearNotFuture(paramName, value));
+              () -> checkYearNotFuture(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -109,7 +115,7 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        var result = Validator.checkYearNotFuture(paramName, value);
+        var result = checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -123,7 +129,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+              () -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -141,7 +147,7 @@ public class ValidatorTest {
 
         // when
         var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+              () -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -158,7 +164,45 @@ public class ValidatorTest {
         var value = "9780134685991";
 
         // when
-        var result = Validator.requiredValidIsbn13(paramName, value);
+        var result = requiredValidIsbn13(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_http_status_code_is_not_valid() {
+        // given
+        var value = 99;
+
+        // when then
+        assertThatThrownBy(() -> requiredValidHttpStatus(value))
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s is not a valid http status",
+                    value));
+    }
+
+    @Test
+    void should_throw_exception_when_http_status_code_is_null() {
+        // given
+        Integer value = null;
+
+        // when then
+        assertThatThrownBy(() -> requiredValidHttpStatus(value))
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s is not a valid http status",
+                    value));
+    }
+
+    @Test
+    void should_return_value_when_http_status_code_is_valid() {
+        // given
+        var value = 200;
+
+        // when
+        var result = requiredValidHttpStatus(value);
 
         // then
         assertThat(result).isEqualTo(value);

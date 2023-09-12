@@ -4,8 +4,11 @@ logging:
     com.cgdpd.library: DEBUG
 
 
-## Configs to generate sql schema based on entities
 spring:
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
+  ## Configs to generate sql schema based on entities
   jpa:
     properties:
       javax:

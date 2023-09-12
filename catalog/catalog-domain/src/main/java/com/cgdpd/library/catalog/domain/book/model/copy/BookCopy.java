@@ -1,7 +1,6 @@
 package com.cgdpd.library.catalog.domain.book.model.copy;
 
 
-
 import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.AVAILABLE;
 import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.CHECKED_OUT;
 import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.LOST;
@@ -17,7 +16,6 @@ import com.cgdpd.library.catalog.domain.book.model.BookId;
 import lombok.Builder;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Builder(toBuilder = true)
 public record BookCopy(BookCopyId id,
@@ -25,11 +23,6 @@ public record BookCopy(BookCopyId id,
                        TrackingStatus trackingStatus,
                        Optional<UserId> userId) {
 
-    private static final Set<TrackingStatus> MANDATORY_USER_ID_WITH_STATUS = Set.of(
-          ON_HOLD,
-          CHECKED_OUT);
-    private static final Set<TrackingStatus> OPTIONAL_USER_ID_WITH_STATUS = Set.of(
-          LOST);
 
     public BookCopy(BookCopyId id,
                     BookId bookId,
@@ -76,9 +69,9 @@ public record BookCopy(BookCopyId id,
     }
 
     private void validateUserIdCanBePresent() {
-        if (MANDATORY_USER_ID_WITH_STATUS.contains(trackingStatus)) {
+        if (trackingStatus.requiresUser()) {
             validate(userId::isEmpty, "When status is %s the user id is mandatory", trackingStatus);
-        } else if (!OPTIONAL_USER_ID_WITH_STATUS.contains(trackingStatus)) {
+        } else if (!trackingStatus.optionalUser()) {
             validate(userId::isPresent,
                   "When status is %s the user id should be empty",
                   trackingStatus);

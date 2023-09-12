@@ -7,7 +7,6 @@ import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.fromTra
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.cgdpd.library.catalog.api.stub.LibraryCatalogStubClient;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 import com.cgdpd.library.common.exception.NotFoundException;
