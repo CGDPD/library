@@ -4,7 +4,6 @@ import com.cgdpd.library.catalog.api.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
@@ -84,8 +83,7 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
         var book = getBookByIsbn13(isbn13);
         var author = authors.get(book.authorId());
         var bookCopies = findBookCopiedByBookId(book.id());
-        var trackingStatues = bookCopies.stream().map(BookCopy::trackingStatus).toList();
-        var availability = BookAvailability.fromTrackingStatuses(trackingStatues);
+        var trackingStatusList = bookCopies.stream().map(BookCopy::trackingStatus).toList();
 
         return DetailedBookDto.builder()
               .id(book.id())
@@ -94,7 +92,7 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
               .authorName(author.name())
               .isbn(book.isbn())
               .genre(book.genre())
-              .availability(availability)
+              .trackingStatusList(trackingStatusList)
               .publicationYear(book.publicationYear())
               .build();
     }

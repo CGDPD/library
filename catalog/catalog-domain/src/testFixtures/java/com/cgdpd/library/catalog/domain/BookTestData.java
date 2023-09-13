@@ -1,6 +1,6 @@
 package com.cgdpd.library.catalog.domain;
 
-import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.AVAILABLE;
+import static com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus.AVAILABLE;
 
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
@@ -9,6 +9,7 @@ import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.types.Isbn13;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BookTestData {
@@ -46,7 +47,7 @@ public class BookTestData {
               .authorName("J. R. R. Tolkien")
               .isbn(Isbn13.random())
               .genre("Fiction")
-              .availability(AVAILABLE)
+              .trackingStatusList(List.of(AVAILABLE))
               .publicationYear(Optional.of((short) 1954));
     }
 

@@ -3,7 +3,6 @@ package com.cgdpd.library.catalog.client.stub;
 import static com.cgdpd.library.catalog.domain.BookCopyTestData.aBookCopy;
 import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
 import static com.cgdpd.library.catalog.domain.BookTestData.bookFromRequest;
-import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.fromTrackingStatus;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -79,8 +78,8 @@ class LibraryCatalogStubClientTest {
         assertThat(resultDetailedBookDto.authorName()).isEqualTo(givenAuthor.name());
         assertThat(resultDetailedBookDto.isbn()).isEqualTo(givenBook.isbn());
         assertThat(resultDetailedBookDto.genre()).isEqualTo(givenBook.genre());
-        assertThat(resultDetailedBookDto.availability())
-              .isEqualTo(fromTrackingStatus(givenBookCopy.trackingStatus()));
+        assertThat(resultDetailedBookDto.trackingStatusList())
+              .containsExactlyInAnyOrder(givenBookCopy.trackingStatus());
         assertThat(resultDetailedBookDto.publicationYear()).isEqualTo(givenBook.publicationYear());
     }
 }

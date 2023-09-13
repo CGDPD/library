@@ -1,10 +1,8 @@
 package com.cgdpd.library.catalog.app.mapper;
 
-
 import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
-import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
@@ -21,7 +19,6 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-
     @Mapping(source = "authorId", target = "authorEntity.id", qualifiedByName = "mapFromAuthorId")
     BookEntity mapToBookEntity(CreateBookRequestDto requestDTO);
 
@@ -30,7 +27,7 @@ public interface BookMapper {
 
     @Mapping(source = "authorEntity.id", target = "authorId", qualifiedByName = "mapToAuthorId")
     @Mapping(source = "authorEntity.name", target = "authorName")
-    @Mapping(source = "bookCopyEntities", target = "availability")
+    @Mapping(source = "bookCopyEntities", target = "trackingStatusList")
     DetailedBookDto mapToDetailedBookDto(BookEntity bookEntity);
 
     @Named("mapToAuthorId")
@@ -63,10 +60,10 @@ public interface BookMapper {
         return isbn.value();
     }
 
-    default BookAvailability mapToBookAvailability(List<BookCopyEntity> bookCopyEntities) {
-        return BookAvailability.fromTrackingStatuses(bookCopyEntities.stream()
+    default List<TrackingStatus> mapToBookAvailability(List<BookCopyEntity> bookCopyEntities) {
+        return bookCopyEntities.stream()
               .map(BookCopyEntity::getTrackingStatus)
               .map(TrackingStatus::valueOf)
-              .toList());
+              .toList();
     }
 }

@@ -7,7 +7,7 @@ import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetai
 import static com.cgdpd.library.catalog.app.helper.TestUtils.getJsonObjectFromResult;
 import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
 import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
-import static com.cgdpd.library.catalog.domain.book.dto.BookAvailability.UNAVAILABLE;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,7 +20,6 @@ import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.app.repository.BookCopyRepository;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
-import com.cgdpd.library.catalog.domain.book.dto.BookAvailability;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
@@ -36,6 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 @AutoConfigureMockMvc
 public class BookControllerFunctionalTest extends FunctionalTest {
@@ -122,7 +122,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         assertThatDetailedBookDtoHasCorrectValues(
               resultDetailedBookDto,
               bookEntity,
-              BookAvailability.fromTrackingStatus(bookCopiyTrackingStatus));
+              List.of(bookCopiyTrackingStatus));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         resultActions.andExpect(status().isOk());
         var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDto.class,
               objectMapper);
-        assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, UNAVAILABLE);
+        assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, emptyList());
     }
 
     private Long getIdFromResult(ResultActions resultActions)
