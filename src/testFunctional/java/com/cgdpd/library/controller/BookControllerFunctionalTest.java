@@ -19,13 +19,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cgdpd.library.FunctionalTest;
 import com.cgdpd.library.dto.book.BookAvailability;
 import com.cgdpd.library.dto.book.DetailedBookDTO;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.pagination.PagedResponse;
+import com.cgdpd.library.dto.pagination.PaginationCriteria;
 import com.cgdpd.library.entity.AuthorEntity;
 import com.cgdpd.library.entity.BookCopyEntity;
 import com.cgdpd.library.entity.BookEntity;
+import com.cgdpd.library.mapper.BookMapper;
 import com.cgdpd.library.model.book.copy.TrackingStatus;
 import com.cgdpd.library.repository.AuthorRepository;
 import com.cgdpd.library.repository.BookCopyRepository;
 import com.cgdpd.library.repository.BookRepository;
+import com.cgdpd.library.service.BookService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
@@ -34,7 +40,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Optional;
 
 
 @AutoConfigureMockMvc
@@ -46,6 +55,10 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     private BookRepository bookRepository;
     @Autowired
     private BookCopyRepository bookCopyRepository;
+    @Autowired
+    private BookService bookService;
+    @Autowired
+    private BookMapper bookMapper;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -150,6 +163,38 @@ public class BookControllerFunctionalTest extends FunctionalTest {
           throws UnsupportedEncodingException, JSONException {
         var jsonObject = getJsonObjectFromResult(resultActions);
         return jsonObject.getLong("bookId");
+    }
+
+    @Test
+    void should_return_book_with_criteria() throws Exception {
+        // given
+        var searchCriteria = Optional.of(SearchBookCriteria.builder().build());
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .build();
+
+        var bookEntity = givenRandomBookExists();
+        var expectedResponse = PagedResponse.<DetailedBookDTO>builder()
+              .content(List.of(bookMapper.mapToDetailedBookDto(bookEntity)))
+              .pageNumber(0)
+              .pageSize(10)
+              .totalElements(1)
+              .totalPages(1)
+              .build();
+
+        // when
+        var resultActions = mockMvc.perform(get("/books")
+              .contentType(MediaType.APPLICATION_JSON)
+              .param("searchCriteria", objectMapper.writeValueAsString(searchCriteria.orElse(null)))
+              .param("paginationCriteria", objectMapper.writeValueAsString(paginationCriteria)));
+
+        // then
+        resultActions.andExpect(status().isOk());
+
+        var actualResponse = getObjectFromResultActions(resultActions, PagedResponse.class,
+              objectMapper);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this
