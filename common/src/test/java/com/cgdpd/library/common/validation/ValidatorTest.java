@@ -171,12 +171,13 @@ public class ValidatorTest {
         // given
         var value = 99;
 
-        // when then
-        assertThatThrownBy(() -> requiredValidHttpStatus(value))
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
+
+        // then
+        thrownException
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format(
-                    "%s is not a valid http status",
-                    value));
+              .hasMessage(String.format("%s is not a valid http status", value));
     }
 
     @Test
@@ -184,12 +185,13 @@ public class ValidatorTest {
         // given
         Integer value = null;
 
-        // when then
-        assertThatThrownBy(() -> requiredValidHttpStatus(value))
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
+
+        // then
+        thrownException
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format(
-                    "%s is not a valid http status",
-                    value));
+              .hasMessage(String.format("%s is not a valid http status", value));
     }
 
     @Test
