@@ -3,6 +3,8 @@ package com.cgdpd.library.common.validation;
 import static com.cgdpd.library.common.validation.Validator.checkYearNotFuture;
 import static com.cgdpd.library.common.validation.Validator.required;
 import static com.cgdpd.library.common.validation.Validator.requiredNotBlank;
+import static com.cgdpd.library.common.validation.Validator.requiredNotNegative;
+import static com.cgdpd.library.common.validation.Validator.requiredPositive;
 import static com.cgdpd.library.common.validation.Validator.requiredValidHttpStatus;
 import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -203,6 +205,64 @@ public class ValidatorTest {
 
         // when
         var result = requiredValidHttpStatus(value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_required_not_negative_number_is_null() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(() -> requiredNotNegative(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null or negative",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_not_negative() {
+        // given
+        var paramName = "value";
+        var value = 0;
+
+        // when
+        var result = requiredNotNegative(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_required_positive_number_is_null() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(() -> requiredPositive(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null, must be a positive number",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_positive() {
+        // given
+        var paramName = "value";
+        var value = 1;
+
+        // when
+        var result = requiredPositive(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);

@@ -1,5 +1,7 @@
 package com.cgdpd.library.catalog.app.mapper;
 
+import static java.util.Collections.emptyList;
+
 import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
@@ -60,10 +62,12 @@ public interface BookMapper {
         return isbn.value();
     }
 
-    default List<TrackingStatus> mapToBookAvailability(List<BookCopyEntity> bookCopyEntities) {
-        return bookCopyEntities.stream()
-              .map(BookCopyEntity::getTrackingStatus)
-              .map(TrackingStatus::valueOf)
-              .toList();
+    default List<TrackingStatus> mapToTrackingStatusList(List<BookCopyEntity> bookCopyEntities) {
+        return Optional.ofNullable(bookCopyEntities)
+              .map(it -> it.stream()
+                    .map(BookCopyEntity::getTrackingStatus)
+                    .map(TrackingStatus::valueOf)
+                    .toList())
+              .orElse(emptyList());
     }
 }

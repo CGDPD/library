@@ -3,6 +3,8 @@ package com.cgdpd.library.catalog.app.repository.specification;
 import static com.cgdpd.library.catalog.app.repository.specification.SpecificationPredicates.greaterThan;
 import static com.cgdpd.library.catalog.app.repository.specification.SpecificationPredicates.lessThan;
 import static com.cgdpd.library.catalog.app.repository.specification.SpecificationPredicates.like;
+import static jakarta.persistence.criteria.JoinType.INNER;
+import static jakarta.persistence.criteria.JoinType.LEFT;
 
 import com.cgdpd.library.catalog.app.entity.AuthorEntity_;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
@@ -46,6 +48,9 @@ public class BookSpecifications {
                   criteria.publicationYearGreaterThan());
 
             query.orderBy(criteriaBuilder.desc(root.get(BookEntity_.publicationYear)));
+
+            root.fetch(BookEntity_.authorEntity, INNER);
+            root.fetch(BookEntity_.bookCopyEntities, LEFT);
 
             return criteriaBuilder.and(predicates.value().toArray(new Predicate[0]));
         };

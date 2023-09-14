@@ -23,6 +23,18 @@ public final class Validator {
         return value;
     }
 
+    public static <T extends Number> T requiredPositive(String paramName, T value) {
+        validate(() -> value == null || value.intValue() <= 0,
+              "%s must not be null, must be a positive number", paramName);
+        return value;
+    }
+
+    public static <T extends Number> T requiredNotNegative(String paramName, T value) {
+        validate(() -> value == null || value.intValue() < 0, "%s must not be null or negative",
+              paramName);
+        return value;
+    }
+
     public static Optional<Short> checkYearNotFuture(String paramName, Optional<Short> value) {
         value.ifPresent(year -> {
             var currentYear = LocalDate.now().getYear();
