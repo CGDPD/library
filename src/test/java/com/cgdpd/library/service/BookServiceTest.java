@@ -3,15 +3,21 @@ package com.cgdpd.library.service;
 import static com.cgdpd.library.BookCopyTestData.aBookCopyEntity;
 import static com.cgdpd.library.BookTestData.aBookEntity;
 import static com.cgdpd.library.BookTestData.aCreateBookRequestDTO;
-import static com.cgdpd.library.BookTestData.aDetailedBookDto;
 import static com.cgdpd.library.BookTestData.bookEntityFromRequest;
 import static com.cgdpd.library.model.book.copy.TrackingStatus.AVAILABLE;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
+import com.cgdpd.library.dto.book.DetailedBookDTO;
+import com.cgdpd.library.dto.book.SearchBookCriteria;
+import com.cgdpd.library.dto.pagination.PaginationCriteria;
+import com.cgdpd.library.dto.pagination.SortParams;
 import com.cgdpd.library.entity.BookEntity;
 import com.cgdpd.library.exceptions.NotFoundException;
 import com.cgdpd.library.mapper.BookMapper;
@@ -26,6 +32,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +45,7 @@ class BookServiceTest {
     private BookRepository bookRepository;
     @Mock
     private AuthorService authorService;
+
     private BookService bookService;
 
     @Captor
@@ -56,7 +65,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void should_create_a_book() {
+    void should_create_a_book() {
         // given
         var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(true);
@@ -82,7 +91,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void should_throw_exception_if_author_not_exist() {
+    void should_throw_exception_if_author_not_exist() {
         // given
         var request = aCreateBookRequestDTO().build();
         given(authorService.authorExist(request.authorId())).willReturn(false);
@@ -93,6 +102,57 @@ class BookServiceTest {
               .hasMessage(String.format("Author with id %s not found", request.authorId()));
 
         verifyNoInteractions(bookRepository);
+    }
+
+    @Test
+    void should_return_books_with_pagination() {
+        // given
+        var searchCriteria = SearchBookCriteria.builder().build();
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
+              .build();
+        var pageRequest = paginationCriteria.toPageRequest();
+        var books = List.of(aBookEntity().id(1L).title("The Adventurous").build(),
+              aBookEntity().id(2L).title("Finder").build(),
+              aBookEntity().id(3L).title("Killer").build());
+
+        given(bookRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(
+              new PageImpl<>(books));
+
+        // when
+        var result = bookService.findDetailedBooksPage(paginationCriteria, searchCriteria);
+
+        // then
+        assertThat(result.content()).containsExactlyInAnyOrder(books.stream()
+              .map(bookMapper::mapToDetailedBookDto)
+              .toArray(DetailedBookDTO[]::new));
+    }
+
+    @Test
+    void should_return_empty_page_when_no_books_found() {
+        // given
+        var searchCriteria = SearchBookCriteria.builder().build();
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .build();
+        var pageRequest = paginationCriteria.toPageRequest();
+        var emptyPage = new PageImpl<>(emptyList(), pageRequest, 0);
+
+        given(bookRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(
+              emptyPage);
+
+        // when
+        var resultPagedResponse = bookService.findDetailedBooksPage(paginationCriteria,
+              searchCriteria);
+
+        // then
+        assertThat(resultPagedResponse.content()).isEmpty();
+        assertThat(resultPagedResponse.pageNumber()).isEqualTo(0);
+        assertThat(resultPagedResponse.pageSize()).isEqualTo(10);
+        assertThat(resultPagedResponse.totalElements()).isEqualTo(emptyPage.getTotalElements());
     }
 
     @Test

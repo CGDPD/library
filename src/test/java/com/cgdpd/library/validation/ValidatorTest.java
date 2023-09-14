@@ -1,5 +1,10 @@
 package com.cgdpd.library.validation;
 
+import static com.cgdpd.library.validation.Validator.checkYearNotFuture;
+import static com.cgdpd.library.validation.Validator.requiredNotBlank;
+import static com.cgdpd.library.validation.Validator.requiredNotNegative;
+import static com.cgdpd.library.validation.Validator.requiredPositive;
+import static com.cgdpd.library.validation.Validator.requiredValidIsbn13;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
@@ -47,8 +52,7 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+        var thrownException = catchThrowable(() -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -63,21 +67,20 @@ public class ValidatorTest {
         var value = "valid";
 
         // when
-        var result = Validator.requiredNotBlank(paramName, value);
+        var result = requiredNotBlank(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
     }
 
     @Test
-    void should_throw_exception_when_the_value_is_null() {
+    void should_throw_exception_when_required_not_blank_value_is_null() {
         // given
         var paramName = "value";
         String value = null;
 
         // when
-        var thrownException = catchThrowable(
-              () -> Validator.requiredNotBlank(paramName, value));
+        var thrownException = catchThrowable(() -> requiredNotBlank(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -92,8 +95,7 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
 
         // when
-        var thrownException = catchThrowable(
-              () -> Validator.checkYearNotFuture(paramName, value));
+        var thrownException = catchThrowable(() -> checkYearNotFuture(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -109,7 +111,7 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().getYear() - 1));
 
         // when
-        var result = Validator.checkYearNotFuture(paramName, value);
+        var result = checkYearNotFuture(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
@@ -122,8 +124,7 @@ public class ValidatorTest {
         var value = "9780134685992";
 
         // when
-        var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+        var thrownException = catchThrowable(() -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -140,8 +141,7 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> Validator.requiredValidIsbn13(paramName, value));
+        var thrownException = catchThrowable(() -> requiredValidIsbn13(paramName, value));
 
         // then
         assertThat(thrownException)
@@ -158,7 +158,65 @@ public class ValidatorTest {
         var value = "9780134685991";
 
         // when
-        var result = Validator.requiredValidIsbn13(paramName, value);
+        var result = requiredValidIsbn13(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_required_not_negative_number_is_null() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(() -> requiredNotNegative(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null or negative",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_not_negative() {
+        // given
+        var paramName = "value";
+        var value = 0;
+
+        // when
+        var result = requiredNotNegative(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_required_positive_number_is_null() {
+        // given
+        var paramName = "value";
+
+        // when
+        var thrownException = catchThrowable(() -> requiredPositive(paramName, null));
+
+        // then
+        assertThat(thrownException)
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format(
+                    "%s must not be null, must be a positive number",
+                    paramName));
+    }
+
+    @Test
+    void should_return_value_when_value_is_positive() {
+        // given
+        var paramName = "value";
+        var value = 1;
+
+        // when
+        var result = requiredPositive(paramName, value);
 
         // then
         assertThat(result).isEqualTo(value);
