@@ -22,7 +22,7 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation project(':catalog:catalog-api')
+    implementation project(':catalog:catalog-client')
     implementation project(':common')
     implementation project(':types')
 
@@ -41,7 +41,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
-    testImplementation(testFixtures(project(':catalog:catalog-api')))
+    testImplementation(testFixtures(project(':catalog:catalog-client')))
 }
 
 testSets {

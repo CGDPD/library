@@ -1,7 +1,7 @@
 package com.cgdpd.library.frontendapi.configuration;
 
-import com.cgdpd.library.catalog.api.LibraryCatalogClient;
-import com.cgdpd.library.catalog.api.rest.LibraryCatalogHttpClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.rest.LibraryCatalogHttpClient;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

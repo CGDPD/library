@@ -1,8 +1,8 @@
-package com.cgdpd.library.catalog.api.rest;
+package com.cgdpd.library.catalog.client.rest;
 
 import static com.cgdpd.library.common.validation.Validator.required;
 
-import com.cgdpd.library.catalog.api.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;

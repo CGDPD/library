@@ -1,6 +1,6 @@
 package com.cgdpd.library.frontendapi.queries;
 
-import com.cgdpd.library.catalog.api.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.types.Isbn13;
 

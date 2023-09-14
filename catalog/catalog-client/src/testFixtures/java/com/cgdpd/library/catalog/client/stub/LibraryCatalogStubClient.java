@@ -1,6 +1,6 @@
 package com.cgdpd.library.catalog.client.stub;
 
-import com.cgdpd.library.catalog.api.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;

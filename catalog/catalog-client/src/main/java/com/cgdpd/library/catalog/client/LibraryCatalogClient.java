@@ -1,4 +1,4 @@
-package com.cgdpd.library.catalog.api;
+package com.cgdpd.library.catalog.client;
 
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
