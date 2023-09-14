@@ -2,8 +2,8 @@ package com.cgdpd.library.frontendapi.dto;
 
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 
-import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 public enum BookAvailability {
     AVAILABLE(1),
@@ -16,8 +16,8 @@ public enum BookAvailability {
         this.priority = (short) priority;
     }
 
-    public static BookAvailability fromTrackingStatusList(Collection<TrackingStatus> trackingStatus) {
-        return trackingStatus.stream()
+    public static BookAvailability fromTrackingStatusList(List<TrackingStatus> trackingStatusList) {
+        return trackingStatusList.stream()
               .map(BookAvailability::fromTrackingStatus)
               .min(Comparator.comparing(e -> e.priority))
               .orElse(UNAVAILABLE);
