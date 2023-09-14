@@ -9,7 +9,6 @@ import static com.cgdpd.library.common.validation.Validator.requiredValidHttpSta
 import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import com.cgdpd.library.common.exception.ValidationException;
 
@@ -27,10 +26,10 @@ public class ValidatorTest {
         String value = null;
 
         // when
-        var thrownException = catchThrowable(() -> required(paramName, value));
+        var thrownException = assertThatThrownBy(() -> required(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("%s must not be null", paramName));
     }
@@ -55,11 +54,10 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredNotBlank(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredNotBlank(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("%s must not be null or blank", paramName));
     }
@@ -84,11 +82,10 @@ public class ValidatorTest {
         String value = null;
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredNotBlank(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredNotBlank(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("%s must not be null or blank", paramName));
     }
@@ -100,11 +97,10 @@ public class ValidatorTest {
         var value = Optional.of((short) (LocalDate.now().plusYears(1).getYear()));
 
         // when
-        var thrownException = catchThrowable(
-              () -> checkYearNotFuture(paramName, value));
+        var thrownException = assertThatThrownBy(() -> checkYearNotFuture(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format("Invalid %s. %s is after the current year", paramName,
                     value.orElseThrow()));
@@ -130,11 +126,10 @@ public class ValidatorTest {
         var value = "9780134685992";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredValidIsbn13(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredValidIsbn13(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
                     "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
@@ -148,11 +143,10 @@ public class ValidatorTest {
         var value = "";
 
         // when
-        var thrownException = catchThrowable(
-              () -> requiredValidIsbn13(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredValidIsbn13(paramName, value));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
                     "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
@@ -216,10 +210,10 @@ public class ValidatorTest {
         var paramName = "value";
 
         // when
-        var thrownException = catchThrowable(() -> requiredNotNegative(paramName, null));
+        var thrownException = assertThatThrownBy(() -> requiredNotNegative(paramName, null));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
                     "%s must not be null or negative",
@@ -245,10 +239,10 @@ public class ValidatorTest {
         var paramName = "value";
 
         // when
-        var thrownException = catchThrowable(() -> requiredPositive(paramName, null));
+        var thrownException = assertThatThrownBy(() -> requiredPositive(paramName, null));
 
         // then
-        assertThat(thrownException)
+        thrownException
               .isInstanceOf(ValidationException.class)
               .hasMessage(String.format(
                     "%s must not be null, must be a positive number",
