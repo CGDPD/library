@@ -7,3 +7,5 @@ spring:
   docker:
     compose:
       file: "classpath:docker/compose.yaml"
+server:
+  port: 8081

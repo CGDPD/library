@@ -125,33 +125,34 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
         bookCopyIdGenerator.set(INITIAL_VALUE);
     }
 
-    public List<AuthorBooks> generateAuthorsAndBooks() {
+    public List<AuthorBooks> generateAuthorsAndBooks(int authorQuantity,
+                                                     int bookQuantity,
+                                                     int bookCopyQuantity) {
 
         var authorsBooks = new ArrayList<AuthorBooks>();
 
-        for (var i = 0; i < 50; i++) {
-            authorsBooks.add(generateAuthorAndBooks());
+        for (var i = 0; i < authorQuantity; i++) {
+            authorsBooks.add(generateAuthorAndBooks(bookQuantity, bookCopyQuantity));
         }
         return authorsBooks;
     }
 
-    public AuthorBooks generateAuthorAndBooks() {
+    public AuthorBooks generateAuthorAndBooks(int bookQuantity, int bookCopyQuantity) {
 
         var createdAuthor = createAuthor(new CreateAuthorRequestDto(FAKER.book().author()));
         var createdBooks = new HashMap<Book, List<BookCopy>>();
 
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < bookQuantity; i++) {
             var createdBook = createBook(generateCreateBookRequest(createdAuthor.id()));
             var bookCopies = new ArrayList<BookCopy>();
-            for (var j = 0; j < 5; j++) {
+            for (var j = 0; j < bookCopyQuantity; j++) {
                 var createdBookCopy = generateBookCopy(createdBook.id());
                 bookCopies.add(createdBookCopy);
             }
             createdBooks.put(createdBook, bookCopies);
         }
 
-        return new AuthorBooks(
-              createdAuthor, createdBooks);
+        return new AuthorBooks(createdAuthor, createdBooks);
     }
 
     private Book getBookByIsbn13(Isbn13 isbn13) {
@@ -208,6 +209,5 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
 
     public record AuthorBooks(Author author,
                               Map<Book, List<BookCopy>> books) {
-
     }
 }
