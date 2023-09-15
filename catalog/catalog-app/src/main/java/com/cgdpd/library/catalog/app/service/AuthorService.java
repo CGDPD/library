@@ -23,7 +23,6 @@ public class AuthorService {
         return new Author(AuthorId.of(savedAuthor.getId()), savedAuthor.getName());
     }
 
-
     public boolean authorExist(AuthorId authorId) {
         return authorRepository.existsById(authorId.value());
     }
