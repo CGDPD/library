@@ -15,12 +15,10 @@ import com.cgdpd.library.types.Isbn13;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
-@AutoConfigureMockMvc
 public class ViewControllerFunctionalTest extends FunctionalTest {
 
     private static final String BASE_ENDPOINT = "/view";
@@ -56,7 +54,6 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
 
     @Test
     void should_return_404_status_when_book_by_isbn_doesnt_exist() {
-        // given
         // when
         var resultEntity = restTemplate.getForEntity(
               URI.create(BASE_ENDPOINT + "/book/" + Isbn13.random().value()), FrontendError.class);

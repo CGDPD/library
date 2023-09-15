@@ -9,8 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @AllArgsConstructor
+@Service
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -23,7 +23,7 @@ public class AuthorService {
         return new Author(AuthorId.of(savedAuthor.getId()), savedAuthor.getName());
     }
 
-    @Transactional
+
     public boolean authorExist(AuthorId authorId) {
         return authorRepository.existsById(authorId.value());
     }

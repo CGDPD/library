@@ -1,8 +1,8 @@
 package com.cgdpd.library.catalog.app.controller;
 
-import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.cgdpd.library.catalog.app.FunctionalTest;
@@ -10,10 +10,10 @@ import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,30 +27,31 @@ public class AuthorControllerFunctionalTest extends FunctionalTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AuthorRepository authorRepository;
+    private TestRestTemplate restTemplate;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private AuthorRepository authorRepository;
 
     @Test
-    public void should_create_author_and_return_name() throws Exception {
+    public void should_create_author_and_return_name() {
         // given
         var authorName = "John Doe";
         var createAuthorRequestDto = new CreateAuthorRequestDto(authorName);
 
         // when
-        var resultActions = mockMvc.perform(post(BASE_ENDPOINT)
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(createAuthorRequestDto)));
+        var responseEntity = restTemplate.postForEntity(
+              BASE_ENDPOINT,
+              createAuthorRequestDto,
+              Author.class);
+
         // then
-        resultActions
-              .andExpect(status().isCreated());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(CREATED);
+        assertThat(responseEntity.hasBody()).isTrue();
 
-        var resultCreatedAuthor = getObjectFromResultActions(resultActions, Author.class,
-              objectMapper);
-        assertThat(resultCreatedAuthor.name()).isEqualTo(authorName);
+        var responseBody = responseEntity.getBody();
+        assertThat(responseBody.name()).isEqualTo(authorName);
 
-        var authorEntity = authorRepository.findById(resultCreatedAuthor.id().value());
+        var authorEntity = authorRepository.findById(responseBody.id().value());
         assertThat(authorEntity).isPresent();
         assertThat(authorEntity.get().getName()).isEqualTo(authorName);
     }

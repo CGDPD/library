@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
@@ -23,13 +24,8 @@ import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.pagination.SortParams;
 import com.cgdpd.library.types.Isbn13;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -41,27 +37,13 @@ import java.util.Optional;
 class BookServiceTest {
 
     private final BookMapper bookMapper = new BookMapperImpl();
-    @Mock
-    private BookRepository bookRepository;
-    @Mock
-    private AuthorService authorService;
-    private BookService bookService;
+    private final BookRepository bookRepository = mock(BookRepository.class);
+    private final AuthorService authorService = mock(AuthorService.class);
+    private final BookService bookService =
+          new BookService(bookRepository, bookMapper, authorService);
 
-    @Captor
-    private ArgumentCaptor<BookEntity> captor;
+    private final ArgumentCaptor<BookEntity> captor = ArgumentCaptor.forClass(BookEntity.class);
 
-    private AutoCloseable closeable;
-
-    @BeforeEach
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-        this.bookService = new BookService(bookRepository, bookMapper, authorService);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
 
     @Test
     public void should_create_a_book() {

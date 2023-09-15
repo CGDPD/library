@@ -9,7 +9,6 @@ public abstract class IdType {
 
     private final Long id;
 
-
     protected IdType(Long id) {
         this.id = required("id", id);
     }

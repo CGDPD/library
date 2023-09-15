@@ -7,37 +7,16 @@ import static org.mockito.Mockito.verify;
 import com.cgdpd.library.catalog.app.entity.AuthorEntity;
 import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 public class AuthorServiceTest {
 
-    @InjectMocks
-    private AuthorService authorService;
+    private final AuthorRepository authorRepository = Mockito.mock(AuthorRepository.class);
+    private final AuthorService authorService = new AuthorService(authorRepository);
 
-    @Mock
-    private AuthorRepository authorRepository;
-
-    @Captor
-    private ArgumentCaptor<AuthorEntity> captor;
-
-    private AutoCloseable closeable;
-
-    @BeforeEach
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
+    private final ArgumentCaptor<AuthorEntity> captor = ArgumentCaptor.forClass(AuthorEntity.class);
 
     @Test
     public void should_create_and_return_author() {

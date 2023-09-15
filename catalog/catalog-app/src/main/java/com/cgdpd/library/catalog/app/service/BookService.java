@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final AuthorService authorService;
 
+    @Transactional
     public Book createBook(CreateBookRequestDto createBookRequestDto) {
         if (!authorService.authorExist(createBookRequestDto.authorId())) {
             throw new NotFoundException(

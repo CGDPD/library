@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
-@RequestMapping("/book")
 @RestController
+@RequestMapping("/book")
 public class BookController {
 
     private final BookService bookService;

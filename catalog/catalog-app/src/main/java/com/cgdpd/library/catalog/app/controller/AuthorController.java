@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
-@RequestMapping("/author")
 @RestController
+@RequestMapping("/author")
 public class AuthorController {
 
     private final AuthorService authorService;

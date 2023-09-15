@@ -1,12 +1,3 @@
-spring:
-  profiles:
-    active: 'test'
-  main:
-    allow-bean-definition-overriding: true
-
-
-
-
 logging:
   level:
     root: INFO

@@ -1,5 +1,7 @@
 package com.cgdpd.library.catalog.app;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 public class FunctionalTest {
 
     private static final PostgreSQLContainer<?> postgres = SingletonPostgreSQLContainer.getInstance();

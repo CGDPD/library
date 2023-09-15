@@ -4,36 +4,18 @@ import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDt
 import static com.cgdpd.library.catalog.domain.BookTestData.bookFromRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import com.cgdpd.library.catalog.app.service.BookService;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 class BookControllerTest {
 
-    @Mock
-    private BookService bookService;
+    private final BookService bookService = mock(BookService.class);
 
-    @InjectMocks
-    private BookController bookController;
-
-    private AutoCloseable closeable;
-
-    @BeforeEach
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
+    private final BookController bookController = new BookController(bookService);
 
     @Test
     void should_create_book() {

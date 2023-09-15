@@ -46,10 +46,8 @@ public class BookRepositoryFunctionalTest extends DbPrePopulatedFunctionalTest {
         var result = bookRepository.findAll(spec);
 
         // then
-        assertThat(result).hasSameElementsAs(
-              List.of(
-                    JOHN_DOE__FINDER__1995,
-                    JANE_DANE__KILLER__2001));
+        assertThat(result)
+              .hasSameElementsAs(List.of(JOHN_DOE__FINDER__1995, JANE_DANE__KILLER__2001));
     }
 
     @Test

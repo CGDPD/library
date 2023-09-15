@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-
 public class Predicates {
 
     private final List<Predicate> predicates;

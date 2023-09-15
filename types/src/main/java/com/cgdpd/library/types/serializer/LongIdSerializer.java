@@ -1,6 +1,5 @@
 package com.cgdpd.library.types.serializer;
 
-
 import com.cgdpd.library.types.IdType;
 
 import com.fasterxml.jackson.core.JsonGenerator;

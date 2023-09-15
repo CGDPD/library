@@ -1,6 +1,5 @@
 package com.cgdpd.library.common.validation;
 
-
 import com.cgdpd.library.common.exception.ValidationException;
 
 import java.time.LocalDate;

@@ -4,14 +4,12 @@ import static com.cgdpd.library.catalog.app.AuthorTestData.anAuthorEntity;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
-import static com.cgdpd.library.catalog.app.helper.TestUtils.getJsonObjectFromResult;
-import static com.cgdpd.library.catalog.app.helper.TestUtils.getObjectFromResultActions;
 import static com.cgdpd.library.catalog.domain.BookTestData.aCreateBookRequestDto;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 import com.cgdpd.library.catalog.app.FunctionalTest;
 import com.cgdpd.library.catalog.app.entity.AuthorEntity;
@@ -25,40 +23,31 @@ import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 import com.cgdpd.library.types.Isbn13;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-@AutoConfigureMockMvc
 public class BookControllerFunctionalTest extends FunctionalTest {
 
     private static final String BASE_ENDPOINT = "/book";
 
 
     @Autowired
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private BookRepository bookRepository;
+
     @Autowired
     private BookCopyRepository bookCopyRepository;
 
     @Autowired
     private AuthorRepository authorRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
-    public void should_create_book_and_return_id() throws Exception {
+    public void should_create_book_and_return_id() {
         // given
         var request = aCreateBookRequestDto().build();
 
@@ -66,15 +55,13 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         authorRepository.save(authorEntity);
 
         // when
-        var resultActions = mockMvc.perform(post(BASE_ENDPOINT)
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(request)));
+        var responseEntity = restTemplate.postForEntity(BASE_ENDPOINT, request, Book.class);
 
         // then
-        resultActions
-              .andExpect(status().isCreated());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(CREATED);
+        assertThat(responseEntity.hasBody()).isTrue();
 
-        var resultCreatedBook = getObjectFromResultActions(resultActions, Book.class, objectMapper);
+        var resultCreatedBook = responseEntity.getBody();
         assertThat(resultCreatedBook.title()).isEqualTo(request.title());
         assertThat(resultCreatedBook.authorId().value()).isEqualTo(authorEntity.getId());
         assertThat(resultCreatedBook.publicationYear()).isEqualTo(request.publicationYear());
@@ -96,67 +83,63 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         var request = aCreateBookRequestDto().build();
 
         // when
-        var resultActions = mockMvc.perform(post(BASE_ENDPOINT)
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(objectMapper.writeValueAsString(request)));
+        var responseEntity = restTemplate.postForEntity(BASE_ENDPOINT, request, Book.class);
 
         // then
-        resultActions.andExpect(status().isNotFound());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
-    void should_fetch_detailed_book_by_isbn13() throws Exception {
+    void should_fetch_detailed_book_by_isbn13() {
         // given
         var bookEntity = givenRandomBookExists();
         var bookCopyEntity = givenBookCopyExists(bookEntity);
         var bookCopiyTrackingStatus = TrackingStatus.valueOf(bookCopyEntity.getTrackingStatus());
 
         // when
-        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/" + bookEntity.getIsbn())
-              .contentType(MediaType.APPLICATION_JSON));
+        var responseEntity = restTemplate.getForEntity(
+              BASE_ENDPOINT + "/" + bookEntity.getIsbn(),
+              DetailedBookDto.class);
 
         // then
-        resultActions.andExpect(status().isOk());
-        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDto.class,
-              objectMapper);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+
         assertThatDetailedBookDtoHasCorrectValues(
-              resultDetailedBookDto,
+              responseEntity.getBody(),
               bookEntity,
               List.of(bookCopiyTrackingStatus));
     }
 
     @Test
-    void should_return_404_when_isbn_does_not_exist() throws Exception {
+    void should_return_404_when_isbn_does_not_exist() {
         // when
-        var resultActions = mockMvc.perform(
-              get(BASE_ENDPOINT + "/" + Isbn13.random().value())
-                    .contentType(MediaType.APPLICATION_JSON));
+        var responseEntity = restTemplate.getForEntity(
+              BASE_ENDPOINT + "/" + Isbn13.random().value(),
+              DetailedBookDto.class);
 
         // then
-        resultActions.andExpect(status().isNotFound());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
-    void should_fetch_detailed_book_without_copies_by_isbn13_with_unavailable_status()
-          throws Exception {
+    void should_fetch_detailed_book_without_copies_by_isbn13_with_unavailable_status() {
         // given
         var bookEntity = givenRandomBookExists();
 
         // when
-        var resultActions = mockMvc.perform(get(BASE_ENDPOINT + "/" + bookEntity.getIsbn())
-              .contentType(MediaType.APPLICATION_JSON));
+        var responseEntity = restTemplate.getForEntity(
+              BASE_ENDPOINT + "/" + bookEntity.getIsbn(),
+              DetailedBookDto.class);
 
         // then
-        resultActions.andExpect(status().isOk());
-        var resultDetailedBookDto = getObjectFromResultActions(resultActions, DetailedBookDto.class,
-              objectMapper);
-        assertThatDetailedBookDtoHasCorrectValues(resultDetailedBookDto, bookEntity, emptyList());
-    }
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
 
-    private Long getIdFromResult(ResultActions resultActions)
-          throws UnsupportedEncodingException, JSONException {
-        var jsonObject = getJsonObjectFromResult(resultActions);
-        return jsonObject.getLong("bookId");
+        assertThatDetailedBookDtoHasCorrectValues(
+              responseEntity.getBody(),
+              bookEntity,
+              emptyList());
     }
 
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this

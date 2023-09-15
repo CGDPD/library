@@ -14,7 +14,6 @@ import java.util.Optional;
 
 public class BookTestData {
 
-
     public static Book.BookBuilder aBook() {
         return aBookWithRandomIsbn()
               .isbn(Isbn13.of("978-0007632190"));

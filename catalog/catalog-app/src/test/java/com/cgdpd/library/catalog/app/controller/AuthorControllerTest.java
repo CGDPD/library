@@ -2,38 +2,20 @@ package com.cgdpd.library.catalog.app.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import com.cgdpd.library.catalog.app.service.AuthorService;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class AuthorControllerTest {
 
-    @Mock
-    private AuthorService authorService;
+    private final AuthorService authorService = mock(AuthorService.class);
 
-    @InjectMocks
-    private AuthorController authorController;
-
-    private AutoCloseable closeable;
-
-    @BeforeEach
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
+    private final AuthorController authorController = new AuthorController(authorService);
 
     @Test
     void should_create_author() {

@@ -1,6 +1,5 @@
 package com.cgdpd.library.types;
 
-
 import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
 
 import java.util.Random;
