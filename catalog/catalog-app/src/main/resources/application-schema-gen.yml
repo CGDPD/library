@@ -1,0 +1,24 @@
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG
+
+
+spring:
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
+  ## Configs to generate sql schema based on entities
+  jpa:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            scripts:
+              create-target: create.sql
+              drop-target: drop.sql
+              action: create-drop
+            create-source: metadata
+            drop-source: metadata
+    hibernate:
+      ddl-auto: create-drop

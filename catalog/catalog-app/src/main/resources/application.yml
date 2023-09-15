@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG
+
+spring:
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
+server:
+  port: ${env.CGDPD_CATALOG_PORT}
