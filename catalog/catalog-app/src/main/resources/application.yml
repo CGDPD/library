@@ -8,4 +8,4 @@ spring:
     compose:
       file: "classpath:docker/compose.yaml"
 server:
-  port: 8081
+  port: ${env.CGDPD_CATALOG_PORT}

@@ -9,6 +9,8 @@ subprojects {
     }
 
     dependencies {
+        implementation 'me.paulschwarz:spring-dotenv:2.3.0'
+
         implementation 'org.projectlombok:lombok:1.18.26'
         annotationProcessor 'org.projectlombok:lombok:1.18.26'
 

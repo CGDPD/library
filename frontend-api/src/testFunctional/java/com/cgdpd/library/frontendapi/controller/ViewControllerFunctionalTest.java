@@ -29,7 +29,7 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
     private LibraryCatalogStubClient libraryCatalogStubClient;
 
     @Autowired
-    private TestRestTemplate mockMvc;
+    private TestRestTemplate restTemplate;
 
     @Test
     void should_return_book_view_by_isbn_when_isbn_exists() {
@@ -41,7 +41,7 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
               .toList();
 
         // when
-        var resultEntity = mockMvc.getForEntity(
+        var resultEntity = restTemplate.getForEntity(
               URI.create(BASE_ENDPOINT + "/book/" + aBook.isbn().value()), BookViewDto.class);
 
         // then
@@ -58,7 +58,7 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
     void should_return_404_status_when_book_by_isbn_doesnt_exist() {
         // given
         // when
-        var resultEntity = mockMvc.getForEntity(
+        var resultEntity = restTemplate.getForEntity(
               URI.create(BASE_ENDPOINT + "/book/" + Isbn13.random().value()), FrontendError.class);
 
         // then
