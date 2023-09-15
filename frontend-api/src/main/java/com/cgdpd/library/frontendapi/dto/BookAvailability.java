@@ -6,9 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public enum BookAvailability {
-    AVAILABLE(1),
+    AVAILABLE(3),
     RENTED(2),
-    UNAVAILABLE(3);
+    UNAVAILABLE(1);
 
     private final short priority;
 
@@ -19,7 +19,7 @@ public enum BookAvailability {
     public static BookAvailability fromTrackingStatusList(List<TrackingStatus> trackingStatusList) {
         return trackingStatusList.stream()
               .map(BookAvailability::fromTrackingStatus)
-              .min(Comparator.comparing(e -> e.priority))
+              .max(Comparator.comparing(e -> e.priority))
               .orElse(UNAVAILABLE);
     }
 
