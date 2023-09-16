@@ -2,6 +2,8 @@ package com.cgdpd.library.common.validation;
 
 import com.cgdpd.library.common.exception.ValidationException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ValueRange;
 import java.util.Optional;
@@ -47,6 +49,21 @@ public final class Validator {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn13(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);
+        return value;
+    }
+
+    public static String requiredValidUrl(String paramName, String value) {
+        validate(() -> {
+            if (value == null || value.isBlank()) {
+                return true;
+            }
+            try {
+                new URL(value);
+                return false;
+            } catch (MalformedURLException e) {
+                return true;
+            }
+        }, "%s is not a valid URL", paramName);
         return value;
     }
 

@@ -7,6 +7,7 @@ import static com.cgdpd.library.common.validation.Validator.requiredNotNegative;
 import static com.cgdpd.library.common.validation.Validator.requiredPositive;
 import static com.cgdpd.library.common.validation.Validator.requiredValidHttpStatus;
 import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
+import static com.cgdpd.library.common.validation.Validator.requiredValidUrl;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -167,46 +168,6 @@ public class ValidatorTest {
     }
 
     @Test
-    void should_throw_exception_when_http_status_code_is_not_valid() {
-        // given
-        var value = 99;
-
-        // when
-        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
-
-        // then
-        thrownException
-              .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("%s is not a valid http status", value));
-    }
-
-    @Test
-    void should_throw_exception_when_http_status_code_is_null() {
-        // given
-        Integer value = null;
-
-        // when
-        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
-
-        // then
-        thrownException
-              .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("%s is not a valid http status", value));
-    }
-
-    @Test
-    void should_return_value_when_http_status_code_is_valid() {
-        // given
-        var value = 200;
-
-        // when
-        var result = requiredValidHttpStatus(value);
-
-        // then
-        assertThat(result).isEqualTo(value);
-    }
-
-    @Test
     void should_throw_exception_when_required_not_negative_number_is_null() {
         // given
         var paramName = "value";
@@ -259,6 +220,104 @@ public class ValidatorTest {
 
         // when
         var result = requiredPositive(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_url_is_null() {
+        // given
+        var paramName = "value";
+        String value = null;
+
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+
+        // then
+        thrownException
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format("%s is not a valid URL", paramName));
+    }
+
+    @Test
+    void should_throw_exception_when_url_is_blank() {
+        // given
+        var paramName = "value";
+        var value = "";
+
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+
+        // then
+        thrownException
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format("%s is not a valid URL", paramName));
+    }
+
+    @Test
+    void should_throw_exception_when_url_is_malformed() {
+        // given
+        var paramName = "value";
+        var value = "invalidURL";
+
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+
+        // then
+        thrownException
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format("%s is not a valid URL", paramName));
+    }
+
+    @Test
+    void should_return_url_when_it_is_valid() {
+        // given
+        var paramName = "value";
+        var value = "https://www.example.com";
+
+        // when
+        var result = requiredValidUrl(paramName, value);
+
+        // then
+        assertThat(result).isEqualTo(value);
+    }
+
+    @Test
+    void should_throw_exception_when_http_status_code_is_not_valid() {
+        // given
+        var value = 99;
+
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
+
+        // then
+        thrownException
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format("%s is not a valid http status", value));
+    }
+
+    @Test
+    void should_throw_exception_when_http_status_code_is_null() {
+        // given
+        Integer value = null;
+
+        // when
+        var thrownException = assertThatThrownBy(() -> requiredValidHttpStatus(value));
+
+        // then
+        thrownException
+              .isInstanceOf(ValidationException.class)
+              .hasMessage(String.format("%s is not a valid http status", value));
+    }
+
+    @Test
+    void should_return_value_when_http_status_code_is_valid() {
+        // given
+        var value = 200;
+
+        // when
+        var result = requiredValidHttpStatus(value);
 
         // then
         assertThat(result).isEqualTo(value);
