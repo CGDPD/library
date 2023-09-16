@@ -1,4 +1,4 @@
-package com.cgdpd.library.frontendapi.configuration.security;
+package com.cgdpd.library.frontendapi.config.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.header.writers.XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK;

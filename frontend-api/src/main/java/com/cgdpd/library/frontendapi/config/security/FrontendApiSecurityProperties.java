@@ -1,4 +1,4 @@
-package com.cgdpd.library.frontendapi.configuration.security;
+package com.cgdpd.library.frontendapi.config.security;
 
 import com.cgdpd.library.common.http.HttpSecurityProperties;
 

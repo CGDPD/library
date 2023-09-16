@@ -1,7 +1,7 @@
-package com.cgdpd.library.frontendapi.configuration;
+package com.cgdpd.library.frontendapi.config;
 
 import com.cgdpd.library.common.http.InternalHttpClientConfigProperties;
-import com.cgdpd.library.frontendapi.configuration.client.CatalogClientProperties;
+import com.cgdpd.library.frontendapi.config.client.CatalogClientProperties;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

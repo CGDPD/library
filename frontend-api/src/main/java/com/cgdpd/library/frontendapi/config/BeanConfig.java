@@ -1,4 +1,4 @@
-package com.cgdpd.library.frontendapi.configuration;
+package com.cgdpd.library.frontendapi.config;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.client.rest.LibraryCatalogHttpClient;

@@ -1,4 +1,4 @@
-package com.cgdpd.library.frontendapi.configuration.client;
+package com.cgdpd.library.frontendapi.config.client;
 
 import static com.cgdpd.library.common.validation.Validator.requiredValidUrl;
 
