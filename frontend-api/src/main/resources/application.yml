@@ -8,6 +8,27 @@ server:
 
 cgdpd:
   http:
+    security:
+      allowed-methods:
+        - GET
+        - POST
+      allowed-origins:
+        - 'http://localhost(:[0-9]+)?'
+      allowed-headers:
+        - Origin
+        - Content-Type
+        - Accept
+        - Authorization
+        - Access-Control-Request-Method
+        - Access-Control-Request-Headers
+        - Access-Control-Allow-Origin
+        - Content-Length
+        - Content-Range
+        - Content-Type
+        - Accept-Encoding
+        - Host
+        - User-Agent
+        - Referer
     client:
       internal:
         catalog:

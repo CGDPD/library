@@ -5,12 +5,33 @@ logging:
 
 cgdpd:
   http:
+    security:
+      allowed-methods:
+        - GET
+        - POST
+      allowed-origins:
+        - 'http://localhost(:[0-9]+)?'
+      allowed-headers:
+        - Origin
+        - Content-Type
+        - Accept
+        - Authorization
+        - Access-Control-Request-Method
+        - Access-Control-Request-Headers
+        - Access-Control-Allow-Origin
+        - Content-Length
+        - Content-Range
+        - Content-Type
+        - Accept-Encoding
+        - Host
+        - User-Agent
+        - Referer
     client:
       internal:
         catalog:
           connection-timeout: PT10s
           read-timeout: PT0.5s
-          url: ${CGDPD_CATALOG_URL}:${CGDPD_CATALOG_PORT}
+          url: http://localhost:8080
 
 resilience4j:
   circuit-breaker:
@@ -35,17 +56,3 @@ resilience4j:
         allow-health-indicator-to-fail: true
     metrics:
       enabled: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  health:
-    circuitbreakers:
-      enabled: true
-    ratelimiters:
-      enabled: true
-  endpoint:
-    health:
-      show-details: always

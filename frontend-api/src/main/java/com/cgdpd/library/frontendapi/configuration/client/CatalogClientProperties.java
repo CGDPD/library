@@ -14,7 +14,8 @@ public record CatalogClientProperties(String url,
                                       Optional<Duration> connectionTimeout,
                                       Optional<Duration> readTimeout)
       implements InternalHttpClientConfigProperties {
+
     public CatalogClientProperties {
-        requiredValidUrl("url", url);
+        requiredValidUrl(url);
     }
 }
