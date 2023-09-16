@@ -228,56 +228,52 @@ public class ValidatorTest {
     @Test
     void should_throw_exception_when_url_is_null() {
         // given
-        var paramName = "value";
         String value = null;
 
         // when
-        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(value));
 
         // then
         thrownException
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("%s is not a valid URL", paramName));
+              .hasMessage(String.format("%s is not a valid URL", value));
     }
 
     @Test
     void should_throw_exception_when_url_is_blank() {
         // given
-        var paramName = "value";
         var value = "";
 
         // when
-        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(value));
 
         // then
         thrownException
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("%s is not a valid URL", paramName));
+              .hasMessage(String.format("%s is not a valid URL", value));
     }
 
     @Test
     void should_throw_exception_when_url_is_malformed() {
         // given
-        var paramName = "value";
         var value = "invalidURL";
 
         // when
-        var thrownException = assertThatThrownBy(() -> requiredValidUrl(paramName, value));
+        var thrownException = assertThatThrownBy(() -> requiredValidUrl(value));
 
         // then
         thrownException
               .isInstanceOf(ValidationException.class)
-              .hasMessage(String.format("%s is not a valid URL", paramName));
+              .hasMessage(String.format("%s is not a valid URL", value));
     }
 
     @Test
     void should_return_url_when_it_is_valid() {
         // given
-        var paramName = "value";
         var value = "https://www.example.com";
 
         // when
-        var result = requiredValidUrl(paramName, value);
+        var result = requiredValidUrl(value);
 
         // then
         assertThat(result).isEqualTo(value);

@@ -52,7 +52,7 @@ public final class Validator {
         return value;
     }
 
-    public static String requiredValidUrl(String paramName, String value) {
+    public static String requiredValidUrl(String value) {
         validate(() -> {
             if (value == null || value.isBlank()) {
                 return true;
@@ -63,7 +63,7 @@ public final class Validator {
             } catch (MalformedURLException e) {
                 return true;
             }
-        }, "%s is not a valid URL", paramName);
+        }, "%s is not a valid URL", value);
         return value;
     }
 
