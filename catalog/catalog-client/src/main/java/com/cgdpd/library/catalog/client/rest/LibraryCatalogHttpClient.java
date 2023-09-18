@@ -8,30 +8,29 @@ import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
+import com.cgdpd.library.common.client.InternalHttpClient;
 import com.cgdpd.library.types.Isbn13;
 
-import org.springframework.web.client.RestTemplate;
+public class LibraryCatalogHttpClient extends InternalHttpClient implements LibraryCatalogClient {
 
-public class LibraryCatalogHttpClient implements LibraryCatalogClient {
+    private final LibraryCatalogHttpReactiveClient delegate;
 
-    private final RestTemplate restTemplate;
-
-    public LibraryCatalogHttpClient(RestTemplate restTemplate) {
-        this.restTemplate = required("restTemplate", restTemplate);
+    public LibraryCatalogHttpClient(LibraryCatalogHttpReactiveClient delegate) {
+        this.delegate = required("delegate", delegate);
     }
 
     @Override
     public Author createAuthor(CreateAuthorRequestDto createAuthorRequestDto) {
-        return restTemplate.postForObject("/author", createAuthorRequestDto, Author.class);
+        return delegate.createAuthor(createAuthorRequestDto).block();
     }
 
     @Override
     public Book createBook(CreateBookRequestDto createBookRequestDto) {
-        return restTemplate.postForObject("/book", createBookRequestDto, Book.class);
+        return delegate.createBook(createBookRequestDto).block();
     }
 
     @Override
     public DetailedBookDto getDetailedBookDto(Isbn13 isbn13) {
-        return restTemplate.getForObject("/book/isbn13/" + isbn13.value(), DetailedBookDto.class);
+        return delegate.getDetailedBookDto(isbn13).block();
     }
 }

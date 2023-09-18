@@ -1,6 +1,8 @@
-package com.cgdpd.library.common.http;
+package com.cgdpd.library.common.http.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.cgdpd.library.common.http.security.server.RegexCorsConfiguration;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

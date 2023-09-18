@@ -29,9 +29,12 @@ cgdpd:
     client:
       internal:
         catalog:
+          url: http://localhost:8080
+          basic-auth:
+            username: FrontendApi
+            password: MySecret
           connection-timeout: PT10s
           read-timeout: PT0.5s
-          url: http://localhost:8080
 
 resilience4j:
   circuit-breaker:

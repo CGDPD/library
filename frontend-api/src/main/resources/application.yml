@@ -32,9 +32,12 @@ cgdpd:
     client:
       internal:
         catalog:
+          url: ${env.CGDPD_CATALOG_URL}:${env.CGDPD_CATALOG_PORT}
+          basic-auth:
+            username: FrontendApi
+            password: ${env.CGDPD_CATALOG_CLIENT_FRONTEND_API_SECRET}
           connection-timeout: PT10s
           read-timeout: PT0.5s
-          url: ${env.CGDPD_CATALOG_URL}:${env.CGDPD_CATALOG_PORT}
 
 resilience4j:
   circuit-breaker:

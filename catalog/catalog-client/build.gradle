@@ -9,12 +9,15 @@ dependencies {
     implementation project(':types')
     implementation project(':common')
     implementation("org.springframework:spring-web:6.0.11")
+    implementation("org.springframework:spring-webflux:6.0.11")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation(project(':common'))
     testImplementation(testFixtures(project(':catalog:catalog-domain')))
 
     testFixturesImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testFixturesImplementation 'org.springframework:spring-webflux:6.0.11'
     testFixturesImplementation(project(':types'))
     testFixturesImplementation(project(':common'))
 }

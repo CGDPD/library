@@ -1,6 +1,6 @@
 package com.cgdpd.library.frontendapi.config.security;
 
-import com.cgdpd.library.common.http.HttpSecurityProperties;
+import com.cgdpd.library.common.http.security.server.HttpSecurityProperties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -7,10 +7,10 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.cgdpd.library.catalog.client.stub.LibraryCatalogStubClient;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopy;
+import com.cgdpd.library.common.error.ErrorResponse;
 import com.cgdpd.library.frontendapi.FunctionalTest;
 import com.cgdpd.library.frontendapi.dto.BookAvailability;
 import com.cgdpd.library.frontendapi.dto.BookViewDto;
-import com.cgdpd.library.frontendapi.error.FrontendError;
 import com.cgdpd.library.types.Isbn13;
 
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
     void should_return_404_status_when_book_by_isbn_doesnt_exist() {
         // when
         var resultEntity = restTemplate.getForEntity(
-              URI.create(BASE_ENDPOINT + "/book/" + Isbn13.random().value()), FrontendError.class);
+              URI.create(BASE_ENDPOINT + "/book/" + Isbn13.random().value()), ErrorResponse.class);
 
         // then
         assertThat(resultEntity.getStatusCode()).isEqualTo(NOT_FOUND);

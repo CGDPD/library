@@ -23,7 +23,8 @@ class LibraryCatalogStubClientTest {
         var createAuthorRequestDto = new CreateAuthorRequestDto("John Doe");
 
         // when
-        var resultCreatedAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto);
+        var resultCreatedAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto)
+              .block();
 
         // then
         var createdAuthor = libraryCatalogStubClient.authors().get(resultCreatedAuthor.id());
@@ -35,11 +36,11 @@ class LibraryCatalogStubClientTest {
     void should_create_book() {
         // given
         var createAuthorRequestDto = new CreateAuthorRequestDto("John Doe");
-        var givenAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto);
+        var givenAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto).block();
         var createBookRequestDto = aCreateBookRequestDto().authorId(givenAuthor.id()).build();
 
         // when
-        var resultCreatedBook = libraryCatalogStubClient.createBook(createBookRequestDto);
+        var resultCreatedBook = libraryCatalogStubClient.createBook(createBookRequestDto).block();
 
         // then
         var createdBook = libraryCatalogStubClient.books().get(resultCreatedBook.id());
@@ -53,7 +54,7 @@ class LibraryCatalogStubClientTest {
         var createBookRequestDto = aCreateBookRequestDto().authorId(AuthorId.of(999L)).build();
 
         // when then
-        assertThatThrownBy(() -> libraryCatalogStubClient.createBook(createBookRequestDto))
+        assertThatThrownBy(() -> libraryCatalogStubClient.createBook(createBookRequestDto).block())
               .isInstanceOf(NotFoundException.class);
     }
 
@@ -61,15 +62,15 @@ class LibraryCatalogStubClientTest {
     void should_get_detailed_book_by_isbn13() {
         // given
         var createAuthorRequestDto = new CreateAuthorRequestDto("John Doe");
-        var givenAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto);
+        var givenAuthor = libraryCatalogStubClient.createAuthor(createAuthorRequestDto).block();
         var createBookRequestDto = aCreateBookRequestDto().authorId(givenAuthor.id()).build();
-        var givenBook = libraryCatalogStubClient.createBook(createBookRequestDto);
+        var givenBook = libraryCatalogStubClient.createBook(createBookRequestDto).block();
         var givenBookCopy = aBookCopy().bookId(givenBook.id()).build();
         libraryCatalogStubClient.addBookCopy(givenBookCopy);
         var isbn13 = givenBook.isbn();
 
         // when
-        var resultDetailedBookDto = libraryCatalogStubClient.getDetailedBookDto(isbn13);
+        var resultDetailedBookDto = libraryCatalogStubClient.getDetailedBookDto(isbn13).block();
 
         // then
         assertThat(resultDetailedBookDto.id()).isEqualTo(givenBook.id());

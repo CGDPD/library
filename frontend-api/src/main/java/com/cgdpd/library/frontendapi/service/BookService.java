@@ -14,6 +14,6 @@ public class BookService {
     private final BookQueries bookQueries;
 
     public DetailedBookDto getDetailedBookDtoByIsbn13(Isbn13 isbn13) {
-        return bookQueries.getDetailedBooks(isbn13);
+        return bookQueries.getDetailedBooks(isbn13).block();
     }
 }

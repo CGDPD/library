@@ -1,11 +1,13 @@
-package com.cgdpd.library.common.http;
+package com.cgdpd.library.common.http.security.client;
 
 import java.time.Duration;
 import java.util.Optional;
 
-public interface InternalHttpClientConfigProperties {
+public interface InternalHttpClientProperties {
 
     String url();
+
+    BasicAuthProperties basicAuth();
 
     Optional<Duration> connectionTimeout();
 

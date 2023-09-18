@@ -1,6 +1,6 @@
 package com.cgdpd.library.catalog.client.stub;
 
-import com.cgdpd.library.catalog.client.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogReactiveClient;
 import com.cgdpd.library.catalog.domain.author.Author;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
@@ -17,6 +17,7 @@ import com.cgdpd.library.common.exception.NotFoundException;
 import com.cgdpd.library.types.Isbn13;
 
 import com.github.javafaker.Faker;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClient {
+public class LibraryCatalogStubClient implements LibraryCatalogReactiveClient, StubClient {
 
     private static final Long INITIAL_VALUE = 1L;
 
@@ -49,52 +50,58 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
     }
 
     @Override
-    public Author createAuthor(CreateAuthorRequestDto createAuthorRequestDto) {
-        var authorId = AuthorId.of(authorIdGenerator.getAndIncrement());
-        var createdAuthor = Author.builder()
-              .id(authorId)
-              .name(createAuthorRequestDto.authorName())
-              .build();
-        authors.put(authorId, createdAuthor);
-        return createdAuthor;
+    public Mono<Author> createAuthor(CreateAuthorRequestDto createAuthorRequestDto) {
+        return Mono.fromSupplier(() -> {
+            var authorId = AuthorId.of(authorIdGenerator.getAndIncrement());
+            var createdAuthor = Author.builder()
+                  .id(authorId)
+                  .name(createAuthorRequestDto.authorName())
+                  .build();
+            authors.put(authorId, createdAuthor);
+            return createdAuthor;
+        });
     }
 
     @Override
-    public Book createBook(CreateBookRequestDto createBookRequestDto) {
-        if (!authors.containsKey(createBookRequestDto.authorId())) {
-            throw new NotFoundException(
-                  "Author with id " + createBookRequestDto.authorId() + " not found");
-        }
-        var bookId = BookId.of(bookIdGenerator.getAndIncrement());
-        var createdBook = Book.builder()
-              .id(bookId)
-              .title(createBookRequestDto.title())
-              .authorId(createBookRequestDto.authorId())
-              .isbn(createBookRequestDto.isbn())
-              .genre(createBookRequestDto.genre())
-              .publicationYear(createBookRequestDto.publicationYear())
-              .build();
-        books.put(bookId, createdBook);
-        return createdBook;
+    public Mono<Book> createBook(CreateBookRequestDto createBookRequestDto) {
+        return Mono.fromSupplier(() -> {
+            if (!authors.containsKey(createBookRequestDto.authorId())) {
+                throw new NotFoundException(
+                      "Author with id " + createBookRequestDto.authorId() + " not found");
+            }
+            var bookId = BookId.of(bookIdGenerator.getAndIncrement());
+            var createdBook = Book.builder()
+                  .id(bookId)
+                  .title(createBookRequestDto.title())
+                  .authorId(createBookRequestDto.authorId())
+                  .isbn(createBookRequestDto.isbn())
+                  .genre(createBookRequestDto.genre())
+                  .publicationYear(createBookRequestDto.publicationYear())
+                  .build();
+            books.put(bookId, createdBook);
+            return createdBook;
+        });
     }
 
     @Override
-    public DetailedBookDto getDetailedBookDto(Isbn13 isbn13) {
-        var book = getBookByIsbn13(isbn13);
-        var author = authors.get(book.authorId());
-        var bookCopies = findBookCopiedByBookId(book.id());
-        var trackingStatusList = bookCopies.stream().map(BookCopy::trackingStatus).toList();
+    public Mono<DetailedBookDto> getDetailedBookDto(Isbn13 isbn13) {
+        return Mono.fromSupplier(() -> {
+            var book = getBookByIsbn13(isbn13);
+            var author = authors.get(book.authorId());
+            var bookCopies = findBookCopiedByBookId(book.id());
+            var trackingStatusList = bookCopies.stream().map(BookCopy::trackingStatus).toList();
 
-        return DetailedBookDto.builder()
-              .id(book.id())
-              .title(book.title())
-              .authorId(author.id())
-              .authorName(author.name())
-              .isbn(book.isbn())
-              .genre(book.genre())
-              .trackingStatusList(trackingStatusList)
-              .publicationYear(book.publicationYear())
-              .build();
+            return DetailedBookDto.builder()
+                  .id(book.id())
+                  .title(book.title())
+                  .authorId(author.id())
+                  .authorName(author.name())
+                  .isbn(book.isbn())
+                  .genre(book.genre())
+                  .trackingStatusList(trackingStatusList)
+                  .publicationYear(book.publicationYear())
+                  .build();
+        });
     }
 
     // TODO: 07/09/2023 should be replaced when we create endpoint
@@ -139,11 +146,11 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient, StubClien
 
     public AuthorBooks generateAuthorAndBooks(int bookQuantity, int bookCopyQuantity) {
 
-        var createdAuthor = createAuthor(new CreateAuthorRequestDto(FAKER.book().author()));
+        var createdAuthor = createAuthor(new CreateAuthorRequestDto(FAKER.book().author())).block();
         var createdBooks = new HashMap<Book, List<BookCopy>>();
 
         for (var i = 0; i < bookQuantity; i++) {
-            var createdBook = createBook(generateCreateBookRequest(createdAuthor.id()));
+            var createdBook = createBook(generateCreateBookRequest(createdAuthor.id())).block();
             var bookCopies = new ArrayList<BookCopy>();
             for (var j = 0; j < bookCopyQuantity; j++) {
                 var createdBookCopy = generateBookCopy(createdBook.id());

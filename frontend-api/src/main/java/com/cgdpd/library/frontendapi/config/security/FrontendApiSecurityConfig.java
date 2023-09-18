@@ -4,7 +4,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.header.writers.XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import com.cgdpd.library.common.http.RegexCorsConfiguration;
+import com.cgdpd.library.common.http.security.server.RegexCorsConfiguration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import java.time.Duration;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class FrontendApiSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,

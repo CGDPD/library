@@ -1,4 +1,4 @@
-package com.cgdpd.library.common.http;
+package com.cgdpd.library.common.http.security.server;
 
 import java.util.Set;
 

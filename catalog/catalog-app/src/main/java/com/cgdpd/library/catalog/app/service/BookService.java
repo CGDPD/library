@@ -1,6 +1,5 @@
 package com.cgdpd.library.catalog.app.service;
 
-
 import static com.cgdpd.library.catalog.app.repository.specification.BookSpecifications.byBookSearchCriteria;
 import static org.springframework.data.domain.Sort.unsorted;
 

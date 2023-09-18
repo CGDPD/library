@@ -1,4 +1,4 @@
-package com.cgdpd.library.common.http;
+package com.cgdpd.library.common.http.security.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

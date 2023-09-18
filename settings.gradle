@@ -3,6 +3,5 @@ include 'catalog:catalog-app'
 include 'catalog:catalog-client'
 include 'catalog:catalog-domain'
 include 'frontend-api'
-include 'types'
 include 'common'
-
+include 'types'
