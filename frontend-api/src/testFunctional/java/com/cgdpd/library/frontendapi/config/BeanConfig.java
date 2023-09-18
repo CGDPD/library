@@ -1,6 +1,7 @@
 package com.cgdpd.library.frontendapi.config;
 
 import com.cgdpd.library.catalog.client.stub.LibraryCatalogStubClient;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +24,7 @@ public class BeanConfig {
     @Bean
     public Clock clock() {
         var fixedInstant = LocalDateTime.of(2023, 9, 17, 13, 25, 0)
-                .toInstant(ZoneOffset.UTC);
+              .toInstant(ZoneOffset.UTC);
         return Clock.fixed(fixedInstant, ZoneOffset.UTC);
     }
 }

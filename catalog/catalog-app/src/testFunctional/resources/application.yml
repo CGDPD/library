@@ -1,10 +1,9 @@
-server:
-  port: 8081
-
 spring:
-  docker:
-    compose:
-      file: "classpath:docker/compose.yaml"
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    clean-disabled: false
 
 cgdpd:
   http:

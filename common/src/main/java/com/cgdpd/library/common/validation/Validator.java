@@ -28,13 +28,13 @@ public final class Validator {
 
     public static <T extends Number> T requiredPositive(String paramName, T value) {
         validate(() -> value == null || value.intValue() <= 0,
-                "%s must not be null, must be a positive number", paramName);
+              "%s must not be null, must be a positive number", paramName);
         return value;
     }
 
     public static <T extends Number> T requiredNotNegative(String paramName, T value) {
         validate(() -> value == null || value.intValue() < 0, "%s must not be null or negative",
-                paramName);
+              paramName);
         return value;
     }
 
@@ -42,15 +42,15 @@ public final class Validator {
         value.ifPresent(year -> {
             var currentYear = LocalDate.now(utcClock()).getYear();
             validate(() -> year > currentYear,
-                    "Invalid %s. %s is after the current year", paramName, year);
+                  "Invalid %s. %s is after the current year", paramName, year);
         });
         return value;
     }
 
     public static String requiredValidIsbn13(String paramName, String value) {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn13(value),
-                "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
-                paramName, value);
+              "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
+              paramName, value);
         return value;
     }
 
@@ -71,8 +71,8 @@ public final class Validator {
 
     public static Integer requiredValidHttpStatus(Integer value) {
         validate(() -> value == null || !ValueRange.of(100, 599).isValidValue(value),
-                "%s is not a valid http status",
-                value);
+              "%s is not a valid http status",
+              value);
         return value;
     }
 

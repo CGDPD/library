@@ -35,11 +35,11 @@ public class ApiAccessDeniedHandler implements AccessDeniedHandler {
         var errorMessage = "Access Denied. You don't have the required role to access this resource.";
 
         var errorResponse = ErrorResponse.builder()
-                .status(httpStatus.value())
-                .error(httpStatus.getReasonPhrase())
-                .message(errorMessage)
-                .timestamp(clock.instant())
-                .build();
+              .status(httpStatus.value())
+              .error(httpStatus.getReasonPhrase())
+              .message(errorMessage)
+              .timestamp(clock.instant())
+              .build();
 
         final ServerHttpResponse outputMessage = new ServletServerHttpResponse(response);
         outputMessage.setStatusCode(httpStatus);

@@ -1,4 +1,0 @@
-spring:
-  docker:
-    compose:
-      file: "classpath:docker/compose.yaml"

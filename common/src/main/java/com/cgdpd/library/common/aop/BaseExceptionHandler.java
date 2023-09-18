@@ -23,8 +23,8 @@ public abstract class BaseExceptionHandler {
     @ExceptionHandler(InternalServerHttpException.class)
     public ResponseEntity<ErrorResponse> handleServerException(InternalServerHttpException e) {
         return ResponseEntity
-                .status(e.errorResponse().status())
-                .body(e.errorResponse());
+              .status(e.errorResponse().status())
+              .body(e.errorResponse());
     }
 
     @ExceptionHandler(NotFoundException.class)
@@ -35,16 +35,16 @@ public abstract class BaseExceptionHandler {
     protected ResponseEntity<ErrorResponse> buildResponseEntity(HttpStatus httpStatus,
                                                                 String errorMessage) {
         return ResponseEntity
-                .status(httpStatus)
-                .body(buildBody(httpStatus, errorMessage));
+              .status(httpStatus)
+              .body(buildBody(httpStatus, errorMessage));
     }
 
     protected ErrorResponse buildBody(HttpStatus httpStatus, String errorMessage) {
         return ErrorResponse.builder()
-                .status(httpStatus.value())
-                .error(httpStatus.getReasonPhrase())
-                .message(errorMessage)
-                .timestamp(clock.instant())
-                .build();
+              .status(httpStatus.value())
+              .error(httpStatus.getReasonPhrase())
+              .message(errorMessage)
+              .timestamp(clock.instant())
+              .build();
     }
 }

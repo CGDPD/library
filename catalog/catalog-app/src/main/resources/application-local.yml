@@ -1,6 +1,11 @@
 server:
   port: ${env.CGDPD_CATALOG_PORT}
 
+spring:
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
+
 cgdpd:
   http:
     server:

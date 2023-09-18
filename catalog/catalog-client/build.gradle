@@ -3,12 +3,10 @@ plugins {
     id 'java-test-fixtures'
 }
 
-
 dependencies {
     api project(':catalog:catalog-domain')
     implementation project(':types')
     implementation project(':common')
-    implementation("org.springframework:spring-web:6.0.11")
     implementation("org.springframework:spring-webflux:6.0.11")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

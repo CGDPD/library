@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Catalog" type="SpringBootApplicationConfigurationType"
-      factoryName="Spring Boot">
-        <option name="ACTIVE_PROFILES" value="local"/>
+    <configuration default="false" name="CatalogSchemaGeneration"
+      type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+        <option name="ACTIVE_PROFILES" value="schema-gen"/>
         <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources"/>
         <module name="library.catalog.catalog-app.main"/>
         <option name="SPRING_BOOT_MAIN_CLASS"

@@ -1,11 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="FrontendApi" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="local" />
-    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="library.frontend-api.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.cgdpd.library.frontendapi.FrontendApiApplication" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
+    <configuration default="false" name="FrontendApi" type="SpringBootApplicationConfigurationType"
+      factoryName="Spring Boot">
+        <option name="ACTIVE_PROFILES" value="local"/>
+        <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources"/>
+        <module name="library.frontend-api.main"/>
+        <option name="SPRING_BOOT_MAIN_CLASS"
+          value="com.cgdpd.library.frontendapi.FrontendApiApplication"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
 </component>
