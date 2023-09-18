@@ -1,16 +1,17 @@
+server:
+  port: 8081
+
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: none
-  flyway:
-    clean-disabled: false
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
 
 cgdpd:
   http:
     server:
       authorized-clients:
         - username: FrontendApi
-          password: SomeSecret
+          password: FrontendApiSecret
           role: NORMAL
 
 logging:

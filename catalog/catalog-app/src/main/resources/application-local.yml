@@ -1,0 +1,15 @@
+server:
+  port: ${env.CGDPD_CATALOG_PORT}
+
+cgdpd:
+  http:
+    server:
+      authorized-clients:
+        - username: FrontendApi
+          password: ${env.CGDPD_CATALOG_CLIENT_FRONTEND_API_SECRET}
+          role: NORMAL
+
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG

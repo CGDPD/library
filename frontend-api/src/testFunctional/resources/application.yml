@@ -1,8 +1,3 @@
-logging:
-  level:
-    root: INFO
-    com.cgdpd.library: DEBUG
-
 cgdpd:
   http:
     security:
@@ -59,3 +54,9 @@ resilience4j:
         allow-health-indicator-to-fail: true
     metrics:
       enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG
+
