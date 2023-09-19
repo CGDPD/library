@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    clean-disabled: false
+
+cgdpd:
+  http:
+    server:
+      authorized-clients:
+        - username: FrontendApi
+          password: FrontendApiSecret
+          roles:
+            - NORMAL
+        - username: Backoffice
+          password: BackofficeSecret
+          roles:
+            - MANAGEMENT
+
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG
+    org:
+      hibernate:
+        SQL: INFO
+        type: INFO
+    net.ttddyy.dsproxy.listener: DEBUG

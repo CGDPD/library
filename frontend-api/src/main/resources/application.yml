@@ -1,0 +1,45 @@
+cgdpd:
+  http:
+    security:
+      allowed-methods:
+        - GET
+        - POST
+      allowed-headers:
+        - Origin
+        - Content-Type
+        - Accept
+        - Authorization
+        - Access-Control-Request-Method
+        - Access-Control-Request-Headers
+        - Access-Control-Allow-Origin
+        - Content-Length
+        - Content-Range
+        - Content-Type
+        - Accept-Encoding
+        - Host
+        - User-Agent
+        - Referer
+
+resilience4j:
+  circuit-breaker:
+    instances:
+      CatalogCircuitBreaker:
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 500
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: count_based
+  rate-limiter:
+    instances:
+      CatalogRateLimiter:
+        timeout-duration: 2s
+        event-consumer-buffer-size: 50
+        register-health-indicator: true
+        limit-for-period: 50
+        subscribe-for-events: true
+        limit-refresh-period: PT60s
+        allow-health-indicator-to-fail: true
+    metrics:
+      enabled: true
