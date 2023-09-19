@@ -13,18 +13,24 @@ import com.cgdpd.library.catalog.app.FunctionalTest;
 import com.cgdpd.library.catalog.app.entity.AuthorEntity;
 import com.cgdpd.library.catalog.app.entity.BookCopyEntity;
 import com.cgdpd.library.catalog.app.entity.BookEntity;
+import com.cgdpd.library.catalog.app.mapper.BookMapper;
 import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.app.repository.BookCopyRepository;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
+import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 import com.cgdpd.library.common.error.ErrorResponse;
+import com.cgdpd.library.common.pagination.PagedResponse;
+import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.type.Isbn13;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -33,6 +39,12 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     private static final String BASE_ENDPOINT = "/book";
 
     private TestRestTemplate restTemplate;
+
+    @Autowired
+    private BookMapper bookMapper;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private BookRepository bookRepository;
@@ -99,6 +111,38 @@ public class BookControllerFunctionalTest extends FunctionalTest {
               responseEntity.getBody(),
               bookEntity,
               emptyList());
+    }
+
+    @Test
+    void should_return_book_with_criteria() throws Exception {
+        // given
+        var searchCriteria = SearchBookCriteria.builder().build();
+        var paginationCriteria = PaginationCriteria.builder()
+              .pageIndex(0)
+              .pageSize(10)
+              .build();
+
+        var bookEntity = givenRandomBookExists();
+        var expectedResponse = PagedResponse.<DetailedBookDto>builder()
+              .content(List.of(bookMapper.mapToDetailedBookDto(bookEntity)))
+              .pageNumber(0)
+              .pageSize(10)
+              .totalElements(1)
+              .totalPages(1)
+              .build();
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("searchCriteria", objectMapper.writeValueAsString(searchCriteria))
+              .queryParam("paginationCriteria", objectMapper.writeValueAsString(paginationCriteria))
+              .build()
+              .toUri();
+
+        // when
+        var responseEntity = restTemplate.getForEntity(uri, String.class);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody()).isEqualTo(expectedResponse);
     }
 
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this
