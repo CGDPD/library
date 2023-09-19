@@ -6,6 +6,7 @@ import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -135,9 +137,10 @@ public class BookControllerFunctionalTest extends FunctionalTest {
               .queryParam("paginationCriteria", objectMapper.writeValueAsString(paginationCriteria))
               .build()
               .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
 
         // when
-        var responseEntity = restTemplate.getForEntity(uri, String.class);
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
 
         // then
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
