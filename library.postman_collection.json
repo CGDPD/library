@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "267fbda1-9e9b-47f5-946d-b11f388aa21f",
+		"name": "library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13224061"
+	},
+	"item": [
+		{
+			"name": "catalog",
+			"item": [
+				{
+					"name": "books",
+					"item": [
+						{
+							"name": "detailed book by isbn13",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{catalog-url}}/book/:isbn13",
+									"host": [
+										"{{catalog-url}}"
+									],
+									"path": [
+										"book",
+										":isbn13"
+									],
+									"variable": [
+										{
+											"key": "isbn13",
+											"value": "978-2-4556-2051-4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "FrontendApiSecret",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "FrontendApi",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "management",
+					"item": [
+						{
+							"name": "create author",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"authorName\": \"J.K.Rowling\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{catalog-url}}/management/author",
+									"host": [
+										"{{catalog-url}}"
+									],
+									"path": [
+										"management",
+										"author"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create book",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Lord Of The Rings\",\n    \"authorId\": 1,\n    \"isbn\": \"978-2-4556-2051-4\",\n    \"genre\": \"Action\",\n    \"publicationYear\": 2006\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{catalog-url}}/management/book",
+									"host": [
+										"{{catalog-url}}"
+									],
+									"path": [
+										"management",
+										"book"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "BackofficeSecret",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "Backoffice",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "frontend-api",
+			"item": [
+				{
+					"name": "book view by isbn13",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{frontend-api-url}}/view/book/:isbn13",
+							"host": [
+								"{{frontend-api-url}}"
+							],
+							"path": [
+								"view",
+								"book",
+								":isbn13"
+							],
+							"variable": [
+								{
+									"key": "isbn13",
+									"value": "978-2-4556-2051-4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "username",
+						"value": "FrontendApi",
+						"type": "string"
+					},
+					{
+						"key": "password",
+						"value": "FrontendApiSecret",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "frontend-api-url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "catalog-url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	]
+}
