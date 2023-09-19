@@ -3,35 +3,28 @@ package com.cgdpd.library.catalog.client.rest;
 import static com.cgdpd.library.common.validation.Validator.required;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
-import com.cgdpd.library.catalog.domain.author.Author;
-import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
-import com.cgdpd.library.catalog.domain.book.model.Book;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.client.InternalHttpClient;
+import com.cgdpd.library.common.type.Isbn13;
 
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-public class LibraryCatalogHttpClient implements LibraryCatalogClient {
+public class LibraryCatalogHttpClient extends InternalHttpClient
+      implements LibraryCatalogClient {
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
-    public LibraryCatalogHttpClient(RestTemplate restTemplate) {
-        this.restTemplate = required("restTemplate", restTemplate);
+    public LibraryCatalogHttpClient(WebClient webClient) {
+        this.webClient = required("webClient", webClient);
     }
 
     @Override
-    public Author createAuthor(CreateAuthorRequestDto createAuthorRequestDto) {
-        return restTemplate.postForObject("/author", createAuthorRequestDto, Author.class);
-    }
-
-    @Override
-    public Book createBook(CreateBookRequestDto createBookRequestDto) {
-        return restTemplate.postForObject("/book", createBookRequestDto, Book.class);
-    }
-
-    @Override
-    public DetailedBookDto getDetailedBookDto(Isbn13 isbn13) {
-        return restTemplate.getForObject("/book/isbn13/" + isbn13.value(), DetailedBookDto.class);
+    public Mono<DetailedBookDto> getDetailedBookDto(Isbn13 isbn13) {
+        return webClient.get()
+              .uri("/book/" + isbn13.value())
+              .retrieve()
+              .bodyToMono(DetailedBookDto.class)
+              .onErrorMap(onErrorMap());
     }
 }

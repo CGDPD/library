@@ -1,0 +1,20 @@
+server:
+  port: ${env.CGDPD_CATALOG_PORT}
+
+spring:
+  docker:
+    compose:
+      file: "classpath:docker/compose.yaml"
+
+cgdpd:
+  http:
+    server:
+      authorized-clients:
+        - username: FrontendApi
+          password: ${env.CGDPD_CATALOG_CLIENT_FRONTEND_API_SECRET}
+          role: NORMAL
+
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG

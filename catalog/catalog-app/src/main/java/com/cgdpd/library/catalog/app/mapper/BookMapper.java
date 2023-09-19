@@ -10,7 +10,7 @@ import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

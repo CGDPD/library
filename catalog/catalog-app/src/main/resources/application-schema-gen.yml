@@ -1,13 +1,4 @@
-logging:
-  level:
-    root: INFO
-    com.cgdpd.library: DEBUG
-
-
 spring:
-  docker:
-    compose:
-      file: "classpath:docker/compose.yaml"
   ## Configs to generate sql schema based on entities
   jpa:
     properties:

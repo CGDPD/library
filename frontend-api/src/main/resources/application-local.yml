@@ -1,0 +1,36 @@
+server:
+  port: ${env.CGDPD_FRONTEND_API_PORT}
+
+cgdpd:
+  http:
+    security:
+      allowed-origins:
+        - 'http://localhost(:[0-9]+)?'
+    client:
+      internal:
+        catalog:
+          url: ${env.CGDPD_CATALOG_URL}:${env.CGDPD_CATALOG_PORT}
+          basic-auth:
+            username: FrontendApi
+            password: ${env.CGDPD_CATALOG_CLIENT_FRONTEND_API_SECRET}
+          connection-timeout: PT10s
+          read-timeout: PT0.5s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.cgdpd.library: DEBUG

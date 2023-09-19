@@ -23,7 +23,6 @@ dependencyManagement {
 
 dependencies {
     implementation project(':catalog:catalog-domain')
-    implementation project(':types')
     implementation project(':common')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -31,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.flywaydb:flyway-core'
@@ -47,8 +47,8 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation project(':catalog:catalog-domain')
-    testImplementation project(':types')
     testImplementation project(':common')
+    testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation(testFixtures(project(':catalog:catalog-domain')))
 
@@ -60,7 +60,7 @@ dependencies {
     testImplementation 'com.github.gavlyukovskiy:datasource-proxy-spring-boot-starter:1.9.0'
 
     testFixturesImplementation project(':catalog:catalog-domain')
-    testFixturesImplementation project(':types')
+    testFixturesImplementation project(':common')
 }
 
 testSets {

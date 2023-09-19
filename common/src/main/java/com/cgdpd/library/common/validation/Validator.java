@@ -1,9 +1,14 @@
 package com.cgdpd.library.common.validation;
 
+import static com.cgdpd.library.common.provider.ClockProvider.utcClock;
+
 import com.cgdpd.library.common.exception.ValidationException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ValueRange;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -22,6 +27,12 @@ public final class Validator {
         return value;
     }
 
+    public static <T> Collection<T> requiredNotEmpty(String paramName, Collection<T> value) {
+        validate(() -> value == null || value.isEmpty(), "Collection %s must not be null or empty",
+              paramName);
+        return value;
+    }
+
     public static <T extends Number> T requiredPositive(String paramName, T value) {
         validate(() -> value == null || value.intValue() <= 0,
               "%s must not be null, must be a positive number", paramName);
@@ -36,7 +47,7 @@ public final class Validator {
 
     public static Optional<Short> checkYearNotFuture(String paramName, Optional<Short> value) {
         value.ifPresent(year -> {
-            var currentYear = LocalDate.now().getYear();
+            var currentYear = LocalDate.now(utcClock()).getYear();
             validate(() -> year > currentYear,
                   "Invalid %s. %s is after the current year", paramName, year);
         });
@@ -47,6 +58,21 @@ public final class Validator {
         validate(() -> value == null || value.isBlank() || !IsbnValidator.isValidIsbn13(value),
               "%s must not be null or blank, %s is not a valid ISBN. An ISBN must have 13 numbers and have a valid check number",
               paramName, value);
+        return value;
+    }
+
+    public static String requiredValidUrl(String value) {
+        validate(() -> {
+            if (value == null || value.isBlank()) {
+                return true;
+            }
+            try {
+                new URL(value);
+                return false;
+            } catch (MalformedURLException e) {
+                return true;
+            }
+        }, "%s is not a valid URL", value);
         return value;
     }
 

@@ -5,6 +5,19 @@ spring:
   flyway:
     clean-disabled: false
 
+cgdpd:
+  http:
+    server:
+      authorized-clients:
+        - username: FrontendApi
+          password: FrontendApiSecret
+          roles:
+            - NORMAL
+        - username: Backoffice
+          password: BackofficeSecret
+          roles:
+            - MANAGEMENT
+
 logging:
   level:
     root: INFO

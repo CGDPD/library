@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="AllServices" type="CompoundRunConfigurationType">
+        <toRun name="Catalog" type="SpringBootApplicationConfigurationType"/>
+        <toRun name="FrontendApi" type="SpringBootApplicationConfigurationType"/>
+        <method v="2"/>
+    </configuration>
+</component>
