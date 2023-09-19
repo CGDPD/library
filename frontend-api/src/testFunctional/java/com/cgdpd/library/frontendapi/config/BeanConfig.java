@@ -1,5 +1,6 @@
 package com.cgdpd.library.frontendapi.config;
 
+import com.cgdpd.library.catalog.client.stub.CatalogInMemoryDb;
 import com.cgdpd.library.catalog.client.stub.LibraryCatalogStubClient;
 
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,13 @@ import java.time.ZoneOffset;
 public class BeanConfig {
 
     @Bean
-    public LibraryCatalogStubClient libraryCatalogClient() {
-        return new LibraryCatalogStubClient();
+    public LibraryCatalogStubClient libraryCatalogClient(CatalogInMemoryDb inMemoryDb) {
+        return new LibraryCatalogStubClient(inMemoryDb);
+    }
+
+    @Bean
+    public CatalogInMemoryDb catalogInMemoryDatabase() {
+        return new CatalogInMemoryDb();
     }
 
     @Bean

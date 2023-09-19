@@ -1,6 +1,8 @@
 package com.cgdpd.library.catalog.app.config.security;
 
+import static com.cgdpd.library.common.http.security.server.Role.MANAGEMENT;
 import static com.cgdpd.library.common.http.security.server.UserDetailsServiceProvider.inMemoryUserDetailsManager;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 import com.cgdpd.library.common.http.security.server.ApiAccessDeniedHandler;
 import com.cgdpd.library.common.http.security.server.ApiAuthenticationFailureHandler;
@@ -35,7 +37,11 @@ public class CatalogSecurityConfig {
         return httpSecurity
               .csrf(AbstractHttpConfigurer::disable)
               .cors(AbstractHttpConfigurer::disable)
-              .authorizeHttpRequests(it -> it.anyRequest().permitAll()) // TODO: 18/09/2023 normal clients shouldn't be able to create books or authors
+              .authorizeHttpRequests(it ->
+                    it.requestMatchers(antMatcher("/management/**"))
+                          .hasRole(MANAGEMENT.name())
+                          .anyRequest()
+                          .authenticated())
               .httpBasic(it -> it.authenticationEntryPoint(authenticationFailureHandler))
               .exceptionHandling(it -> it.accessDeniedHandler(accessDeniedHandler))
               .headers(headersCustomizer())

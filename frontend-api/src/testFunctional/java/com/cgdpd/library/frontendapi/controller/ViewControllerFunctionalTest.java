@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
+import com.cgdpd.library.catalog.client.stub.CatalogInMemoryDb;
 import com.cgdpd.library.catalog.client.stub.LibraryCatalogStubClient;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopy;
 import com.cgdpd.library.common.error.ErrorResponse;
@@ -24,6 +25,9 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
     private static final String BASE_ENDPOINT = "/view";
 
     @Autowired
+    private CatalogInMemoryDb catalogInMemoryDb;
+
+    @Autowired
     private LibraryCatalogStubClient libraryCatalogStubClient;
 
     @Autowired
@@ -32,7 +36,7 @@ public class ViewControllerFunctionalTest extends FunctionalTest {
     @Test
     void should_return_book_view_by_isbn_when_isbn_exists() {
         // given
-        var authorBooks = libraryCatalogStubClient.generateAuthorAndBooks(5, 5);
+        var authorBooks = catalogInMemoryDb.generateAuthorAndBooks(5, 5);
         var aBook = authorBooks.books().keySet().stream().findFirst().orElseThrow();
         var trackingStatusList = authorBooks.books().get(aBook).stream()
               .map(BookCopy::trackingStatus)

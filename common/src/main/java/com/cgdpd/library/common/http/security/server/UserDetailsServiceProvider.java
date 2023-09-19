@@ -18,7 +18,9 @@ public class UserDetailsServiceProvider {
             var user = User.builder()
                   .username(client.username())
                   .password(passwordEncoder.encode(client.password()))
-                  .roles(client.role().name())
+                  .roles(client.roles().stream()
+                        .map(Role::name)
+                        .toArray(String[]::new))
                   .build();
             users.add(user);
         }

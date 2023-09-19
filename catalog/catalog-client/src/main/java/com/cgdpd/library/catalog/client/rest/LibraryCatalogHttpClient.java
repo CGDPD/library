@@ -3,34 +3,28 @@ package com.cgdpd.library.catalog.client.rest;
 import static com.cgdpd.library.common.validation.Validator.required;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
-import com.cgdpd.library.catalog.domain.author.Author;
-import com.cgdpd.library.catalog.domain.author.dto.CreateAuthorRequestDto;
-import com.cgdpd.library.catalog.domain.book.dto.CreateBookRequestDto;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
-import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.common.client.InternalHttpClient;
 import com.cgdpd.library.types.Isbn13;
 
-public class LibraryCatalogHttpClient extends InternalHttpClient implements LibraryCatalogClient {
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-    private final LibraryCatalogHttpReactiveClient delegate;
+public class LibraryCatalogHttpClient extends InternalHttpClient
+      implements LibraryCatalogClient {
 
-    public LibraryCatalogHttpClient(LibraryCatalogHttpReactiveClient delegate) {
-        this.delegate = required("delegate", delegate);
+    private final WebClient webClient;
+
+    public LibraryCatalogHttpClient(WebClient webClient) {
+        this.webClient = required("webClient", webClient);
     }
 
     @Override
-    public Author createAuthor(CreateAuthorRequestDto createAuthorRequestDto) {
-        return delegate.createAuthor(createAuthorRequestDto).block();
-    }
-
-    @Override
-    public Book createBook(CreateBookRequestDto createBookRequestDto) {
-        return delegate.createBook(createBookRequestDto).block();
-    }
-
-    @Override
-    public DetailedBookDto getDetailedBookDto(Isbn13 isbn13) {
-        return delegate.getDetailedBookDto(isbn13).block();
+    public Mono<DetailedBookDto> getDetailedBookDto(Isbn13 isbn13) {
+        return webClient.get()
+              .uri("/book/" + isbn13.value())
+              .retrieve()
+              .bodyToMono(DetailedBookDto.class)
+              .onErrorMap(onErrorMap());
     }
 }

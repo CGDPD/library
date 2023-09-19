@@ -2,8 +2,8 @@ package com.cgdpd.library.frontendapi.config;
 
 import static com.cgdpd.library.common.provider.ClockProvider.utcClock;
 
-import com.cgdpd.library.catalog.client.LibraryCatalogReactiveClient;
-import com.cgdpd.library.catalog.client.rest.LibraryCatalogHttpReactiveClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
+import com.cgdpd.library.catalog.client.rest.LibraryCatalogHttpClient;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +16,9 @@ import java.time.Clock;
 public class BeanConfig {
 
     @Bean
-    public LibraryCatalogReactiveClient libraryCatalogClient(
+    public LibraryCatalogClient libraryCatalogClient(
           @Qualifier("catalogWebClient") WebClient catalogWebClient) {
-        return new LibraryCatalogHttpReactiveClient(catalogWebClient);
+        return new LibraryCatalogHttpClient(catalogWebClient);
     }
 
     @Bean

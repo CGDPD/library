@@ -17,12 +17,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/author")
 public class AuthorController {
 
-    private final AuthorService authorService;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Author createAuthor(@RequestBody CreateAuthorRequestDto createAuthorRequestDto) {
-        var authorName = createAuthorRequestDto.authorName();
-        return authorService.createAuthor(authorName);
-    }
 }

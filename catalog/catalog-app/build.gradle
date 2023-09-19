@@ -50,6 +50,7 @@ dependencies {
     testImplementation project(':catalog:catalog-domain')
     testImplementation project(':types')
     testImplementation project(':common')
+    testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation(testFixtures(project(':catalog:catalog-domain')))
 

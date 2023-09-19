@@ -11,7 +11,12 @@ cgdpd:
       authorized-clients:
         - username: FrontendApi
           password: FrontendApiSecret
-          role: NORMAL
+          roles:
+            - NORMAL
+        - username: Backoffice
+          password: BackofficeSecret
+          roles:
+            - MANAGEMENT
 
 logging:
   level:

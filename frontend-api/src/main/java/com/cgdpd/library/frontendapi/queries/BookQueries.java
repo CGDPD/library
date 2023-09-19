@@ -1,6 +1,6 @@
 package com.cgdpd.library.frontendapi.queries;
 
-import com.cgdpd.library.catalog.client.LibraryCatalogReactiveClient;
+import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.types.Isbn13;
 
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class BookQueries {
 
-    private final LibraryCatalogReactiveClient libraryCatalogReactiveClient;
+    private final LibraryCatalogClient libraryCatalogReactiveClient;
 
     public Mono<DetailedBookDto> getDetailedBooks(Isbn13 isbn13) {
         return libraryCatalogReactiveClient.getDetailedBookDto(isbn13);

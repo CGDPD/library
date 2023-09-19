@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ValueRange;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -23,6 +24,13 @@ public final class Validator {
 
     public static String requiredNotBlank(String paramName, String value) {
         validate(() -> value == null || value.isBlank(), "%s must not be null or blank", paramName);
+        return value;
+    }
+
+    // TODO: 19/09/2023 tests
+    public static <T> Collection<T> requiredNotEmpty(String paramName, Collection<T> value) {
+        validate(() -> value == null || value.isEmpty(), "Collection %s must not be null or empty",
+              paramName);
         return value;
     }
 
