@@ -9,7 +9,7 @@ import com.cgdpd.library.catalog.domain.book.model.copy.BookCopyId;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 import com.cgdpd.library.catalog.domain.book.model.copy.UserId;
 import com.cgdpd.library.common.client.InMemoryDb;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import com.github.javafaker.Faker;
 

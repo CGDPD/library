@@ -2,7 +2,7 @@ package com.cgdpd.library.frontendapi.queries;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;

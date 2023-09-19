@@ -16,7 +16,7 @@ public class WebClientProvider {
               .baseUrl(properties.url())
               .defaultHeaders(header -> {
                   var basicAuth = properties.basicAuth();
-                  header.setBasicAuth(basicAuth.username(), basicAuth.password());
+                  header.setBasicAuth(basicAuth.username(), basicAuth.password().value());
               })
               .clientConnector(new ReactorClientHttpConnector(httpClient))
               .build();

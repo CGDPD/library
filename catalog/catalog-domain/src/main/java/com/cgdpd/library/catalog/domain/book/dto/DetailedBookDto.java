@@ -8,7 +8,7 @@ import static com.cgdpd.library.common.validation.Validator.requiredNotBlank;
 import com.cgdpd.library.catalog.domain.author.AuthorId;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.Builder;
 

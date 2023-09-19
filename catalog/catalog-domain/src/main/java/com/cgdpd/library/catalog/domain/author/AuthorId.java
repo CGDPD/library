@@ -1,7 +1,7 @@
 package com.cgdpd.library.catalog.domain.author;
 
-import com.cgdpd.library.types.IdType;
-import com.cgdpd.library.types.serializer.LongIdSerializer;
+import com.cgdpd.library.common.type.IdType;
+import com.cgdpd.library.common.type.serializer.LongIdSerializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

@@ -24,7 +24,6 @@ dependencyManagement {
 dependencies {
     implementation project(':catalog:catalog-client')
     implementation project(':common')
-    implementation project(':types')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 //    implementation 'org.springframework.boot:spring-boot-starter-data-redis'

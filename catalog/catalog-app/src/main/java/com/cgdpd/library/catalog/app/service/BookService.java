@@ -13,7 +13,7 @@ import com.cgdpd.library.common.exception.NotFoundException;
 import com.cgdpd.library.common.pagination.PagedResponse;
 import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.pagination.SortParams;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;

@@ -1,4 +1,4 @@
-package com.cgdpd.library.types;
+package com.cgdpd.library.common.type;
 
 
 import static com.cgdpd.library.common.validation.Validator.required;

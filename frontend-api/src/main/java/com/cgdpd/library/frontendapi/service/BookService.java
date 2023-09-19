@@ -2,7 +2,7 @@ package com.cgdpd.library.frontendapi.service;
 
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.frontendapi.queries.BookQueries;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

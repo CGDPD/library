@@ -3,7 +3,7 @@ package com.cgdpd.library.frontendapi.controller;
 import com.cgdpd.library.frontendapi.dto.BookViewDto;
 import com.cgdpd.library.frontendapi.mapper.BookMapper;
 import com.cgdpd.library.frontendapi.service.BookService;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

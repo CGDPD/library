@@ -2,7 +2,7 @@ package com.cgdpd.library.catalog.app.controller;
 
 import com.cgdpd.library.catalog.app.service.BookService;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

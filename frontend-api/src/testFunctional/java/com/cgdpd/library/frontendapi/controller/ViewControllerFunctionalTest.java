@@ -12,7 +12,7 @@ import com.cgdpd.library.common.error.ErrorResponse;
 import com.cgdpd.library.frontendapi.FunctionalTest;
 import com.cgdpd.library.frontendapi.dto.BookAvailability;
 import com.cgdpd.library.frontendapi.dto.BookViewDto;
-import com.cgdpd.library.types.Isbn13;
+import com.cgdpd.library.common.type.Isbn13;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

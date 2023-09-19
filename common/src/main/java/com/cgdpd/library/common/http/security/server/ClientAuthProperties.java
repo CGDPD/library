@@ -1,12 +1,14 @@
 package com.cgdpd.library.common.http.security.server;
 
+import com.cgdpd.library.common.type.Password;
+
 import java.util.List;
 
 public interface ClientAuthProperties {
 
     String username();
 
-    String password();
+    Password password();
 
     List<Role> roles();
 }
