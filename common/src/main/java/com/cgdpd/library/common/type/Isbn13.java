@@ -2,12 +2,17 @@ package com.cgdpd.library.common.type;
 
 import static com.cgdpd.library.common.validation.Validator.requiredValidIsbn13;
 
+import com.cgdpd.library.common.type.serializer.TypeSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Random;
 
-public record Isbn13(String value) {
+@JsonSerialize(using = TypeSerializer.class)
+public class Isbn13 extends Type<String> {
 
-    public Isbn13(String value) {
-        this.value = requiredValidIsbn13("value", value);
+    private Isbn13(String isbn13) {
+        super(requiredValidIsbn13("isbn13", isbn13));
     }
 
     public static Isbn13 of(String value) {

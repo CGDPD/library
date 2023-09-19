@@ -12,7 +12,12 @@ cgdpd:
       authorized-clients:
         - username: FrontendApi
           password: ${env.CGDPD_CATALOG_CLIENT_FRONTEND_API_SECRET}
-          role: NORMAL
+          roles:
+            - NORMAL
+        - username: Backoffice
+          password: ${env.CGDPD_CATALOG_CLIENT_BACKOFFICE_SECRET}
+          roles:
+            - MANAGEMENT
 
 logging:
   level:
