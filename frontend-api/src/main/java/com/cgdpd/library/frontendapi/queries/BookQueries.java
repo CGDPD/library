@@ -16,9 +16,9 @@ import reactor.core.publisher.Mono;
 @Component
 public class BookQueries {
 
-    private final LibraryCatalogClient libraryCatalogReactiveClient;
+    private final LibraryCatalogClient libraryCatalogClient;
 
     public Mono<DetailedBookDto> getDetailedBooks(Isbn13 isbn13) {
-        return libraryCatalogReactiveClient.getDetailedBookDto(isbn13);
+        return libraryCatalogClient.getDetailedBookDto(isbn13);
     }
 }

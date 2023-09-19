@@ -46,7 +46,7 @@ public class ApiAuthenticationFailureHandler implements AuthenticationEntryPoint
               .timestamp(clock.instant())
               .build();
 
-        final ServerHttpResponse outputMessage = new ServletServerHttpResponse(response);
+        var outputMessage = new ServletServerHttpResponse(response);
         outputMessage.setStatusCode(httpStatus);
 
         messageConverter.write(errorResponse, MediaType.APPLICATION_JSON, outputMessage);

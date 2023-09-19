@@ -27,7 +27,6 @@ public final class Validator {
         return value;
     }
 
-    // TODO: 19/09/2023 tests
     public static <T> Collection<T> requiredNotEmpty(String paramName, Collection<T> value) {
         validate(() -> value == null || value.isEmpty(), "Collection %s must not be null or empty",
               paramName);

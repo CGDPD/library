@@ -7,6 +7,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import com.cgdpd.library.catalog.app.FunctionalTest;
 import com.cgdpd.library.catalog.app.repository.AuthorRepository;
@@ -75,9 +76,10 @@ public class ManagementControllerFunctionalTest extends FunctionalTest {
               }
               """;
 
-        var res = new LinkedMultiValueMap<>(Map.of(CONTENT_TYPE, List.of("application/json")));
+        var headers = new LinkedMultiValueMap<>(
+              Map.of(CONTENT_TYPE, List.of(APPLICATION_JSON.toString())));
 
-        var request = new HttpEntity<>(requestBody, res);
+        var request = new HttpEntity<>(requestBody, headers);
         // when
         var responseEntity = restTemplate.postForEntity(
               BASE_ENDPOINT + "/author",
