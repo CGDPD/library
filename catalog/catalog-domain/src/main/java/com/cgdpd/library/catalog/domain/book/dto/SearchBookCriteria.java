@@ -24,4 +24,9 @@ public record SearchBookCriteria(Optional<String> bookTitle,
         this.publicationYearLessThan = actualOrEmpty(publicationYearLessThan);
         this.publicationYearGreaterThan = actualOrEmpty(publicationYearGreaterThan);
     }
+
+    public static SearchBookCriteria empty() {
+        return new SearchBookCriteria(Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty());
+    }
 }

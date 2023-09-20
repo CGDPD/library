@@ -1,7 +1,7 @@
 package com.cgdpd.library.catalog.app.service;
 
 import static com.cgdpd.library.catalog.app.repository.specification.BookSpecifications.byBookSearchCriteria;
-import static org.springframework.data.domain.Sort.unsorted;
+import static com.cgdpd.library.common.pagination.PageMapper.paginationCriteriaToPageRequest;
 
 import com.cgdpd.library.catalog.app.mapper.BookMapper;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
@@ -12,12 +12,9 @@ import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.common.exception.NotFoundException;
 import com.cgdpd.library.common.pagination.PagedResponse;
 import com.cgdpd.library.common.pagination.PaginationCriteria;
-import com.cgdpd.library.common.pagination.SortParams;
 import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,17 +60,7 @@ public class BookService {
               .pageNumber(booksEntitiesPage.getNumber())
               .pageSize(booksEntitiesPage.getSize())
               .totalElements(booksEntitiesPage.getTotalElements())
+              .totalPages(booksEntitiesPage.getTotalPages())
               .build();
-    }
-
-    // TODO: 14/09/2023 Somewhere more practical and accessible
-    public PageRequest paginationCriteriaToPageRequest(PaginationCriteria paginationCriteria) {
-        var sort = paginationCriteria.sort().map(it ->
-                    Sort.by(it.direction() == SortParams.Direction.ASC
-                                ? Sort.Direction.ASC
-                                : Sort.Direction.DESC,
-                          it.field()))
-              .orElse(unsorted());
-        return PageRequest.of(paginationCriteria.pageIndex(), paginationCriteria.pageSize(), sort);
     }
 }

@@ -19,11 +19,9 @@ import com.cgdpd.library.catalog.app.repository.AuthorRepository;
 import com.cgdpd.library.catalog.app.repository.BookCopyRepository;
 import com.cgdpd.library.catalog.app.repository.BookRepository;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
-import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
 import com.cgdpd.library.catalog.domain.book.model.copy.TrackingStatus;
 import com.cgdpd.library.common.error.ErrorResponse;
 import com.cgdpd.library.common.pagination.PagedResponse;
-import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.type.Isbn13;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -116,14 +114,8 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     }
 
     @Test
-    void should_return_book_with_criteria() throws Exception {
+    void should_return_book_with_criteria() {
         // given
-        var searchCriteria = SearchBookCriteria.builder().build();
-        var paginationCriteria = PaginationCriteria.builder()
-              .pageIndex(0)
-              .pageSize(10)
-              .build();
-
         var bookEntity = givenRandomBookExists();
         var expectedResponse = PagedResponse.<DetailedBookDto>builder()
               .content(List.of(bookMapper.mapToDetailedBookDto(bookEntity)))
@@ -133,8 +125,8 @@ public class BookControllerFunctionalTest extends FunctionalTest {
               .totalPages(1)
               .build();
         var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
-              .queryParam("searchCriteria", objectMapper.writeValueAsString(searchCriteria))
-              .queryParam("paginationCriteria", objectMapper.writeValueAsString(paginationCriteria))
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 0)
               .build()
               .toUri();
         var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
