@@ -3,6 +3,7 @@ package com.cgdpd.library.catalog.app.controller;
 import static com.cgdpd.library.catalog.app.AuthorTestData.anAuthorEntity;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
+import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntityWithRandomIsbn;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +25,6 @@ import com.cgdpd.library.common.error.ErrorResponse;
 import com.cgdpd.library.common.pagination.PagedResponse;
 import com.cgdpd.library.common.type.Isbn13;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class BookControllerFunctionalTest extends FunctionalTest {
 
@@ -137,9 +138,51 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         assertThat(responseEntity.getBody()).isEqualTo(expectedResponse);
     }
 
+    @Test
+    void should_return_book_filtered_by_some_params() {
+        // given
+        var bookEntity = givenRandomBookExists();
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 0)
+              .queryParam("title", bookEntity.getTitle())
+              .build()
+              .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
+
+        // when
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody().content()).hasSize(1);
+        assertThat(responseEntity.getBody().content().get(0).title()).isEqualTo(bookEntity.getTitle());
+    }
+    
+    @Test
+    void should_return_last_page_when_there_are_multiple_pages() {
+        // given
+        IntStream.range(0, 25).forEach(i -> givenRandomBookExists());
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 2)
+              .build()
+              .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
+
+        // when
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody().content()).hasSize(5);
+    }
+
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this
     private BookEntity givenRandomBookExists() {
-        var bookEntity = aBookEntity().build();
+        var bookEntity = aBookEntityWithRandomIsbn().build();
         return givenBookExists(bookEntity);
     }
 
