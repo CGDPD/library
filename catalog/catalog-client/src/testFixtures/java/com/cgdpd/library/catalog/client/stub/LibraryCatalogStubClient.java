@@ -4,15 +4,19 @@ import static com.cgdpd.library.common.validation.Validator.required;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
+import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
 import com.cgdpd.library.catalog.domain.book.model.Book;
 import com.cgdpd.library.catalog.domain.book.model.BookId;
 import com.cgdpd.library.catalog.domain.book.model.copy.BookCopy;
 import com.cgdpd.library.common.exception.NotFoundException;
+import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.type.Isbn13;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LibraryCatalogStubClient implements LibraryCatalogClient {
 
@@ -41,6 +45,33 @@ public class LibraryCatalogStubClient implements LibraryCatalogClient {
                   .publicationYear(book.publicationYear())
                   .build();
         });
+    }
+
+    @Override
+    public Flux<DetailedBookDto> searchBooks(PaginationCriteria paginationCriteria,
+                                             SearchBookCriteria searchBookCriteria) {
+        return Flux.fromIterable(inMemoryDb.books().values().stream()
+              .filter(searchBookCriteria::matches)
+              .skip((long) paginationCriteria.pageIndex() * paginationCriteria.pageSize())
+              .limit(paginationCriteria.pageSize())
+              .map(book -> {
+                  var author = inMemoryDb.authors().get(book.authorId());
+                  var bookCopies = findBookCopiedByBookId(book.id());
+                  var trackingStatusList = bookCopies.stream().map(BookCopy::trackingStatus)
+                        .toList();
+
+                  return DetailedBookDto.builder()
+                        .id(book.id())
+                        .title(book.title())
+                        .authorId(author.id())
+                        .authorName(author.name())
+                        .isbn(book.isbn())
+                        .genre(book.genre())
+                        .trackingStatusList(trackingStatusList)
+                        .publicationYear(book.publicationYear())
+                        .build();
+              })
+              .collect(Collectors.toList()));
     }
 
     private Book getBookByIsbn13(Isbn13 isbn13) {

@@ -4,10 +4,13 @@ import static com.cgdpd.library.common.validation.Validator.required;
 
 import com.cgdpd.library.catalog.client.LibraryCatalogClient;
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
+import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
 import com.cgdpd.library.common.client.InternalHttpClient;
+import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.type.Isbn13;
 
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class LibraryCatalogHttpClient extends InternalHttpClient
@@ -25,6 +28,21 @@ public class LibraryCatalogHttpClient extends InternalHttpClient
               .uri("/book/" + isbn13.value())
               .retrieve()
               .bodyToMono(DetailedBookDto.class)
+              .onErrorMap(onErrorMap());
+    }
+
+    @Override
+    public Flux<DetailedBookDto> searchBooks(PaginationCriteria paginationCriteria,
+                                             SearchBookCriteria searchBookCriteria) {
+        return webClient.get()
+              .uri(uriBuilder -> uriBuilder
+                    .path("/book")
+                    .queryParam("page", paginationCriteria.pageIndex())
+                    .queryParam("size", paginationCriteria.pageSize())
+                    .queryParam("sort", paginationCriteria.sort())
+                    .build())
+              .retrieve()
+              .bodyToFlux(DetailedBookDto.class)
               .onErrorMap(onErrorMap());
     }
 }

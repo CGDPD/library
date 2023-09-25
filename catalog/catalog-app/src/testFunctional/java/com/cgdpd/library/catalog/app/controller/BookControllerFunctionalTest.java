@@ -44,9 +44,6 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     private BookMapper bookMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
