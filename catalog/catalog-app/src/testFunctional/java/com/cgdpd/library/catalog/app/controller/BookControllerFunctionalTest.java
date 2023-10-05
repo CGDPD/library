@@ -2,7 +2,6 @@ package com.cgdpd.library.catalog.app.controller;
 
 import static com.cgdpd.library.catalog.app.AuthorTestData.anAuthorEntity;
 import static com.cgdpd.library.catalog.app.BookCopyEntityTestData.aBookCopyEntity;
-import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntity;
 import static com.cgdpd.library.catalog.app.BookEntityTestData.aBookEntityWithRandomIsbn;
 import static com.cgdpd.library.catalog.app.helper.BookAssertion.assertThatDetailedBookDtoHasCorrectValues;
 import static java.util.Collections.emptyList;
@@ -157,16 +156,17 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
         assertThat(responseEntity.hasBody()).isTrue();
         assertThat(responseEntity.getBody().content()).hasSize(1);
-        assertThat(responseEntity.getBody().content().get(0).title()).isEqualTo(bookEntity.getTitle());
+        assertThat(responseEntity.getBody().content().get(0).title()).isEqualTo(
+              bookEntity.getTitle());
     }
-    
+
     @Test
     void should_return_last_page_when_there_are_multiple_pages() {
         // given
-        IntStream.range(0, 25).forEach(i -> givenRandomBookExists());
+        IntStream.range(0, 3).forEach(i -> givenRandomBookExists());
         var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
-              .queryParam("pageSize", 10)
-              .queryParam("pageIndex", 2)
+              .queryParam("pageSize", 2)
+              .queryParam("pageIndex", 1)
               .build()
               .toUri();
         var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
@@ -177,7 +177,7 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         // then
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
         assertThat(responseEntity.hasBody()).isTrue();
-        assertThat(responseEntity.getBody().content()).hasSize(5);
+        assertThat(responseEntity.getBody().content()).hasSize(1);
     }
 
     // TODO: 28/08/2023 LIB-25 Create generic class to handle this
