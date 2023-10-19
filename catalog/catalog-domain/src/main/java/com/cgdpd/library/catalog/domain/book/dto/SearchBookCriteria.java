@@ -2,9 +2,9 @@ package com.cgdpd.library.catalog.domain.book.dto;
 
 import static com.cgdpd.library.common.util.OptionalUtil.actualOrEmpty;
 
-import com.cgdpd.library.catalog.domain.book.model.Book;
-
 import lombok.Builder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.Optional;
 
@@ -13,7 +13,8 @@ public record SearchBookCriteria(Optional<String> bookTitle,
                                  Optional<String> authorName,
                                  Optional<String> genre,
                                  Optional<Short> publicationYearLessThan,
-                                 Optional<Short> publicationYearGreaterThan) {
+                                 Optional<Short> publicationYearGreaterThan) implements
+      QueryParamsConvertible {
 
     public SearchBookCriteria(Optional<String> bookTitle,
                               Optional<String> authorName,
@@ -32,14 +33,16 @@ public record SearchBookCriteria(Optional<String> bookTitle,
               Optional.empty(), Optional.empty(), Optional.empty());
     }
 
-    public boolean matches(Book book) {
-        return bookTitle.map(title -> title.equals(book.title())).orElse(true)
-              && authorName.map(name -> name.equals(book.authorId().value().toString()))
-              .orElse(true)
-              && genre.map(genre -> genre.equals(book.genre())).orElse(true)
-              && publicationYearLessThan.map(
-              year -> year > book.publicationYear().orElse((short) 0)).orElse(true)
-              && publicationYearGreaterThan.map(
-              year -> year < book.publicationYear().orElse(Short.MAX_VALUE)).orElse(true);
+    @Override
+    public MultiValueMap<String, String> toQueryParams() {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        bookTitle.ifPresent(value -> queryParams.add("bookTitle", value));
+        authorName.ifPresent(value -> queryParams.add("authorName", value));
+        genre.ifPresent(value -> queryParams.add("genre", value));
+        publicationYearLessThan.ifPresent(
+              value -> queryParams.add("publicationYearLessThan", value.toString()));
+        publicationYearGreaterThan.ifPresent(
+              value -> queryParams.add("publicationYearGreaterThan", value.toString()));
+        return queryParams;
     }
 }

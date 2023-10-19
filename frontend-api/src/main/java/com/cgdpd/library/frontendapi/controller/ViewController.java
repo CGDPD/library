@@ -1,18 +1,19 @@
 package com.cgdpd.library.frontendapi.controller;
 
 import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
+import com.cgdpd.library.common.pagination.PagedResponse;
 import com.cgdpd.library.common.pagination.PaginationCriteria;
+import com.cgdpd.library.common.type.Isbn13;
 import com.cgdpd.library.frontendapi.dto.BookViewDto;
 import com.cgdpd.library.frontendapi.mapper.BookMapper;
 import com.cgdpd.library.frontendapi.service.BookService;
-import com.cgdpd.library.common.type.Isbn13;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @RestController
@@ -27,9 +28,9 @@ public class ViewController {
         return bookMapper.mapToBookView(bookService.getDetailedBookDtoByIsbn13(isbn13));
     }
 
-    @GetMapping("/book")
-    public Flux<BookViewDto> searchBooks(PaginationCriteria paginationCriteria, SearchBookCriteria searchBookCriteria) {
-        return bookService.searchBooks(paginationCriteria, searchBookCriteria)
-              .map(bookMapper::mapToBookView);
+    @GetMapping("/books")
+    public Mono<PagedResponse<BookViewDto>> searchBooks(PaginationCriteria paginationCriteria,
+                                                        SearchBookCriteria searchBookCriteria) {
+        return Mono.just(bookService.searchBooks(paginationCriteria, searchBookCriteria));
     }
 }

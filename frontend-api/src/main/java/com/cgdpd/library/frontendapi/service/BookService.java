@@ -2,8 +2,10 @@ package com.cgdpd.library.frontendapi.service;
 
 import com.cgdpd.library.catalog.domain.book.dto.DetailedBookDto;
 import com.cgdpd.library.catalog.domain.book.dto.SearchBookCriteria;
+import com.cgdpd.library.common.pagination.PagedResponse;
 import com.cgdpd.library.common.pagination.PaginationCriteria;
 import com.cgdpd.library.common.type.Isbn13;
+import com.cgdpd.library.frontendapi.dto.BookViewDto;
 import com.cgdpd.library.frontendapi.queries.BookQueries;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +22,10 @@ public class BookService {
         return bookQueries.getDetailedBooks(isbn13).blockOptional().orElseThrow();
     }
 
-    public Flux<DetailedBookDto> searchBooks(PaginationCriteria paginationCriteria,
-                                             SearchBookCriteria searchBookCriteria) {
-        return bookQueries.searchBooks(paginationCriteria, searchBookCriteria);
+    public PagedResponse<BookViewDto> searchBooks(PaginationCriteria paginationCriteria,
+                                                  SearchBookCriteria searchBookCriteria) {
+        return bookQueries.getBooksByCriteria(paginationCriteria, searchBookCriteria)
+              .blockOptional()
+              .orElseThrow();
     }
 }

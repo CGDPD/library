@@ -32,7 +32,7 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PagedResponse<DetailedBookDto> searchBook(
+    public PagedResponse<DetailedBookDto> getBooksByCriteria(
           PaginationCriteria paginationCriteria,
           Optional<SearchBookCriteria> searchBookCriteria) {
         return bookService.findDetailedBooksPage(paginationCriteria,
