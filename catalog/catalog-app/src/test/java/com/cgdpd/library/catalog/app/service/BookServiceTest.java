@@ -92,7 +92,8 @@ class BookServiceTest {
         var paginationCriteria = PaginationCriteria.builder()
               .pageIndex(0)
               .pageSize(10)
-              .sort(Optional.of(new SortParams("title", SortParams.Direction.ASC)))
+              .sort(Optional.of("title"))
+              .direction(Optional.of(SortParams.Direction.ASC.name()))
               .build();
         var books = List.of(aBookEntity().id(1L).title("The Adventurous").build(),
               aBookEntity().id(2L).title("Finder").build(),
