@@ -138,13 +138,13 @@ public class BookControllerFunctionalTest extends FunctionalTest {
     }
 
     @Test
-    void should_return_book_filtered_by_some_params() {
+    void should_return_book_filtered_by_bookTitle() {
         // given
         var bookEntity = givenRandomBookExists();
         var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
               .queryParam("pageSize", 10)
               .queryParam("pageIndex", 0)
-              .queryParam("title", bookEntity.getTitle())
+              .queryParam("bookTitle", bookEntity.getTitle())
               .build()
               .toUri();
         var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
@@ -158,6 +158,78 @@ public class BookControllerFunctionalTest extends FunctionalTest {
         assertThat(responseEntity.getBody().content()).hasSize(1);
         assertThat(responseEntity.getBody().content().get(0).title()).isEqualTo(
               bookEntity.getTitle());
+    }
+
+    @Test
+    void should_return_book_filtered_by_authorName() {
+        // given
+        var bookEntity = givenRandomBookExists();
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 0)
+              .queryParam("authorName", bookEntity.getAuthorEntity().getName())
+              .build()
+              .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
+
+        // when
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody().content()).hasSize(1);
+        assertThat(responseEntity.getBody().content().get(0).authorName()).isEqualTo(
+              bookEntity.getAuthorEntity().getName());
+    }
+
+    @Test
+    void should_return_book_filtered_by_genre() {
+        // given
+        var bookEntity = givenRandomBookExists();
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 0)
+              .queryParam("genre", bookEntity.getGenre())
+              .build()
+              .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
+
+        // when
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody().content()).hasSize(1);
+        assertThat(responseEntity.getBody().content().get(0).genre()).isEqualTo(
+              bookEntity.getGenre());
+    }
+
+    @Test
+    void should_return_book_filtered_by_publicationYear() {
+        // given
+        var bookEntity = givenRandomBookExists();
+        var uri = UriComponentsBuilder.fromHttpUrl(restTemplate.getRootUri() + BASE_ENDPOINT)
+              .queryParam("pageSize", 10)
+              .queryParam("pageIndex", 0)
+              .queryParam("publicationYearLessThan", bookEntity.getPublicationYear() + 1)
+              .queryParam("publicationYearGreaterThan", bookEntity.getPublicationYear() - 1)
+              .build()
+              .toUri();
+        var responseType = new ParameterizedTypeReference<PagedResponse<DetailedBookDto>>() {};
+
+        // when
+        var responseEntity = restTemplate.exchange(uri, GET, null, responseType);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        assertThat(responseEntity.hasBody()).isTrue();
+        assertThat(responseEntity.getBody().content()).hasSize(1);
+        if (responseEntity.getBody().content().get(0).publicationYear().isPresent()) {
+            assertThat(responseEntity.getBody().content().get(0).publicationYear().get()).isEqualTo(
+                  bookEntity.getPublicationYear());
+        }
     }
 
     @Test
